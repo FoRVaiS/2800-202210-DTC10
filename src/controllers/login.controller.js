@@ -17,7 +17,10 @@ const loginGetController = (req, res) => {
 const loginPostController = (req, res) => {
   const { username, password } = req.body;
 
-  if (data.users[username].password === password) {
+  // Get the first user that has a matching username
+  const user = data.users.filter(user => user.username === username)[0];
+
+  if (user && user.password === password) {
     req.session.isAuthenticated = true;
 
     res.status(200).json(successReponse);
