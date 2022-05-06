@@ -12,7 +12,7 @@ body {
     box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
 }
 .login-form h1 {
-    padding: 0 0 65px 35px;
+    padding-left: 35px;
     font-weight: 400;
 }
 .login-form .content {
@@ -62,4 +62,11 @@ body {
 }
 .login-form .sign button:nth-child(2):hover {
     background: #3c4d6d;
+}
+
+.notice {
+    padding: 0 40px;
+}
+.notice--alert {
+    color: red;
 }

@@ -15,7 +15,14 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     }).then(data => data.json()).then(data => {
-      if (data.success) window.location.href = '/';
+      if (data.success) return window.location.href = '/';
+
+      const noticeRef = document.querySelector('form > .notice');
+      noticeRef.classList.add('notice--alert');
+
+      const alertText = document.createElement('p');
+      alertText.textContent = data.msg;
+      noticeRef.append(alertText);
     });
   }
 })();
