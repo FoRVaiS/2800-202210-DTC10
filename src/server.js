@@ -11,6 +11,7 @@ const session = require('express-session');
 // Controllers
 const { homeController } = require('./controllers/home.controller');
 const { loginGetController, loginPostController } = require('./controllers/login.controller');
+const { logoutPostController } = require('./controllers/logout.controller');
 
 const webRoot = path.join(__dirname, '..', 'public');
 
@@ -41,6 +42,7 @@ const createServer = () => {
   app.get('/', homeController);
   app.get('/login', loginGetController);
   app.post('/login', loginPostController);
+  app.post('/logout', logoutPostController)
 
   return app;
 };
