@@ -1,10 +1,12 @@
 const path = require('path');
 
 const express = require('express');
+const config = require('config');
 
 // Express Middleware
 const helmet = require('helmet');
 const morgan = require('morgan');
+const session = require('express-session');
 
 // Controllers
 const { homeController } = require('./controllers/home.controller');
@@ -16,9 +18,16 @@ const createServer = () => {
   // Initialize an instance of express>
   const app = express();
 
+  const secret = config.get('secret');
+
   // Inject middleware
   app.use(helmet());
   app.use(morgan('combined'));
+  app.use(session({
+    secret,
+    resave: false,
+    saveUninitialized: true,
+  }));
 
   // Configure view settings
   app.set('views', path.join(__dirname, '..', 'public'));
