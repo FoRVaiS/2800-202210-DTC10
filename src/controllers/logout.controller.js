@@ -6,6 +6,6 @@ const logoutPostController = (req, res) => {
     msg: 'User has been logged out',
     success: true,
   });
-}
+};
 
 module.exports = { logoutPostController };

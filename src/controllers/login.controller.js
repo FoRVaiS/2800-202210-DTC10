@@ -3,12 +3,12 @@ const data = require('../__database__');
 const successReponse = {
   msg: 'Login successful!',
   success: true,
-}
+};
 
 const failureResponse = {
   msg: 'Could not find account.',
   success: false,
-}
+};
 
 const loginGetController = (req, res) => {
   res.render('pages/login/login.ejs');
