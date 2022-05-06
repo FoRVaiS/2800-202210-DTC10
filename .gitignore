@@ -1,0 +1,5 @@
+# Node
+node_modules/
+
+# Local configuration files
+config/local*
