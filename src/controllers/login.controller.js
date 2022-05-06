@@ -22,7 +22,7 @@ const loginPostController = (req, res) => {
 
   if (user && user.password === password) {
     req.session.isAuthenticated = true;
-    req.session.userUid = user.uid;
+    req.session.uid = user.uid;
 
     res.status(200).json(successReponse);
   } else {
