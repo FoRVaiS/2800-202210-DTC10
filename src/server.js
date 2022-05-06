@@ -21,7 +21,7 @@ const createServer = () => {
   // Initialize an instance of express>
   const app = express();
 
-  const secret = config.get('secret');
+  const secret = process.env.NODE_ENV === 'production' ? config.get('secret') : 'devsecret';
 
   // Inject middleware
   app.use(helmet());
