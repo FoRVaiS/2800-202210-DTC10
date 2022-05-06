@@ -1,5 +1,5 @@
-const homeController = (_, res) => {
+const homeGetController = (_, res) => {
   res.render('pages/index/index.ejs');
 };
 
-module.exports = { homeController };
+module.exports = { homeGetController };

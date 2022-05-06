@@ -9,7 +9,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 
 // Controllers
-const { homeController } = require('./controllers/home.controller');
+const { homeGetController } = require('./controllers/home.controller');
 const { loginGetController, loginPostController } = require('./controllers/login.controller');
 const { logoutPostController } = require('./controllers/logout.controller');
 const { fetchAccountsPostController } = require('./controllers/fetchAccounts.controller');
@@ -40,7 +40,7 @@ const createServer = () => {
   // Expose all files in the webRoot directory
   app.use(express.static(webRoot));
 
-  app.get('/', homeController);
+  app.get('/', homeGetController);
   app.get('/login', loginGetController);
   app.post('/login', loginPostController);
   app.post('/logout', logoutPostController);
