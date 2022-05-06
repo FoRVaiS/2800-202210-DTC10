@@ -1,10 +1,4 @@
-const data = {
-  users: {
-    'user1': {
-      password: '123',
-    },
-  },
-}
+const data = require('../__database__');
 
 const successReponse = {
   msg: 'Login successful!',
