@@ -10,6 +10,7 @@ const session = require('express-session');
 
 // Controllers
 const { homeController } = require('./controllers/home.controller');
+const { loginGetController, loginPostController } = require('./controllers/login.controller');
 
 const webRoot = path.join(__dirname, '..', 'public');
 
@@ -23,6 +24,7 @@ const createServer = () => {
   // Inject middleware
   app.use(helmet());
   app.use(morgan('combined'));
+  app.use(express.json());
   app.use(session({
     secret,
     resave: false,
@@ -37,6 +39,8 @@ const createServer = () => {
   app.use(express.static(webRoot));
 
   app.get('/', homeController);
+  app.get('/login', loginGetController);
+  app.post('/login', loginPostController);
 
   return app;
 };
