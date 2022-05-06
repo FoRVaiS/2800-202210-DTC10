@@ -1,5 +1,5 @@
 const logoutPostController = (req, res) => {
-  req.session.authenticated = false;
+  req.session.isAuthenticated = false;
   req.session.uid = null;
 
   res.status(200).json({
