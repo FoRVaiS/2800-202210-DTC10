@@ -44,7 +44,7 @@ const createServer = () => {
   app.get('/login', loginGetController);
   app.post('/login', loginPostController);
   app.post('/logout', logoutPostController);
-  app.post('/fetchAccounts', fetchAccountsPostController);
+  app.post('/accounts', fetchAccountsPostController);
 
   return app;
 };
