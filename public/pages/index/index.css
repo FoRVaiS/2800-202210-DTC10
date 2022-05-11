@@ -1,0 +1,15 @@
+#main-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #002767;
+}
+
+#salary-container {
+    background: #ffffff;
+    width: 700px;
+    margin: 65px auto;
+    display: flex;
+    flex-direction: row;
+    border-radius: 4px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+}
