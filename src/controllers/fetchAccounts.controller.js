@@ -1,9 +1,9 @@
+const { userModel } = require('../models/user.model');
 
-const fetchAccountsPostController = (req, res) => {
+const fetchAccountsPostController = async (req, res) => {
   const { uid } = req.session;
 
-  // Get the user whose uid matches session.uid
-  const user = data.users.filter(user => user.uid === uid)[0];
+  const user = await userModel.findById(uid);
 
   if (!user?.roles.includes('admin')) return res.status(403).json({ success: false });
 
