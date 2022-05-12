@@ -7,6 +7,7 @@ const config = require('config');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const session = require('express-session');
+const mongoose = require('mongoose');
 
 // Controllers
 const { homeGetController } = require('./controllers/home.controller');
@@ -39,6 +40,8 @@ const createServer = () => {
 
   // Expose all files in the webRoot directory
   app.use(express.static(webRoot));
+
+  mongoose.connect(config.get('mongo.connectionString'));
 
   app.get('/', homeGetController);
   app.get('/login', loginGetController);
