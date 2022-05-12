@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payswap</title>
-  <style>
-    * {
-      font-family: system-ui;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payswap</title>
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <style>
+      * {
+        font-family: system-ui;
+      }
 
-    .u-capitalize {
-      text-transform: uppercase;
-    }
+      .u-capitalize {
+        text-transform: uppercase;
+      }
 
-    .u-text-center {
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1 class="u-capitalize u-text-center">Payswap</h1>
-  <div id="main-container">
-    <div id="salary-container">
-      
+      .u-text-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="u-capitalize u-text-center">Payswap</h1>
+    <div id="main-container">
+      <div id="salary-container"></div>
+      <div class="ui-widget">
+        <label for="tags">Tags: </label>
+        <input id="tags" />
     </div>
-  </div>
-</body>
+  </body>
 </html>
