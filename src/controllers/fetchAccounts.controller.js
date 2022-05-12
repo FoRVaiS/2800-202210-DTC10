@@ -1,4 +1,3 @@
-const data = require('../__database__');
 
 const fetchAccountsPostController = (req, res) => {
   const { uid } = req.session;

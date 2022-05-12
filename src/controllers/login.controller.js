@@ -1,5 +1,3 @@
-const data = require('../__database__');
-
 const successReponse = {
   msg: 'Login successful!',
   success: true,
