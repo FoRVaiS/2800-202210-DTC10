@@ -50,7 +50,7 @@ const createServer = () => {
   app.post('/login', loginPostController);
   app.post('/logout', logoutPostController);
   app.post('/accounts', fetchAccountsPostController);
-  app.post('/report', reportListingPostController);
+  app.post('/reports', reportListingPostController);
 
   return app;
 };
