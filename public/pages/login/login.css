@@ -68,6 +68,25 @@ body {
     background: #3c4d6d;
 }
 
+.form-options {
+    display: flex;
+
+    padding-left: 0;
+    margin: 0;
+
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    list-style: none;
+}
+.form-options__item {
+    text-decoration: none;
+}
+.form-options__item:hover {
+    text-decoration: underline;
+}
+
 .notice {
     padding: 0 40px;
 }
