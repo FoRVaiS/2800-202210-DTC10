@@ -8,7 +8,7 @@ const signUpPostController = async (req, res) => {
   // TODO: Administrators need a special sign-up process, perhaps an admin token could be supplied with the request?
   const { email, password } = req.body;
 
-  const user = new userModel({ email, password });
+  const user = new userModel({ email, password, roles: ['member'] });
 
   await user.save();
 
