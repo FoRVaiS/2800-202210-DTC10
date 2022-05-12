@@ -15,7 +15,7 @@ const { loginGetController, loginPostController } = require('./controllers/login
 const { logoutPostController } = require('./controllers/logout.controller');
 const { fetchAccountsPostController } = require('./controllers/fetchAccounts.controller');
 const { reportListingPostController, reportListingGetController } = require('./controllers/reportListing.controller');
-const { signUpPostController } = require('./controllers/signup.controller');
+const { signUpPostController, signUpGetController } = require('./controllers/signup.controller');
 
 const webRoot = path.join(__dirname, '..', 'public');
 
@@ -46,6 +46,7 @@ const createServer = () => {
   mongoose.connect(config.get('mongo.connectionString'));
 
   app.get('/', homeGetController);
+  app.get('/register', signUpGetController);
   app.get('/login', loginGetController);
   app.get('/report', reportListingGetController);
   app.post('/login', loginPostController);
