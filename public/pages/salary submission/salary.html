@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salary form</title>
+  </head>
+  <style>
+    * {
+  font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  font-size: 22px;
+    }
+    main {
+      text-align: center;
+    }
+    form {
+      width: 80%;
+      display: inline-block;
+      margin-bottom: 50px;
+    }
+    #logo {
+      width: 200px;
+      margin: 0 auto;
+    }
+  </style>
+
+  <body>
+    <main>
+      <a href="">
+    <img src="/public/pages/images/logo.png" alt="logo" id='logo'/>
+    </a>
+    <header>
+      <h1>Salary form</h1>
+    </header>
+      <div class="container">
+          <form>
+            <div>
+              <input type="text" name="job title" placeholder="Job Title" required autofocus/>
+            </div>
+             <br />
+             <div>
+              <input type="text" name="job location" placeholder="Job Location"/>
+            </div>
+               <br />
+               <div>
+              <input type="radio" name="job hours" placeholder="Job Status" />
+              <label for="full time">Full Time</label>
+                <input type="radio" name="job hours" placeholder="Job Status" />
+                <label for="part time">Part Time</label>
+              </div>
+                 <br />
+                 <div>
+                <input type="number" name="wage" placeholder="Wage" />
+                 </div>
+                 <br />
+                <label for="wage status">Wage status</label>
+                 <br />
+                 <div>
+                <input type="radio" name="wage status" placeholder="Wage Status" id='offered'/>
+                <label for="offered">Offered</label>
+                <input type="radio" name="wage status" placeholder="Wage Status" id='accepted'/>
+                <label for="accepted">Accepted</label> 
+                 </div>
+                <br />
+                <div>
+                <input type="number" name="age" placeholder="Age" />
+                </div>
+                <br />
+                <label for="gender">Gender</label>
+                 <br />
+                 <div>
+                <input type="radio" name="gender" placeholder="gender" id='genderM' />
+                <label for="genderM">M</label>
+                <input type="radio" name="gender" placeholder="gender" id='genderF'/>
+                <label for="genderF">F</label>
+                <input type="radio" name="gender" placeholder="gender" id="genderO" />
+                <label for="genderO">other</label>
+                </div>
+                  <br />
+                  <div>
+                <input type="submit" value="Submit">
+                <input type="submit" value="Skip for now">
+              </div>
+          </form>
+        </main>
+  </body>
+</html>
