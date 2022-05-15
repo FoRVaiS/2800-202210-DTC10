@@ -3,5 +3,8 @@
     "address": "ADDRESS",
     "port": "PORT"
   },
-  "secret": "SECRET"
+  "secret": "SECRET",
+  "mongo": {
+    "connectionString": "MONGO_CONNECTION_STRING"
+  }
 }
