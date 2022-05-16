@@ -1,7 +1,7 @@
 const { userModel } = require('../models/user.model');
 
 const fetchAccountsPostController = async (req, res) => {
-  const { uid } = req.session;
+  const { uid } = req.body;
 
   const user = await userModel.findById(uid);
 

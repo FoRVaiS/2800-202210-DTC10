@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function createSalary() {
 
+
+    //Change classes to Bootstrap containers 
     var container = document.createElement("div");
     container.classList.add("salary-box");
 
@@ -28,9 +30,9 @@ function createSalary() {
     let main = document.getElementById("salary-container");
 
     fetch("/accounts", {
-        method: "get",
+        method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ uid }),
+        body: JSON.stringify({uid}),
       }).then(data => data.json()).then(data => {
             var id = data.uid;    
             var report = document.createElement("a");
@@ -38,7 +40,6 @@ function createSalary() {
             report.addEventListener("onClick", createReport(id));
             main.appendChild(report);
       })
-
 
 }
 
