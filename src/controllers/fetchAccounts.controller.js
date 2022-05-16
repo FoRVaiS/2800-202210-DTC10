@@ -7,7 +7,7 @@ const fetchAccountsPostController = async (req, res) => {
 
   if (!user?.roles.includes('admin')) return res.status(403).json({ success: false });
 
-  const users = await userModel.find({}, { _id: 0, __v: 0 });
+  const users = await userModel.find({}, { __v: 0 });
 
   res.status(200).json({
     success: true,
