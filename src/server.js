@@ -49,9 +49,9 @@ const createServer = () => {
   app.get('/register', signUpGetController);
   app.get('/login', loginGetController);
   app.get('/report', reportListingGetController);
+  app.get('/accounts', fetchAccountsPostController);
   app.post('/login', loginPostController);
   app.post('/logout', logoutPostController);
-  app.post('/accounts', fetchAccountsPostController);
   app.post('/reports', reportListingPostController);
   app.post('/register', signUpPostController);
 
