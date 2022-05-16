@@ -11,11 +11,8 @@ const mongoose = require('mongoose');
 
 // Controllers
 const { homeGetController } = require('./controllers/home.controller');
-const { loginGetController, loginPostController } = require('./controllers/login.controller');
-const { logoutPostController } = require('./controllers/logout.controller');
-const { fetchAccountsPostController } = require('./controllers/fetchAccounts.controller');
+const UserController = require('./controllers/accounts.controller');
 const { reportListingPostController, reportListingGetController } = require('./controllers/reportListing.controller');
-const { signUpPostController, signUpGetController } = require('./controllers/signup.controller');
 
 const webRoot = path.join(__dirname, '..', 'public');
 
@@ -46,14 +43,14 @@ const createServer = () => {
   mongoose.connect(config.get('mongo.connectionString'));
 
   app.get('/', homeGetController);
-  app.get('/register', signUpGetController);
-  app.get('/login', loginGetController);
+  app.get('/register', UserController.renderRegistrationPage);
+  app.get('/login', UserController.renderLoginPage);
   app.get('/report', reportListingGetController);
-  app.get('/accounts', fetchAccountsPostController);
-  app.post('/login', loginPostController);
-  app.post('/logout', logoutPostController);
+  app.get('/accounts', UserController.fetchAllAccounts);
+  app.post('/login', UserController.login);
+  app.post('/logout', UserController.logout);
   app.post('/reports', reportListingPostController);
-  app.post('/register', signUpPostController);
+  app.post('/register', UserController.register);
 
   return app;
 };
