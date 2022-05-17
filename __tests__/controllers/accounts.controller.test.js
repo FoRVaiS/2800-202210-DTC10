@@ -9,9 +9,12 @@ const baseReq = {
   body: {},
 };
 
+const statusMock = jest.fn();
+const jsonMock = jest.fn()
+
 const fakeRes = {
-  status: jest.fn().mockReturnValue({
-    json: jest.fn(),
+  status: statusMock.mockReturnValue({
+    json: jsonMock,
   }),
 };
 
@@ -26,10 +29,10 @@ describe('UserController', () => {
 
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
-      expect(fakeRes.status().json).toHaveBeenCalledWith({ success: false });
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status).toHaveBeenCalledWith(403);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(jsonMock).toHaveBeenCalledWith({ success: false });
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(403);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
 
     it('should return an array of all registered accounts', async () => {
@@ -44,10 +47,10 @@ describe('UserController', () => {
 
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
-      expect(fakeRes.status().json).toHaveBeenCalledWith({ success: true, users: [ fakeUser ] });
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status).toHaveBeenCalledWith(200);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(jsonMock).toHaveBeenCalledWith({ success: true, users: [ fakeUser ] });
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(200);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -79,10 +82,10 @@ describe('UserController', () => {
 
       await UserController.register(fakeReq, fakeRes);
 
-      expect(fakeRes.status().json.mock.calls[0][0].status).toBe(false);
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status).toHaveBeenCalledWith(400);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(jsonMock.mock.calls[0][0].status).toBe(false);
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(400);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
 
     it('should set the role of the new user to member', async () => {
@@ -96,8 +99,8 @@ describe('UserController', () => {
 
       await UserController.register(fakeReq, fakeRes);
 
-      expect(fakeRes.status().json.mock.calls[0][0].roles).toStrictEqual(['member']);
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
+      expect(jsonMock.mock.calls[0][0].roles).toStrictEqual(['member']);
+      expect(jsonMock).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -117,10 +120,10 @@ describe('UserController', () => {
 
       await UserController.login(fakeReq, fakeRes);
 
-      expect(fakeRes.status().json.mock.calls[0][0].success).toEqual(true);
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status).toHaveBeenCalledWith(200);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(jsonMock.mock.calls[0][0].success).toEqual(true);
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(200);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
 
     it('should update a user\'s session when the user is successfully authenticated', async () => {
@@ -161,10 +164,10 @@ describe('UserController', () => {
 
       await UserController.login(fakeReq, fakeRes);
 
-      expect(fakeRes.status().json.mock.calls[0][0].success).toEqual(false);
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status).toHaveBeenCalledWith(400);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(jsonMock.mock.calls[0][0].success).toEqual(false);
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(400);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -179,10 +182,10 @@ describe('UserController', () => {
     it('should send an acknowledgment when the user successfully logs out', () => {
       UserController.logout(baseReq, fakeRes);
 
-      expect(fakeRes.status().json.mock.calls[0][0].success).toEqual(true);
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status).toHaveBeenCalledWith(200);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(jsonMock.mock.calls[0][0].success).toEqual(true);
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(200);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
 
     it('should send an error when a visitor tries to log out', () => {
@@ -195,10 +198,10 @@ describe('UserController', () => {
 
       UserController.logout(fakeReq, fakeRes);
 
-      expect(fakeRes.status().json.mock.calls[0][0].success).toEqual(false);
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status).toHaveBeenCalledWith(403);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(jsonMock.mock.calls[0][0].success).toEqual(false);
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(403);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
   });
 });

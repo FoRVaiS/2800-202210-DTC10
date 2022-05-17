@@ -7,9 +7,12 @@ const baseReq = {
   body: {},
 };
 
+const statusMock = jest.fn();
+const jsonMock = jest.fn()
+
 const fakeRes = {
-  status: jest.fn().mockReturnValue({
-    json: jest.fn(),
+  status: statusMock.mockReturnValue({
+    json: jsonMock,
   }),
 };
 
@@ -42,8 +45,8 @@ describe('ReportController', () => {
 
       await ReportController.fetchAllReports(fakeReq, fakeRes);
 
-      expect(fakeRes.status).toHaveBeenCalledWith(200);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(200);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
 
     it('should send an error when an unauthorized user tries to access this resource', async () => {
@@ -65,8 +68,8 @@ describe('ReportController', () => {
 
       await ReportController.fetchAllReports(fakeReq, fakeRes);
 
-      expect(fakeRes.status).toHaveBeenCalledWith(403);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(403);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
 
     it('should return an array of all logged reports', async () => {
@@ -94,8 +97,8 @@ describe('ReportController', () => {
 
       await ReportController.fetchAllReports(fakeReq, fakeRes);
 
-      expect(fakeRes.status().json).toHaveBeenCalledWith({ reports: fakeReports });
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
+      expect(jsonMock).toHaveBeenCalledWith({ reports: fakeReports });
+      expect(jsonMock).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -120,10 +123,10 @@ describe('ReportController', () => {
 
       await ReportController.submitReport(fakeReq, fakeRes);
 
-      expect(fakeRes.status).toHaveBeenCalledWith(200);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status().json).toHaveBeenCalledWith({ success: true, data: null });
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(200);
+      expect(statusMock).toHaveBeenCalledTimes(1);
+      expect(jsonMock).toHaveBeenCalledWith({ success: true, data: null });
+      expect(jsonMock).toHaveBeenCalledTimes(1);
     });
 
     it('should send an error when postId is not a valid ObjectID', async () => {
@@ -136,10 +139,10 @@ describe('ReportController', () => {
 
       await ReportController.submitReport(fakeReq, fakeRes);
 
-      expect(fakeRes.status).toHaveBeenCalledWith(400);
-      expect(fakeRes.status).toHaveBeenCalledTimes(1);
-      expect(fakeRes.status().json.mock.calls[0][0].success).toEqual(false);
-      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(400);
+      expect(statusMock).toHaveBeenCalledTimes(1);
+      expect(jsonMock.mock.calls[0][0].success).toEqual(false);
+      expect(jsonMock).toHaveBeenCalledTimes(1);
     });
 
     it('should save a report given a postId', async () => {
