@@ -139,6 +139,7 @@ describe('ReportController', () => {
       expect(fakeRes.status).toHaveBeenCalledWith(400);
       expect(fakeRes.status).toHaveBeenCalledTimes(1);
       expect(fakeRes.status().json.mock.calls[0][0].success).toEqual(false);
+      expect(fakeRes.status().json).toHaveBeenCalledTimes(1);
     });
 
     it('should save a report given a postId', async () => {
