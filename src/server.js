@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 // Controllers
 const { homeGetController } = require('./controllers/home.controller');
 const UserController = require('./controllers/accounts.controller');
-const { reportListingPostController, reportListingGetController } = require('./controllers/reportListing.controller');
+const ReportController = require('./controllers/report.controller');
 
 const webRoot = path.join(__dirname, '..', 'public');
 
@@ -45,11 +45,11 @@ const createServer = () => {
   app.get('/', homeGetController);
   app.get('/register', UserController.renderRegistrationPage);
   app.get('/login', UserController.renderLoginPage);
-  app.get('/report', reportListingGetController);
+  app.get('/report', ReportController.fetchAllReports);
   app.get('/accounts', UserController.fetchAllAccounts);
   app.post('/login', UserController.login);
   app.post('/logout', UserController.logout);
-  app.post('/reports', reportListingPostController);
+  app.post('/reports', ReportController.submitReport);
   app.post('/register', UserController.register);
 
   return app;
