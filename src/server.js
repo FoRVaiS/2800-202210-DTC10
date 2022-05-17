@@ -10,7 +10,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 
 // Controllers
-const { homeGetController } = require('./controllers/home.controller');
+const HomeController = require('./controllers/home.controller');
 const UserController = require('./controllers/accounts.controller');
 const ReportController = require('./controllers/report.controller');
 
@@ -42,7 +42,7 @@ const createServer = () => {
 
   mongoose.connect(config.get('mongo.connectionString'));
 
-  app.get('/', homeGetController);
+  app.get('/', HomeController.renderHomePage);
   app.get('/register', UserController.renderRegistrationPage);
   app.get('/login', UserController.renderLoginPage);
   app.get('/report', ReportController.fetchAllReports);
