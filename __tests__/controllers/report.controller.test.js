@@ -22,10 +22,6 @@ describe('ReportController', () => {
   });
 
   describe('fetchAllReports', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should allow admins to access this resource', async () => {
       const fakeUser = {
         _id: '123',
