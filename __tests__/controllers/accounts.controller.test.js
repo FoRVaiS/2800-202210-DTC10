@@ -6,7 +6,7 @@ jest.mock('../../src/models/user.model');
 
 const baseReq = {
   session: {},
-  uid: {},
+  body: {},
 };
 
 const fakeRes = {

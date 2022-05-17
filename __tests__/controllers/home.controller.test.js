@@ -2,7 +2,7 @@ const HomeController = require("../../src/controllers/home.controller");
 
 const baseReq = {
   session: {},
-  uid: {},
+  body: {},
 };
 
 const fakeRes = {
