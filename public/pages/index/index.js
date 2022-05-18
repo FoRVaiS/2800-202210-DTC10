@@ -30,13 +30,9 @@ function createSalary() {
     let main = document.getElementById("salary-container");
 
     fetch("/accounts", {
-<<<<<<< HEAD
-        method: "post",
-=======
         method: "get",
->>>>>>> dev
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({uid}),
+        body: JSON.stringify({__id}),
       }).then(data => data.json()).then(data => {
             var id = data.uid;    
             var report = document.createElement("a");
