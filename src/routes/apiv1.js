@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 
 // Controllers
@@ -7,6 +5,10 @@ const UserController = require('../controllers/accounts.controller');
 const ReportController = require('../controllers/report.controller');
 
 const router = express.Router();
+
+// All of these routes are prepended by /api/v1
+// For example, if you want to fetch all reports
+// You would query the "/api/v1/report" GET endpoint
 
 // Report
 router.get('/report', ReportController.fetchAllReports);
