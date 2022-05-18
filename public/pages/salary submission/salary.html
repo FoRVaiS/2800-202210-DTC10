@@ -1,18 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Salary form</title>
-  </head>
-  <style>
-    * {
-  font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 300;
-  font-size: 22px;
-    }
-    main {
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jQuery UI Autocomplete - Combobox</title>
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"
+    />
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <style>
+      .custom-combobox {
+        position: relative;
+        display: inline-block;
+      }
+      .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+      }
+      .custom-combobox-input {
+        margin: 0;
+        padding: 5px 10px;
+      }
+      .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+      }
+      * html .ui-autocomplete {
+        height: 100px;
+      }
+      body {
       text-align: center;
     }
     form {
@@ -20,70 +42,107 @@
       display: inline-block;
       margin-bottom: 50px;
     }
-    #logo {
-      width: 200px;
-      margin: 0 auto;
-    }
-  </style>
-
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="./autocomplete.js"></script>
+  </head>
   <body>
-    <main>
-      <a href="">
-    <img src="/public/pages/images/logo.png" alt="logo" id='logo'/>
-    </a>
-    <header>
-      <h1>Salary form</h1>
-    </header>
-      <div class="container">
-          <form>
-            <div>
-              <input type="text" name="job title" placeholder="Job Title" required autofocus/>
-            </div>
+    <div class="container">
+        <form>
+    <div class="ui-widget">
+        <h2>Job Title</h2>
+      <select id="combobox">
+        <option value="">Select a job title</option>
+        <option value="Marketing and ad managers">
+          Marketing and ad managers
+        </option>
+        <option value="Chief executives">Chief executives</option>
+        <option value="Financial manger">Financial manger</option>
+        <option value="IT professionals">IT professionals</option>
+        <option value="Accountants and Auditors">
+          Accountants and Auditors
+        </option>
+        <option value="Physician">Physician</option>
+        <option value="Lawyer">Lawyer</option>
+        <option value="Sales people">Sales people</option>
+        <option value="Software developer">Software developer</option>
+        <option value="Manager">Manager</option>
+        <option value="IT Professional">IT Professional</option>
+        <option value="Police officer">Police officer</option>
+        <option value="Office support staff">Office support staff</option>
+        <option value="Secretary">Secretary</option>
+        <option value="Software developer">Software developer</option>
+        <option value="Accountant">Accountant</option>
+        <option value="Truck driver">Truck driver</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Nurse">Nurse</option>
+        <option value="Manager">Manager</option>
+        <option value="Salesman">Salesman</option>
+        <option value="Retail sales clerk">Retail sales clerk</option>
+        <option value="Customer service representative">
+          Customer service representative
+        </option>
+        <option value="Managers">Managers</option>
+        <option value="Nursing aide">Nursing aide</option>
+        <option value="Sales supervisor">Sales supervisor</option>
+        <option value="Truck driver">Truck driver</option>
+        <option value="School teacher">School teacher</option>
+        <option value="Secretary">Secretary</option>
+        <option value="Server">Server</option>
+        <option value="Child care worker">Child care worker</option>
+        <option value="Retail sales clerk">Retail sales clerk</option>
+        <option value="Janitor">Janitor</option>
+        <option value="Cook">Cook</option>
+        <option value="Cashier">Cashier</option>
+        <option value="Nursing aide">Nursing aide</option>
+      </select>
+    </div>
+         <br />
+         <div>
+          <input type="text" name="job location" placeholder="Job Location"/>
+        </div>
+           <br />
+           <div>
+          <input type="radio" name="job hours" placeholder="Job Status" />
+          <label for="full time">Full Time</label>
+            <input type="radio" name="job hours" placeholder="Job Status" />
+            <label for="part time">Part Time</label>
+          </div>
              <br />
              <div>
-              <input type="text" name="job location" placeholder="Job Location"/>
+            <input type="number" name="wage" placeholder="Wage" />
+             </div>
+             <br />
+            <label for="wage status">Wage status</label>
+             <br />
+             <div>
+            <input type="radio" name="wage status" placeholder="Wage Status" id='offered'/>
+            <label for="offered">Offered</label>
+            <input type="radio" name="wage status" placeholder="Wage Status" id='accepted'/>
+            <label for="accepted">Accepted</label> 
+             </div>
+            <br />
+            <div>
+            <input type="number" name="age" placeholder="Age" />
             </div>
-               <br />
-               <div>
-              <input type="radio" name="job hours" placeholder="Job Status" />
-              <label for="full time">Full Time</label>
-                <input type="radio" name="job hours" placeholder="Job Status" />
-                <label for="part time">Part Time</label>
-              </div>
-                 <br />
-                 <div>
-                <input type="number" name="wage" placeholder="Wage" />
-                 </div>
-                 <br />
-                <label for="wage status">Wage status</label>
-                 <br />
-                 <div>
-                <input type="radio" name="wage status" placeholder="Wage Status" id='offered'/>
-                <label for="offered">Offered</label>
-                <input type="radio" name="wage status" placeholder="Wage Status" id='accepted'/>
-                <label for="accepted">Accepted</label> 
-                 </div>
-                <br />
-                <div>
-                <input type="number" name="age" placeholder="Age" />
-                </div>
-                <br />
-                <label for="gender">Gender</label>
-                 <br />
-                 <div>
-                <input type="radio" name="gender" placeholder="gender" id='genderM' />
-                <label for="genderM">M</label>
-                <input type="radio" name="gender" placeholder="gender" id='genderF'/>
-                <label for="genderF">F</label>
-                <input type="radio" name="gender" placeholder="gender" id="genderO" />
-                <label for="genderO">other</label>
-                </div>
-                  <br />
-                  <div>
-                <input type="submit" value="Submit">
-                <input type="submit" value="Skip for now">
-              </div>
-          </form>
-        </main>
-  </body>
+            <br />
+            <label for="gender">Gender</label>
+             <br />
+             <div>
+            <input type="radio" name="gender" placeholder="gender" id='genderM' />
+            <label for="genderM">M</label>
+            <input type="radio" name="gender" placeholder="gender" id='genderF'/>
+            <label for="genderF">F</label>
+            <input type="radio" name="gender" placeholder="gender" id="genderO" />
+            <label for="genderO">other</label>
+            </div>
+              <br />
+              <div>
+            <input type="submit" value="Submit">
+            <input type="submit" value="Skip for now">
+          </div>
+      </form>
+    </main>
+</body>
 </html>
