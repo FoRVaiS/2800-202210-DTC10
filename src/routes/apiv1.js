@@ -14,8 +14,8 @@ router.post('/report', ReportController.submitReport);
 
 // User
 router.get('/user', UserController.fetchAllAccounts);
+router.get('/user/logout', UserController.logout);
 router.post('/user/login', UserController.login);
-router.post('/user/logout', UserController.logout);
 router.post('/user/register', UserController.register);
 
 module.exports = { router };
