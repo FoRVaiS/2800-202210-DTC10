@@ -12,7 +12,7 @@ const router = express.Router();
 
 // Report
 router.get('/report', ReportController.fetchAllReports);
-router.post('/report', ReportController.submitReport);
+router.post('/report/post', ReportController.submitReport);
 
 // User
 router.get('/user', UserController.fetchAllAccounts);
