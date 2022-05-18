@@ -10,7 +10,7 @@
     const email = emailRef.value;
     const password = passwordRef.value;
 
-    fetch('/register', {
+    fetch('/api/v1/user/register', {
       method: 'post',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),

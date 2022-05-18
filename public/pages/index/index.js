@@ -29,7 +29,7 @@ function createSalary() {
 
     let main = document.getElementById("salary-container");
 
-    fetch("/accounts", {
+    fetch("/api/v1/user", {
         method: "get",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({__id}),
@@ -44,7 +44,7 @@ function createSalary() {
 }
 
 function createReport(id) {
-    fetch("/reports", {
+    fetch("/api/v1/report/post", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
