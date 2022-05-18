@@ -10,9 +10,11 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 
 // Controllers
-const HomeController = require('./controllers/home.controller');
 const UserController = require('./controllers/accounts.controller');
 const ReportController = require('./controllers/report.controller');
+
+// Routes
+const viewsRouter = require('./routes/views');
 
 const webRoot = path.join(__dirname, '..', 'public');
 
@@ -42,9 +44,7 @@ const createServer = () => {
 
   mongoose.connect(config.get('mongo.connectionString'));
 
-  app.get('/', HomeController.renderHomePage);
-  app.get('/register', UserController.renderRegistrationPage);
-  app.get('/login', UserController.renderLoginPage);
+  app.use('/', viewsRouter.router);
   app.get('/report', ReportController.fetchAllReports);
   app.get('/accounts', UserController.fetchAllAccounts);
   app.post('/login', UserController.login);
