@@ -69,21 +69,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(map);
 
 
-map.addControl( new L.Control.Search({
-    container: 'findbox',
-    layer: markersLayer,
-    initial: false,
-    collapsed: false
-}) );
-//inizialize search control
-
-////////////populate map with markers from sample data
-for(i in data) {
-    var title = data[i].title,	//value searched
-        loc = data[i].loc,		//position found
-        marker = new L.Marker(new L.latLng(loc), {title: title} );//se property searched
-    marker.bindPopup('title: '+ title );
-    markersLayer.addLayer(marker);
-}
+data =[{"loc": [49.250889, -123.004410], "title": "BCIT"}];
 
 })
