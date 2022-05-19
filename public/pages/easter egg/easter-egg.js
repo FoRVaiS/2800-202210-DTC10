@@ -6,19 +6,11 @@ function countDown() {
   const secretFound = document.createElement("div");
   secretFound.classList.add("secretFound");
   $("body").html("<div id='secret-found'>Initiating Countdown Sequence</div>") +
-    $("body").append("<div id='secretCode'><input type='tel'></input></div>");
+    $("body").append(
+      "<div id='secretCodeInput'><input type='tel' id='secretCode'></input></div>"
+    );
   //countdown from 10 to 1
   numbersCounting();
-}
-function defusal() {
-  var password = 7355608;
-  let input = document.getElementById("secretCode");
-  input.addEventListener("input", function () {
-    if (input == password) {
-      console.log("You found the easter egg!");
-      $("body").html("<div id='secret-found'>You found the easter egg!</div>");
-    }
-  });
 }
 
 function numbersCounting() {
@@ -49,6 +41,18 @@ function buttonPressed() {
   console.log("Button pressed!");
   //script showing the easter egg
   countDown();
+}
+function defusal() {
+  let password = "7355608";
+  // listen to secretCode input, and if it matches the password, show the easter egg
+  $("#secretCode").keyup(function (event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      if ($("#secretCode").val() === password) {
+        console.log("Password is correct!");
+      }
+    }
+  });
 }
 
 function init() {
