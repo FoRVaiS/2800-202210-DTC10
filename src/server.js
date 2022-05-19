@@ -22,8 +22,9 @@ const createServer = () => {
 
   const secret = process.env.NODE_ENV === 'production' ? config.get('secret') : 'devsecret';
 
+
   // Inject middleware
-  app.use(helmet());
+  // app.use(helmet());
   app.use(morgan('combined'));
   app.use(express.json());
   app.use(session({

@@ -80,3 +80,5 @@ footer {
     color: black;
     text-align: center;
 }
+
+#map { height: 180px; }
