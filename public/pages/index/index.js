@@ -11,9 +11,11 @@ function createSalary() {
     fetch("/api/v1/user", {
         method: "get",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({users}),
       }).then(data => data.json()).then(data => {
-        data.array.forEach(element => {
+
+          var users = data.users;
+          
+          users.forEach(element => {
             if (element.__id == localStorage.getItem("acc")) {
                 id = localStorage.getItem("acc");
             }
@@ -25,21 +27,23 @@ function createSalary() {
 function payRow(id) {
 
     var main = document.getElementById("Pay-Table");
-    var tr = main.insertRow();
     var currentUserJob;
 
     fetch("/api/v1/salary", {
         method: "get",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({data}),
       }).then(data => data.json()).then(data => {
-        data.forEach(element => {
+        console.log(data)
+        var users = data.data;
+        console.log(users)
+        users.forEach(element => {
             if (element.__id == id) {
                 currentUserJob = element.position;
             }
-        }).then(
-            data.forEach(element => {
+        })
+            users.forEach(element => {
             if(element.position == currentUserJob) {
+                var tr = main.insertRow();
                 var company = tr.insertCell();
                 var gender = tr.insertCell();
                 var age = tr.insertCell();
@@ -49,7 +53,7 @@ function payRow(id) {
                 age.appendChild(document.createTextNode(`${"temp"}`));
                 pay.appendChild(document.createTextNode(`${element.salary}`));
             }
-        }))
+        })
     });
 
 }
