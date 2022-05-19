@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Page</title>
+    <title>sign up page</title>
     <link rel="stylesheet" href="/pages/register/register.css">
 </head>
 <body>
-<div class="login-form">
-    <form method="post">
-        <h1>PaySwap</h1>
-        <div class="notice notice--alert"></div>
-        <div class="content">
-            <div class="input-field">
-                <input type="text" placeholder="Email" name="email">
-            </div>
-            <div class="input-field">
-                <input type="password" placeholder="Password" name="password">
-            </div>
+    <div class="container">
+        <div class="box box-one">
+            <img src="/pages/images/logoTransparent.png">
         </div>
-        <div class="sign">
-            <button id="in-register">Register</button>
+        <h2>Sign up for PaySwap</h2>
+        <div class="box box-two">
+            <form method="post">
+              <div class="input-field">
+                  <input type="text" placeholder="Email" name="email">
+              </div>
+              <div class="input-field">
+                  <input type="password" placeholder="Password" name="password">
+          </form>
+          <button class="signup">Sign up</button>
         </div>
-    </form>
+        <p>Already have an account? <a href="#">Log in</a></p>
+      </div>
     <script src="/pages/register/register.js"></script>
 </div>
 </body>
