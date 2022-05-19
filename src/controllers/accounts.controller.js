@@ -17,9 +17,15 @@ const fetchAllAccounts = async (req, res) => {
 
 const register = async (req, res) => {
   // TODO: Administrators need a special sign-up process, perhaps an admin token could be supplied with the request?
-  const { email, password } = req.body;
+  const { email, password, age, gender } = req.body;
 
-  const user = new userModel({ email, password, roles: ['member'] });
+  const user = new userModel({ 
+    email,
+    password,
+    age,
+    gender,
+    roles: ['member']
+  });
 
   await user.save();
 
