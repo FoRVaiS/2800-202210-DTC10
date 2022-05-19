@@ -9,6 +9,7 @@
 
     const email = emailRef.value;
     const password = passwordRef.value;
+    localStorage.setItem("acc", email);
 
     fetch('/api/v1/user/login', {
       method: 'post',

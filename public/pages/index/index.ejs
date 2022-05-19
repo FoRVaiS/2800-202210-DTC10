@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Payswap</title>
 
-        <link rel="stylesheet" href="/resources/demos/style.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="pages/index/index.css">
 
@@ -41,39 +40,24 @@
       </div>
     </div>
     <br />
-    <div class="d-flex justify-content-center mb-3 align-self-center">
-      <div class="d-flex justify-content-center flex-column align-content-center flex-wrap">
-              <div class="card w-100" id="1">
-              <div class="card-body">
-                <h5 class="card-title">Junior Web Developer - Activision</h5>
-                <h3>Salary: $20,000</h3>
-                <p class="card-text">Gender: M</p>
-                <p class="card-text">Age: 30</p>
-                <a href="#" onclick="deleteCard('1')" class="btn btn-warning">Report</a>
-              </div>
-            </div>
-            
-            <div class="card w-100" id="2">
-              <div class="card-body">
-                <h5 class="card-title">Junior Web Developer - Ubisoft</h5>
-                <h3>Salary: $34,000</h3>
-                <p class="card-text">Gender: W</p>
-                <p class="card-text">Age: 23</p>
-                <a href="#" onclick="deleteCard('2')" class="btn btn-warning">Report</a>
-              </div>
-            </div>
-
-            <div class="card w-100" id="3">
-              <div class="card-body">
-                <h5 class="card-title">Junior Web Developer - MicroSoft</h5>
-                <h3>Salary: $60,000</h3>
-                <p class="card-text">Gender: M</p>
-                <p class="card-text">Age: 45</p>
-                <a href="#" onclick="deleteCard('3')" class="btn btn-warning">Report</a>
-              </div>
-            </div>
-      </div>
-    </div>
+    <table id="Pay-Table">
+      <th>
+        <tr>
+          <td>
+            Company name
+          </td>
+          <td>
+            Gender
+          </td>
+          <td>
+            Age
+          </td>
+          <td>
+            Pay ($/hr)
+          </td>
+        </tr>
+      </th>
+    </table>
   </body>
   
   <footer> @PaySwap Productions </footer>

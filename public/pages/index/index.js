@@ -6,42 +6,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function createSalary() {
 
-
-    //Change classes to Bootstrap containers 
-    var container = document.createElement("div");
-    container.classList.add("salary-box");
-
-    var location = document.createElement("p");
-    location.classList.add("location");
-
-    var title = document.createElement("h3");
-    title.classList.add("job-title");
-
-    var salary = document.createElement("h3");
-
-    var company = document.createElement("p");
-    company.classList.add("company-title");
-
-    var age = document.createElement("p");
-    var gender = document.createElement("p");
-    age.classList.add("small-info");
-    gender.classList.add("small-info");
-
-    let main = document.getElementById("salary-container");
+    var id;
 
     fetch("/api/v1/user", {
         method: "get",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({__id}),
+        body: JSON.stringify({users}),
       }).then(data => data.json()).then(data => {
-            var id = data.uid;    
-            var report = document.createElement("a");
-            report.innerHTML = "R";
-            report.addEventListener("onClick", createReport(id));
-            main.appendChild(report);
+        data.array.forEach(element => {
+            if (element.__id == localStorage.getItem("acc")) {
+                id = localStorage.getItem("acc");
+            }
+        });
       })
+      payRow(id);
+}
+
+function payRow(id) {
+
+    var main = document.getElementById("Pay-Table");
+    var tr = main.insertRow();
+    var currentUserJob;
+
+    fetch("/api/v1/salary", {
+        method: "get",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({data}),
+      }).then(data => data.json()).then(data => {
+        data.forEach(element => {
+            if (element.__id == id) {
+                currentUserJob = element.position;
+            }
+        }).then(
+            data.forEach(element => {
+            if(element.position == currentUserJob) {
+                var company = tr.insertCell();
+                var gender = tr.insertCell();
+                var age = tr.insertCell();
+                var pay = tr.insertCell();
+                company.appendChild(document.createTextNode(`${element.company}`));
+                gender.appendChild(document.createTextNode(`${"temp"}`));
+                age.appendChild(document.createTextNode(`${"temp"}`));
+                pay.appendChild(document.createTextNode(`${element.salary}`));
+            }
+        }))
+    });
 
 }
+
 
 function createReport(id) {
     fetch("/api/v1/report/post", {
