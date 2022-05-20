@@ -17,7 +17,9 @@
     "jest": "^28.1.0"
   },
   "scripts": {
-    "test": "jest",
+    "test:unit": "jest",
+    "test:e2e": "playwright test",
+    "test": "npm run test:unit && npm run test:e2e",
     "start": "node .",
     "start:dev": "cross-env NODE_ENV=development node ."
   }
