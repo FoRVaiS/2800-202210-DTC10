@@ -70,10 +70,12 @@ function init() {
   Composite = Matter.Composite;
   var engine = Engine.create();
   World.add(engine.world, [
-    Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
-    Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
-    Bodies.rectangle(0, 300, 50, 600, { isStatic: true }),
-    Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
+    Bodies.rectangle(400, 0, window.innerWidth, 50, { isStatic: true }),
+    Bodies.rectangle(400, 600, window.innerWidth, 50, { isStatic: true }),
+    Bodies.rectangle(window.innerHeight, 300, 50, window.innerHeight, {
+      isStatic: true,
+    }),
+    Bodies.rectangle(800, 300, 50, window.innerHeight, { isStatic: true }),
   ]);
 
   var render = Render.create({
