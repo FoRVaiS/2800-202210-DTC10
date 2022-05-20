@@ -4,31 +4,14 @@ const express = require("express");
 const config = require("config");
 
 // Express Middleware
-<<<<<<< HEAD
-const helmet = require('helmet');
-const morgan = require('morgan');
-const session = require('express-session');
-const mongoose = require('mongoose');
-
-// Routes
-const viewsRouter = require('./routes/views');
-const apiv1Router = require('./routes/apiv1');
-=======
 const helmet = require("helmet");
 const morgan = require("morgan");
 const session = require("express-session");
+const mongoose = require("mongoose");
 
-// Controllers
-const { homeGetController } = require("./controllers/home.controller");
-const {
-  loginGetController,
-  loginPostController,
-} = require("./controllers/login.controller");
-const { logoutPostController } = require("./controllers/logout.controller");
-const {
-  fetchAccountsPostController,
-} = require("./controllers/fetchAccounts.controller");
->>>>>>> richard_login
+// Routes
+const viewsRouter = require("./routes/views");
+const apiv1Router = require("./routes/apiv1");
 
 const webRoot = path.join(__dirname, "..", "public");
 
@@ -59,18 +42,10 @@ const createServer = () => {
   // Expose all files in the webRoot directory
   app.use(express.static(webRoot));
 
-<<<<<<< HEAD
-  mongoose.connect(config.get('mongo.connectionString'));
+  mongoose.connect(config.get("mongo.connectionString"));
 
-  app.use('/', viewsRouter.router);
-  app.use('/api/v1', apiv1Router.router);
-=======
-  app.get("/", homeGetController);
-  app.get("/login", loginGetController);
-  app.post("/login", loginPostController);
-  app.post("/logout", logoutPostController);
-  app.post("/accounts", fetchAccountsPostController);
->>>>>>> richard_login
+  app.use("/", viewsRouter.router);
+  app.use("/api/v1", apiv1Router.router);
 
   return app;
 };

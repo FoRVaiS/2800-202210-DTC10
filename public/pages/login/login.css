@@ -20,51 +20,6 @@ body {
   .box,
   .box button {
     display: flex;
-<<<<<<< HEAD
-    flex-direction: row;
-}
-.login-form .sign button {
-    width: 100%;
-    border: none;
-    padding: 18px;
-    text-transform: uppercase;
-    background: #e8e9ec;
-    color: #4650ec;
-    border-bottom-left-radius: 4px;
-}
-.login-form .sign button:hover {
-    background: #3c4d6d;
-}
-.login-form .sign button:nth-child(2):hover {
-    background: #3c4d6d;
-}
-
-.form-options {
-    display: flex;
-
-    padding-left: 0;
-    margin: 0;
-
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-
-    list-style: none;
-}
-.form-options__item {
-    text-decoration: none;
-}
-.form-options__item:hover {
-    text-decoration: underline;
-}
-
-.notice {
-    padding: 0 40px;
-}
-.notice--alert {
-    color: red;
-}
-=======
     align-items: center;
   }
   .box {
@@ -123,4 +78,3 @@ body {
     text-decoration: none;
     color: #00acee;
   }
->>>>>>> richard_login
