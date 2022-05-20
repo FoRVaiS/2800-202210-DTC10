@@ -1,14 +1,53 @@
-// const { append } = require("express/lib/response");
+(() => {
+  // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
+  let activeTriggerState = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-    createSalary();
-})
+  // The amount of clicks to activate the easter egg
+  const EASTER_EGG_MAX_CLICKS = 7;
 
-function createSalary() {
+  // The time in milliseconds the user has to spam the action element to activate the easter egg.
+  const EASTER_EGG_TIMEFRAME_MS = 3000;
 
-    var id = localStorage.getItem("id");
-    payRow(id);
-}
+  function createTriggerState(timeout) {
+    const startTime = new Date().getTime();
+    let endTime = startTime + timeout;
+
+    return {
+      clicks: 0,
+      click() {
+        if (new Date().getTime() > endTime) activeTriggerState = null;
+
+        this.clicks++;
+      },
+    };
+  }
+
+  // easter egg action trigger event script below
+  const logoRef = document.querySelector("#logo");
+
+  if (logoRef) {
+    logoRef.onclick = () => {
+      if (!activeTriggerState) {
+        activeTriggerState = createTriggerState(EASTER_EGG_TIMEFRAME_MS);
+      }
+
+      activeTriggerState.click();
+
+      if (
+        activeTriggerState &&
+        activeTriggerState.clicks > EASTER_EGG_MAX_CLICKS
+      ) {
+        activeTriggerState = null;
+
+        window.location.href = "/easter-egg";
+      }
+    };
+  }
+
+  var id = localStorage.getItem("id");
+  payRow(id);
+})();
+
 
 function payRow(id) {
 
@@ -27,7 +66,7 @@ function payRow(id) {
         })
             users.forEach(element => {
             if(element.position == currentUserJob) {
-                fetch(`/api/v1/user/${element.userId}`, {
+                fetch(`/api/v1/user/id/${element.userId}`, {
                     method: "get",
                     headers: { "Content-Type": "application/json" },
                 }).then(userPersonal => userPersonal.json()).then(userPersonal => {
@@ -59,3 +98,4 @@ function payRow(id) {
 //         body: JSON.stringify({id}),
 //       });
 // }
+

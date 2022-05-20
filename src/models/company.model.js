@@ -1,6 +1,6 @@
 const { model, Schema, Types } = require('mongoose');
 
-const companySchema = new Schema({
+const CompanySchema = new Schema({
   name: String,
   locations: [
     {
@@ -16,6 +16,6 @@ const companySchema = new Schema({
   ],
 });
 
-const companyModel = model('company', companySchema);
+const CompanyModel = model('company', CompanySchema);
 
-module.exports = { companyModel }; 
+module.exports = { CompanyModel }; 

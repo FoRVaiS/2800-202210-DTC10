@@ -1,7 +1,7 @@
 const express = require('express');
 
 // Controllers
-const UserController = require('../controllers/accounts.controller');
+const UserController = require('../controllers/user.controller');
 const ReportController = require('../controllers/report.controller');
 const SalaryController = require('../controllers/salary.controller');
 
@@ -17,7 +17,7 @@ router.post('/report/post', ReportController.submitReport);
 
 // User
 router.get('/user', UserController.fetchAllAccounts);
-router.get('/user/:id', UserController.fetchUserById);
+router.get('/user/id/:id', UserController.fetchUserById);
 router.get('/user/logout', UserController.logout);
 router.post('/user/login', UserController.login);
 router.post('/user/register', UserController.register);

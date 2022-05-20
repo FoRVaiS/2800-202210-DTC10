@@ -1,9 +1,9 @@
 const { model, Schema } = require('mongoose');
 
-const reportSchema = new Schema({
+const ReportSchema = new Schema({
   postId: Number,
 });
 
-const reportModel = model('report', reportSchema);
+const ReportModel = model('report', ReportSchema);
 
-module.exports = { reportModel };
+module.exports = { ReportModel };

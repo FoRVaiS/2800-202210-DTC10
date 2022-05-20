@@ -3,7 +3,7 @@ jest.mock('../../src/controllers/salary.controller', () => ({
   ...jest.requireActual('../../src/controllers/salary.controller'),
 }));
 
-const { companyModel } = require('../../src/models/company.model');
+const { CompanyModel } = require('../../src/models/company.model');
 jest.mock('../../src/models/company.model');
 
 const statusMock = jest.fn();
@@ -64,10 +64,10 @@ describe('SalaryController', () => {
         },
       };
   
-      companyModel.find.mockResolvedValue([]);
+      CompanyModel.find.mockResolvedValue([]);
 
       // SalaryController.doesCompanyExist.mockResolvedValue(false);
-      companyModel.create.mockResolvedValue(true);
+      CompanyModel.create.mockResolvedValue(true);
       await SalaryController.submitSalary(fakeReq, fakeRes);
   
       expect(statusMock).toHaveBeenCalledWith(200);
@@ -89,10 +89,10 @@ describe('SalaryController', () => {
         },
       };
   
-      companyModel.create.mockResolvedValue(true);
+      CompanyModel.create.mockResolvedValue(true);
       await SalaryController.submitSalary(fakeReq, fakeRes);
   
-      expect(companyModel.create).toHaveBeenCalledWith({
+      expect(CompanyModel.create).toHaveBeenCalledWith({
         name: 'McDonald\'s',
         locations: [
           {
@@ -107,7 +107,7 @@ describe('SalaryController', () => {
           }
         ]
       });
-      expect(companyModel.create).toHaveBeenCalledTimes(1);
+      expect(CompanyModel.create).toHaveBeenCalledTimes(1);
     });
 
     it('should send an error when the company field is missing', async () => {
@@ -189,7 +189,7 @@ describe('SalaryController', () => {
         },
       };
 
-      companyModel.find.mockResolvedValue(fakeData);
+      CompanyModel.find.mockResolvedValue(fakeData);
       await SalaryController.fetchSalaryFromLocation(fakeReq, fakeRes);
 
       const searchQuery = {
@@ -200,8 +200,8 @@ describe('SalaryController', () => {
         },
       };
 
-      expect(companyModel.find).toHaveBeenCalledWith(searchQuery, { __v: 0 });
-      expect(companyModel.find).toHaveBeenCalledTimes(1);
+      expect(CompanyModel.find).toHaveBeenCalledWith(searchQuery, { __v: 0 });
+      expect(CompanyModel.find).toHaveBeenCalledTimes(1);
       expect(statusMock).toHaveBeenCalledWith(200);
       expect(statusMock).toHaveBeenCalledTimes(1);
       expect(jsonMock).toHaveBeenCalledWith({ success: true, data: fakeProcessedData });
@@ -241,7 +241,7 @@ describe('SalaryController', () => {
 
   describe('fetchAllSalaries', () => {
     it('should return a list of all salaries in a condensed format', async () => {
-      companyModel.find.mockResolvedValue(fakeData);
+      CompanyModel.find.mockResolvedValue(fakeData);
       await SalaryController.fetchAllSalaries({}, fakeRes);
 
       expect(statusMock).toHaveBeenCalledWith(200);
