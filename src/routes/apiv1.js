@@ -1,7 +1,7 @@
 const express = require('express');
 
 // Controllers
-const UserController = require('../controllers/accounts.controller');
+const UserController = require('../controllers/user.controller');
 const ReportController = require('../controllers/report.controller');
 const SalaryController = require('../controllers/salary.controller');
 

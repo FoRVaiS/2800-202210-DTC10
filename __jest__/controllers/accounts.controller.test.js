@@ -1,5 +1,5 @@
 const req = require('express/lib/request');
-const UserController = require('../../src/controllers/accounts.controller');
+const UserController = require('../../src/controllers/user.controller');
 
 const { userModel } = require('../../src/models/user.model');
 jest.mock('../../src/models/user.model');
