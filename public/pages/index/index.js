@@ -1,5 +1,3 @@
-// const { append } = require("express/lib/response");
-
 document.addEventListener("DOMContentLoaded", () => {
     createSalary();
     searchCompany();

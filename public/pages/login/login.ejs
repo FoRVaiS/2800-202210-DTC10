@@ -7,27 +7,24 @@
     <link rel="stylesheet" href="/pages/login/login.css">
 </head>
 <body>
-<div class="login-form">
-    <form method="post">
-        <h1>PaySwap</h1>
-        <div class="notice notice--alert"></div>
-        <div class="content">
-            <div class="input-field">
-                <input type="text" placeholder="Email" name="email">
-            </div>
-            <div class="input-field">
-                <input type="password" placeholder="Password" name="password">
-            </div>
-            <ul class="form-options">
-                <li><a href="/register" class="form-options__item link">Sign Up</a></li>
-                <p class="form-options__seperator">•</p>
-                <li><a href="" class="form-options__item link">Forgot Password?</a></li>
-            </ul>
+    <div class="container">
+        <div class="box box-one">
+            <img src="/pages/images/logo.svg">
         </div>
-        <div class="sign">
-            <button id="in-log-in">Log in</button>
+        <h2>Sign in to PaySwap</h2>
+        <div class="box box-two">
+          <form>
+              <div class="input-field">
+                  <input type="text" placeholder="Username" name="email">
+              </div>
+              <div class="input-field">
+                  <input type="password" placeholder="Password" name="password">
+          </form>
+          <button class="login" id="login">Login</button>
+          <button>Forgot password</button>
         </div>
-    </form>
+        <p>Don't have an account <a href="/pages/register/register.js">Sign Up</a></p>
+      </div>
     <script src="/pages/login/login.js"></script>
 </div>
 </body>
