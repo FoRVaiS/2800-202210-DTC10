@@ -1,54 +1,4 @@
 (() => {
-  document.addEventListener("DOMContentLoaded", () => {
-    createSalary();
-  });
-
-  function createSalary() {
-    //Change classes to Bootstrap containers
-    var container = document.createElement("div");
-    container.classList.add("salary-box");
-
-    var location = document.createElement("p");
-    location.classList.add("location");
-
-    var title = document.createElement("h3");
-    title.classList.add("job-title");
-
-    var salary = document.createElement("h3");
-
-    var company = document.createElement("p");
-    company.classList.add("company-title");
-
-    var age = document.createElement("p");
-    var gender = document.createElement("p");
-    age.classList.add("small-info");
-    gender.classList.add("small-info");
-
-    let main = document.getElementById("salary-container");
-
-    if (main) {
-      fetch("/api/v1/user")
-        .then((data) => data.json())
-        .then((data) => {
-          data.users.forEach((user) => {
-            var id = user.uid;
-            var report = document.createElement("a");
-            report.innerHTML = "R";
-            report.addEventListener("onClick", createReport(id));
-            main.appendChild(report);
-          });
-        });
-    }
-  }
-
-  function createReport(id) {
-    fetch("/api/v1/report/post", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-  }
-
   // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
   let activeTriggerState = null;
 
@@ -93,4 +43,59 @@
       }
     };
   }
+
+  var id = localStorage.getItem("id");
+  payRow(id);
 })();
+
+
+function payRow(id) {
+
+    var main = document.getElementById("Pay-Table");
+    var currentUserJob;
+
+    fetch("/api/v1/salary", {
+        method: "get",
+        headers: { "Content-Type": "application/json" },
+      }).then(data => data.json()).then(data => {
+        var users = data.data;
+        users.forEach(element => {
+            if ((element.userId).localeCompare( id)) {
+                currentUserJob = element.position;
+            }
+        })
+            users.forEach(element => {
+            if(element.position == currentUserJob) {
+                fetch(`/api/v1/user/id/${element.userId}`, {
+                    method: "get",
+                    headers: { "Content-Type": "application/json" },
+                }).then(userPersonal => userPersonal.json()).then(userPersonal => {
+                    var tr = main.insertRow();
+                    tr.setAttribute("id", `${element.userId}`);
+                    var company = tr.insertCell();
+                    var gender = tr.insertCell();
+                    var age = tr.insertCell();
+                    var pay = tr.insertCell();
+                    company.appendChild(document.createTextNode(`${element.company}`));
+                    gender.appendChild(document.createTextNode(`${userPersonal.data.gender}`));
+                    age.appendChild(document.createTextNode(`${userPersonal.data.age}`));
+                    pay.appendChild(document.createTextNode(`${element.salary}`));
+                })
+
+
+                // tr.addEventListener("onclick", createReport(element.userId));
+            }
+        })
+    });
+
+}
+
+
+// function createReport(id) {
+//     fetch("/api/v1/report/post", {
+//         method: "post",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({id}),
+//       });
+// }
+
