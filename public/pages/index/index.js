@@ -1,13 +1,9 @@
-// const { append } = require("express/lib/response");
-
 document.addEventListener("DOMContentLoaded", () => {
     createSalary();
 })
 
 function createSalary() {
-
-
-    //Change classes to Bootstrap containers 
+    //Change classes to Bootstrap containers
     var container = document.createElement("div");
     container.classList.add("salary-box");
 
@@ -29,18 +25,17 @@ function createSalary() {
 
     let main = document.getElementById("salary-container");
 
-    fetch("/api/v1/user", {
-        method: "get",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({uid}),
-      }).then(data => data.json()).then(data => {
-            var id = data.uid;    
-            var report = document.createElement("a");
-            report.innerHTML = "R";
-            report.addEventListener("onClick", createReport(id));
-            main.appendChild(report);
-      })
-
+    if (main) {
+        fetch("/api/v1/user").then(data => data.json()).then(data => {
+            data.users.forEach(user => {
+                var id = user.uid;
+                var report = document.createElement("a");
+                report.innerHTML = "R";
+                report.addEventListener("onClick", createReport(id));
+                main.appendChild(report);
+            });
+        })   
+    }
 }
 
 function createReport(id) {
