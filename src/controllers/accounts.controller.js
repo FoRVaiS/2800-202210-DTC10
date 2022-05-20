@@ -15,6 +15,30 @@ const fetchAllAccounts = async (req, res) => {
   });
 };
 
+const fetchUserById = async (req, res) => {
+  const { id } = req.params;
+
+  const [user] = await userModel.find({ _id: id });
+
+  if (!user) return res.status(500).json({ 
+    success: false, 
+    data: {
+      msg: 'User does not exist or could not be found.',
+    },
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {
+      _id: id,
+      email: user.email,
+      age: user.age,
+      gender: user.gender,
+      roles: user.roles,
+    },
+  });
+};
+
 const register = async (req, res) => {
   // TODO: Administrators need a special sign-up process, perhaps an admin token could be supplied with the request?
   const { email, password, age, gender } = req.body;
@@ -46,7 +70,10 @@ const login = async (req, res) => {
     req.session.uid = user._id;
 
     res.status(200).json({
-      msg: 'Login successful!',
+      data: {
+        msg: 'Login successful!',
+        uid: user._id,
+      },
       success: true,
     });
   } else {
@@ -75,4 +102,4 @@ const renderRegistrationPage = (req, res) => {
   res.render('pages/register/register.ejs');
 };
 
-module.exports = { fetchAllAccounts, login, logout, register, renderLoginPage, renderRegistrationPage };
+module.exports = { fetchAllAccounts, fetchUserById, login, logout, register, renderLoginPage, renderRegistrationPage };
