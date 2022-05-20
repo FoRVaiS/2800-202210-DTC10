@@ -10,7 +10,7 @@ const { devices } = require('@playwright/test');
  * See https://playwright.dev/docs/test-configuration.
  */
 module.exports = {
-  testDir: './__tests__',
+  testDir: './__playwright__',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
