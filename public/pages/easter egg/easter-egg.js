@@ -104,8 +104,6 @@ function init() {
     element: document.body,
     engine: engine,
     options: { wireframes: false },
-    width: 1000,
-    height: 1000,
   });
   let mouseconstraint = Matter.MouseConstraint.create(engine, {
     element: render.canvas,
