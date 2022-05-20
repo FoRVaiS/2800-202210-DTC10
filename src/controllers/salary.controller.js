@@ -1,7 +1,7 @@
-const { companyModel } = require('../models/company.model');
+const { CompanyModel } = require('../models/company.model');
 
-const doesCompanyExist = async name => (await companyModel.find({ name })).length;
-const doesLocationExist = async (company, location) => (await companyModel.find({
+const doesCompanyExist = async name => (await CompanyModel.find({ name })).length;
+const doesLocationExist = async (company, location) => (await CompanyModel.find({
   name: company,
   locations: {
     $elemMatch: { name: location }
@@ -54,7 +54,7 @@ const submitSalary = async (req, res) => {
 
     if (locationExists) {
       // The company and location already exist
-      await companyModel.updateOne({
+      await CompanyModel.updateOne({
         locations: {
           $elemMatch: { name: location }
         },
@@ -69,7 +69,7 @@ const submitSalary = async (req, res) => {
       });
     } else {
       // The company exists but the location is new
-      await companyModel.updateOne({
+      await CompanyModel.updateOne({
         name: company,
       }, {
         $push: {
@@ -88,7 +88,7 @@ const submitSalary = async (req, res) => {
     }
   } else {
     // The company does not exist
-    await companyModel.create({
+    await CompanyModel.create({
       name: company,
       locations: [{
         name: location,
@@ -144,7 +144,7 @@ const fetchSalaryFromLocation = async (req, res) => {
     },
   });
 
-  const [company] = await companyModel.find({
+  const [company] = await CompanyModel.find({
     locations: {
       $elemMatch: {
         name: location,
@@ -170,7 +170,7 @@ const fetchSalaryFromLocation = async (req, res) => {
 };
 
 const fetchAllSalaries = async (req, res) => {
-  const allCompanies = await companyModel.find({}, { __v: 0 });
+  const allCompanies = await CompanyModel.find({}, { __v: 0 });
 
   const salaryData = allCompanies.flatMap(company => convertToSalaryData(company));
 

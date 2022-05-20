@@ -1,8 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
+(() => {
+  document.addEventListener("DOMContentLoaded", () => {
     createSalary();
-})
+  });
 
-function createSalary() {
+  function createSalary() {
     //Change classes to Bootstrap containers
     var container = document.createElement("div");
     container.classList.add("salary-box");
@@ -26,22 +27,70 @@ function createSalary() {
     let main = document.getElementById("salary-container");
 
     if (main) {
-        fetch("/api/v1/user").then(data => data.json()).then(data => {
-            data.users.forEach(user => {
-                var id = user.uid;
-                var report = document.createElement("a");
-                report.innerHTML = "R";
-                report.addEventListener("onClick", createReport(id));
-                main.appendChild(report);
-            });
-        })   
+      fetch("/api/v1/user")
+        .then((data) => data.json())
+        .then((data) => {
+          data.users.forEach((user) => {
+            var id = user.uid;
+            var report = document.createElement("a");
+            report.innerHTML = "R";
+            report.addEventListener("onClick", createReport(id));
+            main.appendChild(report);
+          });
+        });
     }
-}
+  }
 
-function createReport(id) {
+  function createReport(id) {
     fetch("/api/v1/report/post", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
-      });
-}
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+  }
+
+  // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
+  let activeTriggerState = null;
+
+  // The amount of clicks to activate the easter egg
+  const EASTER_EGG_MAX_CLICKS = 7;
+
+  // The time in milliseconds the user has to spam the action element to activate the easter egg.
+  const EASTER_EGG_TIMEFRAME_MS = 3000;
+
+  function createTriggerState(timeout) {
+    const startTime = new Date().getTime();
+    let endTime = startTime + timeout;
+
+    return {
+      clicks: 0,
+      click() {
+        if (new Date().getTime() > endTime) activeTriggerState = null;
+
+        this.clicks++;
+      },
+    };
+  }
+
+  // easter egg action trigger event script below
+  const logoRef = document.querySelector("#logo");
+
+  if (logoRef) {
+    logoRef.onclick = () => {
+      if (!activeTriggerState) {
+        activeTriggerState = createTriggerState(EASTER_EGG_TIMEFRAME_MS);
+      }
+
+      activeTriggerState.click();
+
+      if (
+        activeTriggerState &&
+        activeTriggerState.clicks > EASTER_EGG_MAX_CLICKS
+      ) {
+        activeTriggerState = null;
+
+        window.location.href = "/easter-egg";
+      }
+    };
+  }
+})();
