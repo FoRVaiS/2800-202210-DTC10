@@ -1,4 +1,6 @@
 const { CompanyModel } = require('../models/company.model');
+const { createErrorPayload } = require('../utils/createErrorPayload');
+const { createSuccessPayload } = require('../utils/createSuccessPayload');
 
 const doesCompanyExist = async name => (await CompanyModel.find({ name })).length;
 const doesLocationExist = async (company, location) => (await CompanyModel.find({
@@ -12,40 +14,11 @@ const submitSalary = async (req, res) => {
   const { company = null, salary = null, position = null, location = null } = req.body || {};
   const { uid = null } = req.session || {};
 
-  if (!uid) return res.status(403).json({
-    success: false,
-    data: {
-      msg: 'You need to be logged in to use this resource'
-    },
-  });
-
-  if (!company) return res.status(400).json({
-    success: false,
-    data: {
-      msg: 'The field \'company\' is required to be a string',
-    },
-  });
-
-  if (!salary || Number(salary) === NaN) return res.status(400).json({
-    success: false,
-    data: {
-      msg: 'The field \'salary\' is required to be a number',
-    },
-  });
-
-  if (!position) return res.status(400).json({
-    success: false,
-    data: {
-      msg: 'The field \'position\' is required to be a string',
-    },
-  });
-
-  if (!location) return res.status(400).json({
-    success: false,
-    data: {
-      msg: 'The field \'location\' is required to be a string',
-    },
-  });
+  if (!uid) return res.status(403).json(createErrorPayload('You need to be logged in to use this resource'));
+  if (!company) return res.status(400).json(createErrorPayload('The field \'company\' is required to be a string'));
+  if (!salary || Number(salary) === NaN) return res.status(400).json(createErrorPayload('The field \'salary\' is required to be a number'));
+  if (!position) return res.status(400).json(createErrorPayload('The field \'position\' is required to be a string'));
+  if (!location) return res.status(400).json(createErrorPayload('The field \'location\' is required to be a string'));
 
   const companyExists = await doesCompanyExist(company);
 
@@ -103,10 +76,7 @@ const submitSalary = async (req, res) => {
     });
   };
 
-  res.status(200).json({
-    success: true,
-    data: null,
-  });
+  res.status(200).json(createSuccessPayload(null));
 };
 
 const convertToSalaryData = (company) => {
@@ -130,19 +100,8 @@ const convertToSalaryData = (company) => {
 const fetchSalaryFromLocation = async (req, res) => {
   const { location = null, position = null } = req.body || {};
 
-  if (!position) return res.status(400).json({
-    success: false,
-    data: {
-      msg: 'The field \'position\' is required to be a string',
-    },
-  });
-
-  if (!location) return res.status(400).json({
-    success: false,
-    data: {
-      msg: 'The field \'location\' is required to be a string',
-    },
-  });
+  if (!position) return res.status(400).json(createErrorPayload('The field \'position\' is required to be a string'));
+  if (!location) return res.status(400).json(createErrorPayload('The field \'location\' is required to be a string'));
 
   const [company] = await CompanyModel.find({
     locations: {
@@ -152,21 +111,13 @@ const fetchSalaryFromLocation = async (req, res) => {
     }
   }, { __v: 0 });
 
-  if (!company) return res.status(500).json({
-    success: false,
-    data: {
-      msg: 'Location could not be found or it does not exist',
-    },
-  });
+  if (!company) return res.status(500).json(createErrorPayload('Location could not be found or it does not exist'));
 
   const salaryData = convertToSalaryData(company)
     .filter((data) => data.location.toLowerCase() === location.toLowerCase() 
                    && data.position.toLowerCase() === position.toLowerCase());
   
-  res.status(200).json({
-    success: true,
-    data: salaryData,
-  });
+  res.status(200).json(createSuccessPayload(salaryData));
 };
 
 const fetchAllSalaries = async (req, res) => {
@@ -174,10 +125,7 @@ const fetchAllSalaries = async (req, res) => {
 
   const salaryData = allCompanies.flatMap(company => convertToSalaryData(company));
 
-  res.status(200).json({
-    success: true,
-    data: salaryData,
-  });
+  res.status(200).json(createSuccessPayload(salaryData));
 };
 
 module.exports = { submitSalary, fetchSalaryFromLocation, fetchAllSalaries, doesCompanyExist, doesLocationExist, convertToSalaryData };
