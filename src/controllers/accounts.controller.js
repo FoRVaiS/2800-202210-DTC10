@@ -46,7 +46,10 @@ const login = async (req, res) => {
     req.session.uid = user._id;
 
     res.status(200).json({
-      msg: 'Login successful!',
+      data: {
+        msg: 'Login successful!',
+        uid: user._id,
+      },
       success: true,
     });
   } else {
