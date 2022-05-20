@@ -2,6 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     createSalary();
+
 })
 
 function createSalary() {
@@ -38,12 +39,30 @@ function payRow(id) {
                 age.appendChild(document.createTextNode(`${"temp"}`));
                 pay.appendChild(document.createTextNode(`${element.salary}`));
 
-                tr.addEventListener("onclick", createReport(element.userId));
+                // tr.addEventListener("onclick", createReport(element.userId));
             }
         })
     });
 
 }
+
+document.getElementById("search-input").addEventListener("click", () => {
+
+    var input = document.getElementById("tags").value;
+    localStorage.setItem("search", `${input}`);
+    return window.location.href = "";
+});
+
+$( function() {
+    var companies = [
+        "McDonald's",
+        "No Frills",
+        "Real Canadian Superstore"
+    ];
+    $( "#tags" ).autocomplete({
+      source: companies
+    });
+  } );
 
 
 // function createReport(id) {
