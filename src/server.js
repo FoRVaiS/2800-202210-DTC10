@@ -27,6 +27,7 @@ const createServer = () => {
   app.use(helmet());
   app.use(
     helmet.contentSecurityPolicy({
+      crossOriginEmbedderPolicy: false,
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: [
@@ -34,7 +35,7 @@ const createServer = () => {
           "'unsafe-inline'",
           "cdnjs.cloudflare.com",
           "ajax.googleapis.com",
-          "*",
+          "*"
         ],
         scriptSrcAttr: ["'unsafe-inline'"],
       },
