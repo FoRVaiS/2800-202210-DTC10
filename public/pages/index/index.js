@@ -44,6 +44,7 @@ function payRow(id) {
             users.forEach(element => {
             if(element.position == currentUserJob) {
                 var tr = main.insertRow();
+                tr.setAttribute("id", `${element.userId}`);
                 var company = tr.insertCell();
                 var gender = tr.insertCell();
                 var age = tr.insertCell();
@@ -52,6 +53,15 @@ function payRow(id) {
                 gender.appendChild(document.createTextNode(`${"temp"}`));
                 age.appendChild(document.createTextNode(`${"temp"}`));
                 pay.appendChild(document.createTextNode(`${element.salary}`));
+
+                var r = document.createElement("a");
+
+                r.innerHTML = "R";
+                r.addEventListener("onclick", createReport(element.userId));
+
+                var report = tr.insertCell();
+
+                report.appendChild(r);
             }
         })
     });
@@ -63,6 +73,6 @@ function createReport(id) {
     fetch("/api/v1/report/post", {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({id}),
       });
 }
