@@ -1,7 +1,7 @@
 const req = require('express/lib/request');
 const UserController = require('../../src/controllers/user.controller');
 
-const { userModel } = require('../../src/models/user.model');
+const { UserModel } = require('../../src/models/user.model');
 jest.mock('../../src/models/user.model');
 
 const baseReq = {
@@ -25,7 +25,7 @@ describe('UserController', () => {
 
   describe('fetchAllAccounts', () => {
     it('should return a warning when a non-admin user attempts to access the endpoint', async () => {
-      userModel.findById.mockReturnValue({ roles: [ 'member' ] });
+      UserModel.findById.mockReturnValue({ roles: [ 'member' ] });
 
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
@@ -42,8 +42,8 @@ describe('UserController', () => {
         roles: ['admin'],
       };
 
-      userModel.findById.mockReturnValue({ roles: fakeUser.roles });
-      userModel.find.mockReturnValue([ fakeUser ]);
+      UserModel.findById.mockReturnValue({ roles: fakeUser.roles });
+      UserModel.find.mockReturnValue([ fakeUser ]);
 
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
@@ -66,9 +66,9 @@ describe('UserController', () => {
 
       await UserController.register(fakeReq, fakeRes);
 
-      expect(userModel).toHaveBeenCalledTimes(1);
-      expect(userModel.mock.calls[0][0].email).toEqual(fakeReq.body.email);
-      expect(userModel.mock.calls[0][0].password).toEqual(fakeReq.body.password);
+      expect(UserModel).toHaveBeenCalledTimes(1);
+      expect(UserModel.mock.calls[0][0].email).toEqual(fakeReq.body.email);
+      expect(UserModel.mock.calls[0][0].password).toEqual(fakeReq.body.password);
     });
 
     it('should send an error when an email or password is empty', async () => {
@@ -111,7 +111,7 @@ describe('UserController', () => {
         password: '123',
       }
 
-      userModel.find.mockResolvedValue([fakeUser]);
+      UserModel.find.mockResolvedValue([fakeUser]);
 
       const fakeReq = {
         ...baseReq,
@@ -133,7 +133,7 @@ describe('UserController', () => {
         password: '123',
       };
 
-      userModel.find.mockResolvedValue([fakeUser]);
+      UserModel.find.mockResolvedValue([fakeUser]);
 
       const fakeReq = {
         ...baseReq,
@@ -152,7 +152,7 @@ describe('UserController', () => {
         password: '123',
       };
 
-      userModel.find.mockResolvedValue([{
+      UserModel.find.mockResolvedValue([{
         ...fakeUser,
         password: '456',
       }]);

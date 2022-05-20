@@ -1,5 +1,5 @@
 const ReportController = require("../../src/controllers/report.controller");
-const { reportModel } = require('../../src/models/report.model');
+const { ReportModel } = require('../../src/models/report.model');
 jest.mock('../../src/models/report.model');
 
 const baseReq = {
@@ -37,7 +37,7 @@ describe('ReportController', () => {
         },
       };
 
-      reportModel.find.mockResolvedValue({});
+      ReportModel.find.mockResolvedValue({});
 
       await ReportController.fetchAllReports(fakeReq, fakeRes);
 
@@ -60,7 +60,7 @@ describe('ReportController', () => {
         },
       };
 
-      reportModel.find.mockResolvedValue({});
+      ReportModel.find.mockResolvedValue({});
 
       await ReportController.fetchAllReports(fakeReq, fakeRes);
 
@@ -89,7 +89,7 @@ describe('ReportController', () => {
         },
       };
 
-      reportModel.find.mockResolvedValue(fakeReports);
+      ReportModel.find.mockResolvedValue(fakeReports);
 
       await ReportController.fetchAllReports(fakeReq, fakeRes);
 
@@ -111,11 +111,11 @@ describe('ReportController', () => {
         },
       };
 
-      const reportModelMock = {
+      const ReportModelMock = {
         save: jest.fn(),
       };
-      reportModel.mockReturnValue(reportModelMock);
-      reportModelMock.save.mockResolvedValue(true);
+      ReportModel.mockReturnValue(ReportModelMock);
+      ReportModelMock.save.mockResolvedValue(true);
 
       await ReportController.submitReport(fakeReq, fakeRes);
 
@@ -149,17 +149,17 @@ describe('ReportController', () => {
         },
       };
 
-      const reportModelMock = {
+      const ReportModelMock = {
         save: jest.fn(),
       };
 
-      reportModel.mockReturnValue(reportModelMock);
-      reportModelMock.save.mockResolvedValue(true);
+      ReportModel.mockReturnValue(ReportModelMock);
+      ReportModelMock.save.mockResolvedValue(true);
 
       await ReportController.submitReport(fakeReq, fakeRes);
 
-      expect(reportModel).toHaveBeenCalledWith({ postId: '123' });
-      expect(reportModelMock.save).toHaveBeenCalledTimes(1);
+      expect(ReportModel).toHaveBeenCalledWith({ postId: '123' });
+      expect(ReportModelMock.save).toHaveBeenCalledTimes(1);
     });
   });
 });

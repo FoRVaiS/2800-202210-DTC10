@@ -1,5 +1,5 @@
-const { userModel } = require('../models/user.model');
-const { reportModel } = require('../models/report.model');
+const { UserModel } = require('../models/user.model');
+const { ReportModel } = require('../models/report.model');
 
 const fetchAllReports = async (req, res) => {
   if (!req.session.isAuthenticated) res.status(403);
@@ -7,9 +7,9 @@ const fetchAllReports = async (req, res) => {
   //!BLOCKED: need to finalize user stucture.
   // const { uid } = req.session;
 
-  // const user = userModel.find({ uid });
+  // const user = UserModel.find({ uid });
 
-  const reports = await reportModel.find();
+  const reports = await ReportModel.find();
 
   res.status(200).json({ reports });
 }
@@ -22,7 +22,7 @@ const submitReport = async (req, res) => {
     msg: "postId must be an integer",
   });
 
-  const report = new reportModel({ postId });
+  const report = new ReportModel({ postId });
 
   await report.save();
 
