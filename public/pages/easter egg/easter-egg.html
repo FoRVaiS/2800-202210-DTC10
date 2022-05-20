@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js"></script>
+    <style>
+      html,
+      body,
+      #outer-container {
+        height: 100%;
+      }
+      body {
+        background-color: #1a1e21;
+        text-align: center;
+      }
+      #outer-container {
+        background-image: url("../images/beforeExplosion.png");
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+        transition: background-image 1s linear;
+      }
+      #secret-found {
+        font-size: xx-large;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      }
+      #secretCodeInput {
+        font-size: 16px;
+        display: block;
+        width: 100%;
+        padding: 10px 1px;
+      }
+      .easterEggButton {
+        position: absolute;
+        left: 49%;
+        top: 85%;
+        width: 80px;
+        height: 30px;
+        color: aliceblue;
+        border: solid 1px aliceblue;
+      }
+      #secret-found {
+        position: absolute;
+        left: 50%;
+        top: 76%;
+        color: #85dc80;
+      }
+      #secretCodeInput {
+        position: absolute;
+        left: 30px;
+        top: 315px;
+      }
+      #secretCode {
+        width: 80px;
+        height: 40px;
+      }
+      img {
+        opacity: 0;
+        filter: alpha(opacity=40);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="outer-container">
+      <div id="inner-container"></div>
+    </div>
+  </body>
+  <script src="./easter-egg.js"></script>
+</html>
