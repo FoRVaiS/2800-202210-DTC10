@@ -9,7 +9,7 @@ function countDown() {
     "<div id='secret-found'><h1>Initiating Countdown Sequence</h1></div>"
   ) +
     $("body").append(
-      "<div id='image'><img src='/pages/images/images/easterEggExplodey.png'</img></div>"
+      "<div id='image'><img src='/pages/images/easterEggExplodey.png'</img></div>"
     ) +
     $("body").append(
       "<div id='secretCodeInput'><input type='tel' id='secretCode'></input></div>"
