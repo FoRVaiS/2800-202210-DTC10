@@ -93,7 +93,7 @@ function init() {
   let boxP = Bodies.rectangle(100, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "../images/boxP.png",
+        texture: "/pages/images/boxP.png",
       },
     },
   });
