@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     createSalary();
     searchCompany();
-
 })
 
 function createSalary() {
