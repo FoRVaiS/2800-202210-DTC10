@@ -12,6 +12,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.22.1",
     "cross-env": "^7.0.3",
     "jest": "^28.1.0"
   },
