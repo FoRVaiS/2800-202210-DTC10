@@ -43,7 +43,7 @@ const createServer = () => {
   mongoose.connect(config.get('mongo.connectionString'));
 
   app.use('/', viewsRouter.router);
-  
+  app.use('/search', viewsRouter.router);
   app.use('/api/v1', apiv1Router.router);
 
   return app;

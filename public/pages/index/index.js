@@ -2,6 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     createSalary();
+    searchCompany();
 
 })
 
@@ -46,12 +47,16 @@ function payRow(id) {
 
 }
 
-document.getElementById("search-input").addEventListener("click", () => {
+function searchCompany() {    
+    var searchButton = document.getElementById("search-input");
 
-    var input = document.getElementById("tags").value;
-    localStorage.setItem("search", `${input}`);
-    return window.location.href = "";
-});
+    searchButton.addEventListener("click", () => {
+
+        var input = document.getElementById("tags").value;
+        localStorage.setItem("search", `${input}`);
+        return window.location.href = "/search";
+    });
+}
 
 $( function() {
     var companies = [
