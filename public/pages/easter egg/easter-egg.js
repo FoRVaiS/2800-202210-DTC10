@@ -90,22 +90,7 @@ function init() {
     World = Matter.World,
     Bodies = Matter.Bodies;
   Composite = Matter.Composite;
-
-  var canvas = document.getElementById("canvas");
-
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  var engine = Engine.create({
-    render: {
-      canvas: canvas,
-    },
-  });
-
-  window.addEventListener("resize", function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
+  var engine = Engine.create();
   World.add(engine.world, [
     Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
     Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
