@@ -27,18 +27,24 @@ function payRow(id) {
         })
             users.forEach(element => {
             if(element.position == currentUserJob) {
-                var tr = main.insertRow();
-                tr.setAttribute("id", `${element.userId}`);
-                var company = tr.insertCell();
-                var gender = tr.insertCell();
-                var age = tr.insertCell();
-                var pay = tr.insertCell();
-                company.appendChild(document.createTextNode(`${element.company}`));
-                gender.appendChild(document.createTextNode(`${"temp"}`));
-                age.appendChild(document.createTextNode(`${"temp"}`));
-                pay.appendChild(document.createTextNode(`${element.salary}`));
+                fetch(`/api/v1/user/${element.userId}`, {
+                    method: "get",
+                    headers: { "Content-Type": "application/json" },
+                }).then(userPersonal => userPersonal.json()).then(userPersonal => {
+                    var tr = main.insertRow();
+                    tr.setAttribute("id", `${element.userId}`);
+                    var company = tr.insertCell();
+                    var gender = tr.insertCell();
+                    var age = tr.insertCell();
+                    var pay = tr.insertCell();
+                    company.appendChild(document.createTextNode(`${element.company}`));
+                    gender.appendChild(document.createTextNode(`${userPersonal.data.gender}`));
+                    age.appendChild(document.createTextNode(`${userPersonal.data.age}`));
+                    pay.appendChild(document.createTextNode(`${element.salary}`));
+                })
 
-                tr.addEventListener("onclick", createReport(element.userId));
+
+                // tr.addEventListener("onclick", createReport(element.userId));
             }
         })
     });
