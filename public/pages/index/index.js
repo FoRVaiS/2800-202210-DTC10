@@ -6,22 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function createSalary() {
 
-    var id;
-
-    fetch("/api/v1/user", {
-        method: "get",
-        headers: { "Content-Type": "application/json" },
-      }).then(data => data.json()).then(data => {
-
-          var users = data.users;
-          
-          users.forEach(element => {
-            if (element.__id == localStorage.getItem("acc")) {
-                id = localStorage.getItem("acc");
-            }
-        });
-      })
-      payRow(id);
+    var id = localStorage.getItem("id");
+    payRow(id);
 }
 
 function payRow(id) {
@@ -33,11 +19,9 @@ function payRow(id) {
         method: "get",
         headers: { "Content-Type": "application/json" },
       }).then(data => data.json()).then(data => {
-        console.log(data)
         var users = data.data;
-        console.log(users)
         users.forEach(element => {
-            if (element.__id == id) {
+            if ((element.userId).localeCompare( id)) {
                 currentUserJob = element.position;
             }
         })
@@ -54,14 +38,7 @@ function payRow(id) {
                 age.appendChild(document.createTextNode(`${"temp"}`));
                 pay.appendChild(document.createTextNode(`${element.salary}`));
 
-                var r = document.createElement("a");
-
-                r.innerHTML = "R";
-                r.addEventListener("onclick", createReport(element.userId));
-
-                var report = tr.insertCell();
-
-                report.appendChild(r);
+                tr.addEventListener("onclick", createReport(element.userId));
             }
         })
     });

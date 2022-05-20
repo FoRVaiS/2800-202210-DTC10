@@ -9,14 +9,16 @@
 
     const email = emailRef.value;
     const password = passwordRef.value;
-    localStorage.setItem("acc", email);
 
     fetch('/api/v1/user/login', {
       method: 'post',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     }).then(data => data.json()).then(data => {
-      if (data.success) return window.location.href = '/';
+      if (data.success) {
+        localStorage.setItem("id", data.data.uid);
+        return window.location.href = '/';
+      } 
 
         const noticeRef = document.querySelector("form > .notice");
         noticeRef.classList.add("notice--alert");
