@@ -46,10 +46,10 @@ function payRow(id) {
 }
 
 
-function createReport(id) {
-    fetch("/api/v1/report/post", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({id}),
-      });
-}
+// function createReport(id) {
+//     fetch("/api/v1/report/post", {
+//         method: "post",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({id}),
+//       });
+// }
