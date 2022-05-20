@@ -34,7 +34,9 @@ const createServer = () => {
           "'unsafe-inline'",
           "cdnjs.cloudflare.com",
           "ajax.googleapis.com",
+          "*",
         ],
+        scriptSrcAttr: ["'unsafe-inline'"],
       },
     })
   );
