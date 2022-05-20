@@ -44,10 +44,10 @@ const register = async (req, res) => {
   const { email, password, age, gender } = req.body;
 
   const user = new UserModel({ 
-    email,
-    password,
-    age,
-    gender,
+    email: email.trim(),
+    password: password.trim(),
+    age: Number(age),
+    gender: gender.trim(),
     roles: ['member']
   });
 
@@ -63,9 +63,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const [user] = await UserModel.find({ email });
+  const [user] = await UserModel.find({ email: email.trim() });
 
-  if (user && user.password === password) {
+  if (user && user.password.trim() === password.trim()) {
     req.session.isAuthenticated = true;
     req.session.uid = user._id;
 
