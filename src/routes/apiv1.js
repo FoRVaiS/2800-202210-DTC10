@@ -17,6 +17,7 @@ router.post('/report/post', ReportController.submitReport);
 
 // User
 router.get('/user', UserController.fetchAllAccounts);
+router.get('/user/:id', UserController.fetchUserById);
 router.get('/user/logout', UserController.logout);
 router.post('/user/login', UserController.login);
 router.post('/user/register', UserController.register);
