@@ -25,6 +25,19 @@ const createServer = () => {
 
   // Inject middleware
   app.use(helmet());
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "cdnjs.cloudflare.com",
+          "ajax.googleapis.com",
+        ],
+      },
+    })
+  );
   app.use(morgan("combined"));
   app.use(express.json());
   app.use(
