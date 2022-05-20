@@ -27,6 +27,7 @@ const createServer = () => {
   app.use(helmet());
   app.use(
     helmet.contentSecurityPolicy({
+      crossOriginEmbedderPolicy: false,
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: [
