@@ -97,7 +97,7 @@ function init() {
     Bodies.rectangle(800, 300, 50, 600, {
       isStatic: true,
     }),
-    Bodies.rectangle(800, 300, 50, window.innerHeight, { isStatic: true }),
+    Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
   ]);
 
   var render = Render.create({
