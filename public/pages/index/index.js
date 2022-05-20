@@ -1,52 +1,90 @@
-// const { append } = require("express/lib/response");
+(() => {
+    document.addEventListener("DOMContentLoaded", () => {
+        createSalary();
+    })
 
-document.addEventListener("DOMContentLoaded", () => {
-    createSalary();
-})
+    function createSalary() {
+        //Change classes to Bootstrap containers
+        var container = document.createElement("div");
+        container.classList.add("salary-box");
 
-function createSalary() {
+        var location = document.createElement("p");
+        location.classList.add("location");
 
+        var title = document.createElement("h3");
+        title.classList.add("job-title");
 
-    //Change classes to Bootstrap containers 
-    var container = document.createElement("div");
-    container.classList.add("salary-box");
+        var salary = document.createElement("h3");
 
-    var location = document.createElement("p");
-    location.classList.add("location");
+        var company = document.createElement("p");
+        company.classList.add("company-title");
 
-    var title = document.createElement("h3");
-    title.classList.add("job-title");
+        var age = document.createElement("p");
+        var gender = document.createElement("p");
+        age.classList.add("small-info");
+        gender.classList.add("small-info");
 
-    var salary = document.createElement("h3");
+        let main = document.getElementById("salary-container");
 
-    var company = document.createElement("p");
-    company.classList.add("company-title");
+        if (main) {
+            fetch("/api/v1/user").then(data => data.json()).then(data => {
+                data.users.forEach(user => {
+                    var id = user.uid;
+                    var report = document.createElement("a");
+                    report.innerHTML = "R";
+                    report.addEventListener("onClick", createReport(id));
+                    main.appendChild(report);
+                });
+            })
+        }
+    }
 
-    var age = document.createElement("p");
-    var gender = document.createElement("p");
-    age.classList.add("small-info");
-    gender.classList.add("small-info");
+    function createReport(id) {
+        fetch("/api/v1/report/post", {
+            method: "post",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id }),
+        });
+    }
 
-    let main = document.getElementById("salary-container");
+    // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
+    let activeTriggerState = null;
 
-    fetch("/api/v1/user", {
-        method: "get",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({uid}),
-      }).then(data => data.json()).then(data => {
-            var id = data.uid;    
-            var report = document.createElement("a");
-            report.innerHTML = "R";
-            report.addEventListener("onClick", createReport(id));
-            main.appendChild(report);
-      })
+    // The amount of clicks to activate the easter egg
+    const EASTER_EGG_MAX_CLICKS = 7;
 
-}
+    // The time in milliseconds the user has to spam the action element to activate the easter egg.
+    const EASTER_EGG_TIMEFRAME_MS = 3000;
 
-function createReport(id) {
-    fetch("/api/v1/report/post", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
-      });
-}
+    function createTriggerState(timeout) {
+        const startTime = (new Date()).getTime();
+        let endTime = startTime + timeout;
+
+        return {
+            clicks: 0,
+            click() {
+                if ((new Date()).getTime() > endTime) activeTriggerState = null;
+
+                this.clicks++;
+            },
+        }
+    }
+
+    const logoRef = document.querySelector('#logo');
+
+    if (logoRef) {
+        logoRef.onclick = () => {
+            if (!activeTriggerState) {
+                activeTriggerState = createTriggerState(EASTER_EGG_TIMEFRAME_MS);
+            }
+
+            activeTriggerState.click();
+
+            if (activeTriggerState && activeTriggerState.clicks > EASTER_EGG_MAX_CLICKS) {
+                activeTriggerState = null;
+
+                window.location.href = '/easter-egg';
+            };
+        }
+    }
+})();
