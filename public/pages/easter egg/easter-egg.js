@@ -5,13 +5,8 @@ function countDown() {
   console.log("Counting down!");
   const secretFound = document.createElement("div");
   secretFound.classList.add("secretFound");
-  $("body").html(
-    "<div id='secret-found'><h1>Initiating Countdown Sequence</h1></div>"
-  ) +
-    $("body").append(
-      "<div id='image'><img src='/pages/images/easterEggExplodey.png'</img></div>"
-    ) +
-    $("body").append(
+  $("#inner-container").html("<div id='secret-found'></div>") +
+    $("#inner-container").append(
       "<div id='secretCodeInput'><input type='tel' id='secretCode'></input></div>"
     );
   //countdown from 10 to 1
@@ -26,18 +21,25 @@ function numbersCounting() {
       $("#secret-found").text(numbers[i]);
       setTimeout(numbersCounting, 1000);
     } else {
-      $("#image").html("<h1>Oh the Humanity!!</h1>");
+      explosion();
       $("#secretCodeInput").html("");
     }
   }, 1000);
 }
 
+function explosion() {
+  document.getElementById("outer-container").style.backgroundImage =
+    "url('/pages/images/afterExplosion.png')";
+}
+
 function easterEgg() {
   console.log("Easter egg is working!");
   //script showing the easter egg
-  $("body").html(
-    `<div class="easter-egg"><h1>You found the easter egg!</h1><h2>Please do not touch anything</h2>` +
-      `<button class="easterEggButton" onclick="buttonPressed()">I'm Warning You...</button>`
+  $("#inner-container").html(
+    `<a onclick="buttonPressed()">` +
+      `<div class="easterEggButton">` +
+      `</div>` +
+      `</a>`
   );
 }
 easterEgg();
@@ -63,6 +65,26 @@ function defusal() {
 
 function init() {
   $("body").html("");
+  if (window.DeviceOrientationEvent) {
+    var deviceOrientationHandler = function (event) {
+      var pitch = (Math.PI * event.beta) / 180;
+      var roll = (Math.PI * event.gamma) / 180;
+
+      var acc = {
+        x: Math.cos(pitch) * Math.sin(roll) * GRAVITY,
+        y: Math.sin(pitch) * GRAVITY,
+      };
+
+      world.one("step", function () {
+        acceleration.setAcceleration(acc);
+      });
+    };
+    window.addEventListener(
+      "deviceorientation",
+      deviceOrientationHandler,
+      false
+    );
+  }
   var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
