@@ -65,26 +65,6 @@ function defusal() {
 
 function init() {
   $("body").html("");
-  if (window.DeviceOrientationEvent) {
-    var deviceOrientationHandler = function (event) {
-      var pitch = (Math.PI * event.beta) / 180;
-      var roll = (Math.PI * event.gamma) / 180;
-
-      var acc = {
-        x: Math.cos(pitch) * Math.sin(roll) * GRAVITY,
-        y: Math.sin(pitch) * GRAVITY,
-      };
-
-      world.one("step", function () {
-        acceleration.setAcceleration(acc);
-      });
-    };
-    window.addEventListener(
-      "deviceorientation",
-      deviceOrientationHandler,
-      false
-    );
-  }
   var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
