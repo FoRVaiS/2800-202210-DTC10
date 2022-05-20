@@ -1,5 +1,10 @@
-const req = require('express/lib/request');
 const UserController = require('../../src/controllers/user.controller');
+
+const { createSuccessPayload } = require('../../src/utils/createSuccessPayload');
+jest.mock('../../src/utils/createSuccessPayload');
+
+const { createErrorPayload } = require('../../src/utils/createErrorPayload');
+jest.mock('../../src/utils/createErrorPayload');
 
 const { UserModel } = require('../../src/models/user.model');
 jest.mock('../../src/models/user.model');
@@ -19,18 +24,18 @@ const fakeRes = {
 };
 
 describe('UserController', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('fetchAllAccounts', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should return a warning when a non-admin user attempts to access the endpoint', async () => {
       UserModel.findById.mockReturnValue({ roles: [ 'member' ] });
-
+      
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
-      expect(jsonMock).toHaveBeenCalledWith({ success: false });
-      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(createErrorPayload).toHaveBeenCalledWith('User must be an admin to access this resource.');
+      expect(createErrorPayload).toHaveBeenCalledTimes(1);
       expect(statusMock).toHaveBeenCalledWith(403);
       expect(statusMock).toHaveBeenCalledTimes(1);
     });
@@ -47,14 +52,18 @@ describe('UserController', () => {
 
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
-      expect(jsonMock).toHaveBeenCalledWith({ success: true, users: [ fakeUser ] });
-      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(createSuccessPayload).toHaveBeenCalledWith([fakeUser]);
+      expect(createSuccessPayload).toHaveBeenCalledTimes(1);
       expect(statusMock).toHaveBeenCalledWith(200);
       expect(statusMock).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('register', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should create a new user given an email and password', async () => {
       const fakeReq = {
         ...baseReq,
@@ -71,19 +80,19 @@ describe('UserController', () => {
       expect(UserModel.mock.calls[0][0].password).toEqual(fakeReq.body.password);
     });
 
-    it('should send an error when an email or password is empty', async () => {
+    it('should send an error when an email is empty', async () => {
       const fakeReq = {
         ...baseReq,
         body: {
           email: '',
-          password: '',
+          password: '123',
         },
       };
 
       await UserController.register(fakeReq, fakeRes);
 
-      expect(jsonMock.mock.calls[0][0].status).toBe(false);
-      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(createErrorPayload).toHaveBeenCalledWith('The field \'email\' is required to be a string');
+      expect(createErrorPayload).toHaveBeenCalledTimes(1);
       expect(statusMock).toHaveBeenCalledWith(400);
       expect(statusMock).toHaveBeenCalledTimes(1);
     });
@@ -99,12 +108,18 @@ describe('UserController', () => {
 
       await UserController.register(fakeReq, fakeRes);
 
-      expect(jsonMock.mock.calls[0][0].roles).toStrictEqual(['member']);
-      expect(jsonMock).toHaveBeenCalledTimes(1);
+      expect(createSuccessPayload.mock.calls[0][0].roles).toStrictEqual(['member']);
+      expect(createSuccessPayload).toHaveBeenCalledTimes(1);
+      expect(statusMock).toHaveBeenCalledWith(200);
+      expect(statusMock).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('login', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('should send an acknowledgment when the user is successfully authenticated', async () => {
       const fakeUser = {
         email: 'user@example.com',
@@ -120,7 +135,7 @@ describe('UserController', () => {
 
       await UserController.login(fakeReq, fakeRes);
 
-      expect(jsonMock.mock.calls[0][0].success).toEqual(true);
+      expect(jsonMock.mock.calls[0][0]).toEqual(true);
       expect(jsonMock).toHaveBeenCalledTimes(1);
       expect(statusMock).toHaveBeenCalledWith(200);
       expect(statusMock).toHaveBeenCalledTimes(1);
