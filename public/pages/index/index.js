@@ -82,12 +82,9 @@ function payRow(id) {
         headers: { "Content-Type": "application/json" },
       }).then(data => data.json()).then(data => {
         var users = data.data;
-        console.log(id);
-        users.forEach(element => {console.log(element.userId);
+        users.forEach(element => {
             if (element.userId === id) {
-              
                 currentUserJob = element.position;
-                console.log(element)
                 userInfo(element);
             }
         })
@@ -98,7 +95,7 @@ function payRow(id) {
                     headers: { "Content-Type": "application/json" },
                 }).then(userPersonal => userPersonal.json()).then(userPersonal => {
                     var tr = main.insertRow();
-                    tr.setAttribute("id", `${element.userId}`);
+                    tr.setAttribute("id", `${element.postId}`);
                     var company = tr.insertCell();
                     var gender = tr.insertCell();
                     var age = tr.insertCell();
@@ -110,7 +107,10 @@ function payRow(id) {
                     reportButton.classList.add("btn");
                     reportButton.classList.add("btn-danger");
                     reportButton.classList.add("btn-sm");
-                    reportButton.onclick = createReport(element.userId);
+
+                    reportButton.addEventListener("click", () => {
+                        createReport(element.id);
+                    })
                     reportButton.innerHTML = "Report";
                     company.appendChild(document.createTextNode(`${element.company}`));
                     gender.appendChild(document.createTextNode(`${userPersonal.data.gender}`));
