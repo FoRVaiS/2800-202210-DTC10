@@ -17,8 +17,10 @@
     })
       .then((data) => data.json())
       .then((data) => {
-        if (data.success) return (window.location.href = "/");
-
+        if (data.success) {
+          localStorage.setItem("acc", `${email}`);
+          return (window.location.href = "/");
+        }
         const noticeRef = document.querySelector("form > .notice");
         noticeRef.classList.add("notice--alert");
 

@@ -49,6 +49,16 @@
 })();
 
 
+function userInfo(data) {
+    var userBox = document.getElementById("userInfo");
+    var company = document.createElement("h3");
+    var position = document.createElement("h4");
+    var pay = document.createElement("h2");
+
+    // company.textContent = `Company: ${data.}`
+}
+
+
 function payRow(id) {
 
     var main = document.getElementById("Pay-Table");
@@ -59,9 +69,13 @@ function payRow(id) {
         headers: { "Content-Type": "application/json" },
       }).then(data => data.json()).then(data => {
         var users = data.data;
-        users.forEach(element => {
-            if ((element.userId).localeCompare( id)) {
+        console.log(id);
+        users.forEach(element => {console.log(element.userId);
+            if (element.userId === id) {
+              
                 currentUserJob = element.position;
+                console.log(element)
+                userInfo(element);
             }
         })
             users.forEach(element => {
@@ -76,14 +90,24 @@ function payRow(id) {
                     var gender = tr.insertCell();
                     var age = tr.insertCell();
                     var pay = tr.insertCell();
+                    var report = tr.insertCell();
+
+                    var reportButton = document.createElement("button");
+                    reportButton.type = "button";
+                    reportButton.classList.add("btn");
+                    reportButton.classList.add("btn-danger");
+                    reportButton.classList.add("btn-sm");
+                    reportButton.onclick = createReport(element.userId);
+                    reportButton.innerHTML = "Report";
                     company.appendChild(document.createTextNode(`${element.company}`));
                     gender.appendChild(document.createTextNode(`${userPersonal.data.gender}`));
                     age.appendChild(document.createTextNode(`${userPersonal.data.age}`));
                     pay.appendChild(document.createTextNode(`${element.salary}`));
+                    report.appendChild(reportButton);
                 })
 
 
-                // tr.addEventListener("onclick", createReport(element.userId));
+               
             }
         })
     });
@@ -91,11 +115,11 @@ function payRow(id) {
 }
 
 
-// function createReport(id) {
-//     fetch("/api/v1/report/post", {
-//         method: "post",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({id}),
-//       });
-// }
+function createReport(id) {
+    fetch("/api/v1/report/post", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({id}),
+      });
+}
 
