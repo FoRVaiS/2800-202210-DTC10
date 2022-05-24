@@ -30,6 +30,7 @@ const createServer = () => {
     helmet.contentSecurityPolicy({
       crossOriginEmbedderPolicy: false,
       directives: {
+        "img-src": ["'self'", "https: data:"],
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",

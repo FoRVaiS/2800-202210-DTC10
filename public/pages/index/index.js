@@ -46,6 +46,7 @@
 
   var id = localStorage.getItem("id");
   payRow(id);
+  searchCompany();
 })();
 
 
@@ -129,9 +130,7 @@ function payRow(id) {
 
 function searchCompany() {    
     var searchButton = document.getElementById("search-input");
-
     searchButton.addEventListener("click", () => {
-
         var input = document.getElementById("tags").value;
         localStorage.setItem("search", `${input}`);
         return window.location.href = "/search";
