@@ -1,13 +1,13 @@
-const { userModel } = require('../models/user.model');
+const { UserModel } = require('../models/user.model');
 
 const fetchAllAccounts = async (req, res) => {
   const { uid } = req.session;
 
-  const user = await userModel.findById(uid);
+  const user = await UserModel.findById(uid);
 
   if (!user?.roles.includes('admin')) return res.status(403).json({ success: false });
 
-  const users = await userModel.find({}, { __v: 0 });
+  const users = await UserModel.find({}, { __v: 0 });
 
   res.status(200).json({
     success: true,
@@ -18,7 +18,7 @@ const fetchAllAccounts = async (req, res) => {
 const fetchUserById = async (req, res) => {
   const { id } = req.params;
 
-  const [user] = await userModel.find({ _id: id });
+  const [user] = await UserModel.find({ _id: id });
 
   if (!user) return res.status(500).json({ 
     success: false, 
@@ -43,11 +43,11 @@ const register = async (req, res) => {
   // TODO: Administrators need a special sign-up process, perhaps an admin token could be supplied with the request?
   const { email, password, age, gender } = req.body;
 
-  const user = new userModel({ 
-    email,
-    password,
-    age,
-    gender,
+  const user = new UserModel({ 
+    email: email.trim(),
+    password: password.trim(),
+    age: Number(age),
+    gender: gender.trim(),
     roles: ['member']
   });
 
@@ -63,9 +63,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const [user] = await userModel.find({ email });
+  const [user] = await UserModel.find({ email: email.trim() });
 
-  if (user && user.password === password) {
+  if (user && user.password.trim() === password.trim()) {
     req.session.isAuthenticated = true;
     req.session.uid = user._id;
 

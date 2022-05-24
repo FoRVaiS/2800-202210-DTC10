@@ -1,9 +1,10 @@
 const { model, Schema } = require('mongoose');
 
-const reportSchema = new Schema({
-  postId: Number,
+const ReportSchema = new Schema({
+  postId: String,
+  reporterId: String
 });
 
-const reportModel = model('report', reportSchema);
+const ReportModel = model('report', ReportSchema);
 
-module.exports = { reportModel };
+module.exports = { ReportModel };
