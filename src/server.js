@@ -37,6 +37,7 @@ const createServer = () => {
           "ajax.googleapis.com",
           "*"
         ],
+        scriptSrcAttr: ["'unsafe-inline'"],
       },
     })
   );

@@ -23,6 +23,7 @@
         }
         const noticeRef = document.querySelector("form > .notice");
         noticeRef.classList.add("notice--alert");
+        noticeRef.innerHTML = "";
 
         const alertText = document.createElement("p");
         alertText.textContent = data.msg;

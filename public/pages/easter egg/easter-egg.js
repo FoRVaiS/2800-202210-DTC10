@@ -65,26 +65,6 @@ function defusal() {
 
 function init() {
   $("body").html("");
-  if (window.DeviceOrientationEvent) {
-    var deviceOrientationHandler = function (event) {
-      var pitch = (Math.PI * event.beta) / 180;
-      var roll = (Math.PI * event.gamma) / 180;
-
-      var acc = {
-        x: Math.cos(pitch) * Math.sin(roll) * GRAVITY,
-        y: Math.sin(pitch) * GRAVITY,
-      };
-
-      world.one("step", function () {
-        acceleration.setAcceleration(acc);
-      });
-    };
-    window.addEventListener(
-      "deviceorientation",
-      deviceOrientationHandler,
-      false
-    );
-  }
   var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
@@ -94,12 +74,9 @@ function init() {
   World.add(engine.world, [
     Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
     Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
-    Bodies.rectangle(800, 300, 50, 600, {
-      isStatic: true,
-    }),
+    Bodies.rectangle(0, 300, 50, 600, { isStatic: true }),
     Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
   ]);
-
   var render = Render.create({
     element: document.body,
     engine: engine,
