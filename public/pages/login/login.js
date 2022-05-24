@@ -19,6 +19,7 @@
       .then((data) => {
         if (data.success) {
           localStorage.setItem("acc", `${email}`);
+          localStorage.setItem("id", `${data.data.uid}`)
           return (window.location.href = "/");
         }
         const noticeRef = document.querySelector("form > .notice");

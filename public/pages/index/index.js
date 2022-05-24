@@ -50,12 +50,25 @@
 
 
 function userInfo(data) {
+    var jobBox = document.createElement("div");
+    jobBox.classList.add("d-flex");
+    jobBox.classList.add("align-items-start");
+    jobBox.classList.add("flex-column");
     var userBox = document.getElementById("userInfo");
     var company = document.createElement("h3");
     var position = document.createElement("h4");
     var pay = document.createElement("h2");
-
-    // company.textContent = `Company: ${data.}`
+    var payBox = document.createElement("div");
+    payBox.classList.add("d-flex");
+    payBox.classList.add("justify-content-center");
+    payBox.appendChild(pay);
+    company.textContent = `Company: ${data.company}`
+    position.textContent = `Position: ${data.position}`
+    pay.textContent = `$${data.salary}/hr`
+    jobBox.appendChild(company);
+    jobBox.appendChild(position);
+    userBox.appendChild(jobBox);
+    userBox.appendChild(payBox);
 }
 
 
