@@ -22,7 +22,7 @@ const submitReport = async (req, res) => {
     msg: "postId must not be empty.",
   });
 
-  const report = new ReportModel({ postId, reporterId: req.session.uid });
+  const report = new ReportModel({postId: postId, reporterId: req.session.uid });
 
   await report.save();
 

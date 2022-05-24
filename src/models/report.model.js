@@ -1,7 +1,8 @@
 const { model, Schema } = require('mongoose');
 
 const ReportSchema = new Schema({
-  postId: Number,
+  postId: String,
+  reporterId: String
 });
 
 const ReportModel = model('report', ReportSchema);

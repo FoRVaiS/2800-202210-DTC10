@@ -109,7 +109,7 @@ function payRow(id) {
                     reportButton.classList.add("btn-sm");
 
                     reportButton.addEventListener("click", () => {
-                        createReport(element.id);
+                        createReport(element.postId);
                     })
                     reportButton.innerHTML = "Report";
                     company.appendChild(document.createTextNode(`${element.company}`));
@@ -128,11 +128,12 @@ function payRow(id) {
 }
 
 
-function createReport(id) {
+function createReport(postId) {
+  console.log(postId)
     fetch("/api/v1/report/post", {
         method: "post",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({id}),
+        body: JSON.stringify({ postId }),
       });
 }
 
