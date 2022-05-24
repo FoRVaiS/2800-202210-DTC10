@@ -11,5 +11,6 @@ router.get('/', HomeController.renderHomePage);
 router.get('/easter-egg', EasterController.renderEasterEggPage);
 router.get('/register', UserController.renderRegistrationPage);
 router.get('/login', UserController.renderLoginPage);
+router.get('/admin', UserController.renderAdminPage);
 
 module.exports = { router };
