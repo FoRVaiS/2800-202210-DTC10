@@ -44,6 +44,13 @@
     };
   }
 
+  // Create listener to redirect to form submission
+  const addToSalaryBtn = document.querySelector('#in-add-to-salary');
+
+  if (addToSalaryBtn) {
+    addToSalaryBtn.onclick = () => window.location.href = '/form/salary';
+  }
+
   var id = localStorage.getItem("id");
   payRow(id);
   searchCompany();
