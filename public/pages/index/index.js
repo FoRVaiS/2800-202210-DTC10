@@ -1,5 +1,3 @@
-// const { table } = require("console");
-
 (() => {
   // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
   let activeTriggerState = null;
@@ -56,21 +54,36 @@
 
 
 function userInfo(data) {
+
     var jobBox = document.createElement("div");
     jobBox.classList.add("d-flex");
     jobBox.classList.add("align-items-start");
     jobBox.classList.add("flex-column");
+
     var userBox = document.getElementById("userInfo");
     var company = document.createElement("h3");
+    var companyName = document.createElement("small");
+    var positionName = document.createElement("small");
+
+    companyName.textContent = `${data.company}`;
+    companyName.classList.add("text-muted");
+    positionName.textContent = `${data.position}`;
+    positionName.classList.add("text-muted");
+
     var position = document.createElement("h4");
     var pay = document.createElement("h2");
     var payBox = document.createElement("div");
+
     payBox.classList.add("d-flex");
     payBox.classList.add("justify-content-center");
     payBox.appendChild(pay);
-    company.textContent = `Company: ${data.company}`
-    position.textContent = `Position: ${data.position}`
+
+    company.textContent = `Company: `
+    company.appendChild(companyName);
+    position.textContent = `Position: `
+    position.appendChild(positionName);
     pay.textContent = `$${data.salary}/hr`
+
     jobBox.appendChild(company);
     jobBox.appendChild(position);
     userBox.appendChild(jobBox);
@@ -103,10 +116,12 @@ function payRow(id) {
                     var tr = main.insertRow();
                     tr.setAttribute("id", `${element.postId}`);
                     var company = tr.insertCell();
+                    var location = tr.insertCell();
                     var gender = tr.insertCell();
                     var age = tr.insertCell();
                     var pay = tr.insertCell();
                     var report = tr.insertCell();
+                    
 
                     var reportButton = document.createElement("button");
                     reportButton.type = "button";
@@ -119,6 +134,7 @@ function payRow(id) {
                     })
                     reportButton.innerHTML = "Report";
                     company.appendChild(document.createTextNode(`${element.company}`));
+                    location.appendChild(document.createTextNode(`${element.location}`));
                     gender.appendChild(document.createTextNode(`${userPersonal.data.gender}`));
                     age.appendChild(document.createTextNode(`${userPersonal.data.age}`));
                     pay.appendChild(document.createTextNode(`${element.salary}`));
