@@ -17,12 +17,12 @@ const fetchAllReports = async (req, res) => {
 const submitReport = async (req, res) => {
   const { postId } = req.body;
 
-  if (!postId || !postId.match(/^\d+$/g)) return res.status(400).json({
+  if (!postId) return res.status(400).json({
     success: false,
-    msg: "postId must be an integer",
+    msg: "postId must not be empty.",
   });
 
-  const report = new ReportModel({ postId });
+  const report = new ReportModel({postId: postId, reporterId: req.session.uid });
 
   await report.save();
 

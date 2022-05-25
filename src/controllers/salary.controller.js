@@ -115,11 +115,13 @@ const convertToSalaryData = (company) => {
   for (const location of company.locations) {
     for (const salary of location.salaries) {
       salaryData.push({
+        postId: salary._id,
         company: company.name,
         location: location.name,
         position: salary.position,
         userId: salary.userId,
-        salary: salary.salary
+        salary: salary.salary,
+        reported: salary.reported,
       });
     };
   }

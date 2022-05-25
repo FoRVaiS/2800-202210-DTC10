@@ -102,4 +102,8 @@ const renderRegistrationPage = (req, res) => {
   res.render('pages/register/register.ejs');
 };
 
-module.exports = { fetchAllAccounts, fetchUserById, login, logout, register, renderLoginPage, renderRegistrationPage };
+const renderAdminPage = (req, res) => {
+  res.render('pages/admin/admin.ejs');
+}
+
+module.exports = { fetchAllAccounts, fetchUserById, login, logout, register, renderLoginPage, renderRegistrationPage, renderAdminPage };

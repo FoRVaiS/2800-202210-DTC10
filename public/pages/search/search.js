@@ -1,63 +1,74 @@
-(() => {
-  // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
-  let activeTriggerState = null;
-
-  // The amount of clicks to activate the easter egg
-  const EASTER_EGG_MAX_CLICKS = 7;
-
-  // The time in milliseconds the user has to spam the action element to activate the easter egg.
-  const EASTER_EGG_TIMEFRAME_MS = 3000;
-
-  function createTriggerState(timeout) {
-    const startTime = new Date().getTime();
-    let endTime = startTime + timeout;
-
-    return {
-      clicks: 0,
-      click() {
-        if (new Date().getTime() > endTime) activeTriggerState = null;
-
-        this.clicks++;
-      },
-    };
-  }
-
-  // easter egg action trigger event script below
-  const logoRef = document.querySelector("#logo");
-
-  if (logoRef) {
-    logoRef.onclick = () => {
-      if (!activeTriggerState) {
-        activeTriggerState = createTriggerState(EASTER_EGG_TIMEFRAME_MS);
-      }
-
-      activeTriggerState.click();
-
-      if (
-        activeTriggerState &&
-        activeTriggerState.clicks > EASTER_EGG_MAX_CLICKS
-      ) {
-        activeTriggerState = null;
-
-        window.location.href = "/easter-egg";
-      }
-    };
-  }
-
-  // Create listener to redirect to form submission
-  const addToSalaryBtn = document.querySelector('#in-add-to-salary');
-
-  if (addToSalaryBtn) {
-    addToSalaryBtn.onclick = () => window.location.href = '/form/salary';
-  }
-
+document.addEventListener("DOMContentLoaded", () => {
+  // createMap();
   var id = localStorage.getItem("id");
   payRow(id);
   searchCompany();
-})();
+
+ var data =[
+   {"loc": [49.250889, -123.004410], "title": "BCIT"},
+   {"loc": [49.218260, -123.077500], "title": "McDonald's"},
+   {"loc": [49.206160, -123.125500], "title": "McDonald's"},
+   {"loc": [49.198810, -122.981630], "title": "McDonald's"},
+   {"loc": [49.227009, -123.000290], "title": "Winners"},
+   {"loc": [49.2344482,-123.195723], "title": "Winners"},
+   {"loc": [49.175152,-123.1322004], "title": "Winners"},
+   {"loc": [49.2810216,-123.07462], "title": "No Frills"},
+   {"loc": [49.2678023,-123.1428569], "title": "No Frills"},
+   {"loc": [49.1647273,-122.797229], "title": "No Frills"},
+   {"loc": [49.22694396972656,-123.09074401855469], "title": "Shoppers Drug Mart"},
+   {"loc": [49.229635,-122.964486], "title": "Shoppers Drug Mart"},
+   {"loc": [49.206356048583984,-123.0309829711914], "title": "Shoppers Drug Mart"},
+   {"loc": [49.2735057,-122.7939624], "title": "Real Canadian Superstore"},
+   {"loc": [49.2260065,-123.002356], "title": "Real Canadian Superstore"},
+   {"loc": [49.1797165,-123.1392749], "title": "Real Canadian Superstore"}
+  ];
 
 
-function userInfo(data) {
+  var map = L.map('map');
+  // map.locate({setView : true});
+  var markersLayer = new L.LayerGroup();	//layer contain searched elements
+  map.addLayer(markersLayer);
+  var search = localStorage.getItem("search");
+  var lastOption;
+  
+  for(i in data) {
+    if (data[i].title === search) {
+        var title = data[i].title,	//value searched
+        loc = data[i].loc,		//position found
+        marker = new L.Marker(new L.latLng(loc), {title: title} );//se property searched
+        marker.bindPopup('title: '+ title );
+        markersLayer.addLayer(marker);
+        lastOption = L.latLng(loc);
+    }
+  }
+  L.tileLayer('/proxy/api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}/?access_token=pk.eyJ1Ijoic2hleWJhcnBhZ2dhIiwiYSI6ImNsM2M4OXBhejAxenMza2ttMG9sY2hmZWUifQ.gROseElh69DhGrFREjMSPg', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'your.mapbox.access.token',
+    center: lastOption
+}).addTo(map);
+map.setView(lastOption, 13)
+
+})
+
+$( function() {
+    var availableTags = [
+      "McDonald's",
+      "No Frills",
+      "Real Canadian Superstore",
+      "Winners",
+      "Shopper's Drug Mart"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  } );
+
+ 
+  function userInfo(data) {
     var jobBox = document.createElement("div");
     jobBox.classList.add("d-flex");
     jobBox.classList.add("align-items-start");
@@ -82,8 +93,7 @@ function userInfo(data) {
 function payRow(id) {
 
     var main = document.getElementById("Pay-Table");
-    var currentUserJob;
-
+    var currentUserJob = localStorage.getItem("search");
 
     fetch("/api/v1/salary", {
         method: "get",
@@ -91,14 +101,12 @@ function payRow(id) {
       }).then(data => data.json()).then(data => {
         var users = data.data;
         users.forEach(element => {        
-
             if (element.userId === id) {
-                currentUserJob = element.position;
                 userInfo(element);
             }
         })
             users.forEach(element => {
-            if(element.position == currentUserJob) {
+            if(element.company === currentUserJob) {
                 fetch(`/api/v1/user/id/${element.userId}`, {
                     method: "get",
                     headers: { "Content-Type": "application/json" },
@@ -110,8 +118,6 @@ function payRow(id) {
                     var age = tr.insertCell();
                     var pay = tr.insertCell();
                     var report = tr.insertCell();
-
-
 
                     var reportButton = document.createElement("button");
                     reportButton.type = "button";
@@ -147,27 +153,6 @@ function searchCompany() {
     });
 }
 
-$( function() {
-    var companies = [
-        "McDonald's",
-        "No Frills",
-        "Real Canadian Superstore",
-        "Winners",
-        "Shopper's Drug Mart"
-    ];
-    $( "#tags" ).autocomplete({
-      source: companies
-    });
-  } );
 
 
-
-function createReport(postId) {
-  console.log(postId)
-    fetch("/api/v1/report/post", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postId }),
-      });
-}
-
+  
