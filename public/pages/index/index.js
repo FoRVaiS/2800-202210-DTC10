@@ -130,6 +130,7 @@ function payRow(id) {
 
 function createReport(postId) {
   document.getElementById(postId).remove();
+  $('#report-modal').modal('show')
     fetch("/api/v1/report/post", {
         method: "post",
         headers: { "Content-Type": "application/json" },
