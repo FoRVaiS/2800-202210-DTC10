@@ -121,3 +121,24 @@ function fetchUsers() {
     });
 }
 fetchUsers();
+
+//fetch all posts from database with boolean reported = True and display them in the table
+function fetchReports() {
+  fetch("/api/v1/post", {
+    method: "get",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((data) => data.json())
+    .then((data) => {
+      var posts = data.data;
+      var main = document.getElementById("reported-posts");
+      posts.forEach((element) => {
+        if (element.reported == true) {
+          var tr = main.insertRow();
+          tr.setAttribute("id", `${element.id}`);
+          var company = tr.insertCell();
+        }
+      });
+    });
+}
+fetchReports();
