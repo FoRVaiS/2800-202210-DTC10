@@ -17,6 +17,7 @@
     />
     <link rel="stylesheet" href="/pages/admin/admin.css" />
   </head>
+  <!-- navbar skeleton from https://codepen.io/dcode-software/pen/GRodxJY-->
   <body class="preload">
     <header class="header">
       <button class="header__button" id="btnNav" type="button">
@@ -86,17 +87,28 @@
           </div>
         </div>
       </section>
+      <div class="jumbotron jumbotron-fluid">
+        <h1 class="display-4">All Users</h1>
       <section id="section-3">
-        <div class="jumbotron jumbotron-fluid">
           <div class="container">
-            <h1 class="display-4">All Users</h1>
-            <div id="all-users">
-              This is a modified jumbotron that occupies the entire horizontal
-              space of its parent.
-            </div>
+            <table id="all-users">
+              <thead>
+                <tr>
+                  <th>
+                    ID
+                  </th>
+                  <th>
+                    Email
+                  </th>
+                  <th>
+                    Role
+                  </th>
+                </tr>
+              </thead>
+            </table>
           </div>
-        </div>
       </section>
+    </div>
     </main>
   </body>
   <script src="pages/admin/admin.js"></script>

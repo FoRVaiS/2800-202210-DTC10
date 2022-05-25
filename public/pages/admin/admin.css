@@ -97,3 +97,8 @@ body {
     background-size: cover;
     height: 100vh;
   }
+  #section-3{
+      overflow: scroll;
+      height: 70vh;
+      border: solid 1px #ccc;
+  }
