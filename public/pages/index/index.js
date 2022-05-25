@@ -129,7 +129,7 @@ function payRow(id) {
 
 
 function createReport(postId) {
-  console.log(postId)
+  document.getElementById(postId).remove();
     fetch("/api/v1/report/post", {
         method: "post",
         headers: { "Content-Type": "application/json" },
