@@ -1,3 +1,5 @@
+// const { table } = require("console");
+
 (() => {
   // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
   let activeTriggerState = null;
@@ -46,6 +48,10 @@
 
   var id = localStorage.getItem("id");
   payRow(id);
+
+  document.getElementById("sort").addEventListener("click", () => {
+    sortTable();
+  })
 })();
 
 
@@ -138,3 +144,21 @@ function createReport(postId) {
       });
 }
 
+
+function sortTable() {
+  myTable = document.getElementById("Pay-Table");
+  swap = true;
+  rows = myTable.rows;
+  while(swap) {
+    swap = false;
+    for(var x = 1; x < (rows.length - 1); x++) {
+      curRow = rows[x].getElementsByTagName("td")[3];
+      nextRow = rows[(x + 1)].getElementsByTagName("td")[3];
+      if(Number(curRow.innerHTML) > Number(nextRow.innerHTML)) {
+        rows[x].parentNode.insertBefore(rows[x + 1], rows[x]);
+        swap = true;
+        break;
+      }
+    }
+  }
+}
