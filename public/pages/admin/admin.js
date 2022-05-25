@@ -103,21 +103,28 @@ function payRow(id) {
     });
 }
 
-//fetch all users from database and display them in the table
-function fetchUsers() {
-  fetch("/api/v1/user", {
+//fetch all users from database and display id, email, role in table
+function userTable() {
+  fetch(`/api/v1/user`, {
     method: "get",
     headers: { "Content-Type": "application/json" },
   })
     .then((data) => data.json())
     .then((data) => {
-      var users = data.data;
-      var main = document.getElementById("all-users");
+      console.log(data);
+      var table = document.getElementById("all-users");
+      var users = data.users;
       users.forEach((element) => {
-        var tr = main.insertRow();
+        var tr = table.insertRow();
         tr.setAttribute("id", `${element.id}`);
-        var company = tr.insertCell();
+        var id = tr.insertCell();
+        var email = tr.insertCell();
+        var role = tr.insertCell();
+
+        id.appendChild(document.createTextNode(`${element._id}`));
+        email.appendChild(document.createTextNode(`${element.email}`));
+        role.appendChild(document.createTextNode(`${element.roles}`));
       });
     });
 }
-fetchUsers();
+userTable();
