@@ -54,6 +54,10 @@
   var id = localStorage.getItem("id");
   payRow(id);
   searchCompany();
+
+  document.getElementById("sort").addEventListener("click", () => {
+    sortTable();
+  })
 })();
 
 
@@ -163,7 +167,8 @@ $( function() {
 
 
 function createReport(postId) {
-  console.log(postId)
+  document.getElementById(postId).remove();
+  $('#report-modal').modal('show')
     fetch("/api/v1/report/post", {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -171,3 +176,21 @@ function createReport(postId) {
       });
 }
 
+
+function sortTable() {
+  myTable = document.getElementById("Pay-Table");
+  swap = true;
+  rows = myTable.rows;
+  while(swap) {
+    swap = false;
+    for(var x = 1; x < (rows.length - 1); x++) {
+      curRow = rows[x].getElementsByTagName("td")[3];
+      nextRow = rows[(x + 1)].getElementsByTagName("td")[3];
+      if(Number(curRow.innerHTML) > Number(nextRow.innerHTML)) {
+        rows[x].parentNode.insertBefore(rows[x + 1], rows[x]);
+        swap = true;
+        break;
+      }
+    }
+  }
+}
