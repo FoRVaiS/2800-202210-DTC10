@@ -1,13 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/pages/admin/admin.css">
-  <title>Admin Dashboard</title>
-</head>
-<body>
-  <script src="/pages/admin/admin.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/pages/admin/admin.css" />
+    <title>Admin Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" href="/pages/admin/admin.css" />
+  </head>
+  <!-- navbar skeleton from https://codepen.io/dcode-software/pen/GRodxJY-->
+  <body class="preload">
+    <header class="header">
+      <button class="header__button" id="btnNav" type="button">
+        <i class="material-icons">menu</i>
+      </button>
+    </header>
+    <nav class="nav">
+      <div class="nav__links">
+        <a href="/admin" class="nav__link">
+          <i class="material-icons">dashboard</i>
+          Dashboard
+        </a>
+        <a class="nav__link nav__link--active" href="#section-1">
+          <i class="material-icons">summarize</i>
+          All Posts
+        </a>
+        <a class="nav__link" href="#section-2">
+          <i class="material-icons">report</i>
+          Reported Posts
+        </a>
+        <a class="nav__link" href="#section-3">
+          <i class="material-icons">person</i>
+          All Users
+        </a>
+      </div>
+      <div class="nav__overlay"></div>
+    </nav>
+    <main>
+      <section id="section-1">
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">All Posts</h1>
+            <div id="all-posts">
+              <div class="d-flex justify-content-center w-75 border">
+                <table id="Pay-Table" class="table">
+                  <thead>
+                    <tr>
+                      <th>
+                        Company name
+                      </th>
+                      <th>
+                        Gender
+                      </th>
+                      <th>
+                        Age
+                      </th>
+                      <th>
+                        Pay ($/hr)
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="section-2">
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">Reported Posts</h1>
+            <div id="reported-posts">
+              This is a modified jumbotron that occupies the entire horizontal
+              space of its parent.
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="jumbotron jumbotron-fluid">
+        <h1 class="display-4">All Users</h1>
+      <section id="section-3">
+          <div class="container">
+            <table id="all-users">
+              <thead>
+                <tr>
+                  <th>
+                    ID
+                  </th>
+                  <th>
+                    Email
+                  </th>
+                  <th>
+                    Role
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+      </section>
+    </div>
+    </main>
+  </body>
+  <script src="pages/admin/admin.js"></script>
 </html>
