@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 // Routes
 const viewsRouter = require("./routes/views");
 const apiv1Router = require("./routes/apiv1");
+const proxyRouter = require("./routes/proxy");
 
 const webRoot = path.join(__dirname, "..", "public");
 
@@ -23,12 +24,14 @@ const createServer = () => {
   const secret =
     process.env.NODE_ENV === "production" ? config.get("secret") : "devsecret";
 
+
   // Inject middleware
   app.use(helmet());
   app.use(
     helmet.contentSecurityPolicy({
       crossOriginEmbedderPolicy: false,
       directives: {
+        "img-src": ["'self'", "https: data:"],
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
@@ -60,8 +63,9 @@ const createServer = () => {
 
   mongoose.connect(config.get("mongo.connectionString"));
 
-  app.use("/", viewsRouter.router);
-  app.use("/api/v1", apiv1Router.router);
+  app.use('/', viewsRouter.router);
+  app.use('/proxy', proxyRouter.router);
+  app.use('/api/v1', apiv1Router.router);
 
   return app;
 };

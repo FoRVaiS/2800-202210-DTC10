@@ -44,8 +44,16 @@
     };
   }
 
+  // Create listener to redirect to form submission
+  const addToSalaryBtn = document.querySelector('#in-add-to-salary');
+
+  if (addToSalaryBtn) {
+    addToSalaryBtn.onclick = () => window.location.href = '/form/salary';
+  }
+
   var id = localStorage.getItem("id");
   payRow(id);
+  searchCompany();
 
   document.getElementById("sort").addEventListener("click", () => {
     sortTable();
@@ -90,18 +98,19 @@ function userInfo(data) {
     userBox.appendChild(payBox);
 }
 
-
 function payRow(id) {
 
     var main = document.getElementById("Pay-Table");
     var currentUserJob;
+
 
     fetch("/api/v1/salary", {
         method: "get",
         headers: { "Content-Type": "application/json" },
       }).then(data => data.json()).then(data => {
         var users = data.data;
-        users.forEach(element => {
+        users.forEach(element => {        
+
             if (element.userId === id) {
                 currentUserJob = element.position;
                 userInfo(element);
@@ -122,6 +131,8 @@ function payRow(id) {
                     var pay = tr.insertCell();
                     var report = tr.insertCell();
                     
+
+
 
                     var reportButton = document.createElement("button");
                     reportButton.type = "button";
@@ -148,6 +159,29 @@ function payRow(id) {
     });
 
 }
+
+function searchCompany() {    
+    var searchButton = document.getElementById("search-input");
+    searchButton.addEventListener("click", () => {
+        var input = document.getElementById("tags").value;
+        localStorage.setItem("search", `${input}`);
+        return window.location.href = "/search";
+    });
+}
+
+$( function() {
+    var companies = [
+        "McDonald's",
+        "No Frills",
+        "Real Canadian Superstore",
+        "Winners",
+        "Shopper's Drug Mart"
+    ];
+    $( "#tags" ).autocomplete({
+      source: companies
+    });
+  } );
+
 
 
 function createReport(postId) {

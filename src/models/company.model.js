@@ -10,6 +10,7 @@ const CompanySchema = new Schema({
           userId: Types.ObjectId,
           position: String,
           salary: Number,
+          reported: { type: Boolean, default: false }
         },
       ],
     },
