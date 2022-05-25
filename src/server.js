@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 // Routes
 const viewsRouter = require("./routes/views");
 const apiv1Router = require("./routes/apiv1");
+const proxyRouter = require("./routes/proxy");
 
 const webRoot = path.join(__dirname, "..", "public");
 
@@ -63,7 +64,7 @@ const createServer = () => {
   mongoose.connect(config.get("mongo.connectionString"));
 
   app.use('/', viewsRouter.router);
-  app.use('/search', viewsRouter.router);
+  app.use('/proxy', proxyRouter.router);
   app.use('/api/v1', apiv1Router.router);
 
   return app;
