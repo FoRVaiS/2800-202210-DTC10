@@ -1,5 +1,3 @@
-// const { table } = require("console");
-
 (() => {
   // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
   let activeTriggerState = null;
