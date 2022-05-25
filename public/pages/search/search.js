@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   // createMap();
 
- var data =[{"loc": [49.250889, -123.004410], "title": "BCIT"}];
+ var data =[
+   {"loc": [49.250889, -123.004410], "title": "BCIT"},
+            
+  ];
 
 
   var map = L.map('map');
@@ -17,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     zoomOffset: -1,
     accessToken: 'your.mapbox.access.token'
 }).addTo(map);
-
 
   for(i in data) {
     var title = data[i].title,	//value searched
