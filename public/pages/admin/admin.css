@@ -88,17 +88,35 @@ body {
     opacity: 1;
 }
 
-
 .jumbotron {
     color: rgb(32, 7, 7);
-    background-color: #009578;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
+    background-color: #B3E8E5;
+    text-align: center;
   }
   #section-3{
       overflow: scroll;
       height: 70vh;
-      border: solid 1px #ccc;
+  }
+  #all-users {
+      width: 100%;
+  }
+  #all-users th, #all-users tr {
+      border: 1px solid #ddd;
+      padding: 8px;
+  }
+
+  #all-users tr, #all-users th {
+      text-align: center;
+  }
+
+  #all-users th {
+      background-color: #3BACB6;
+  }
+
+  #all-users tr {
+      background-color: #82DBD8;
   }
