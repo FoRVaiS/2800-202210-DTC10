@@ -5,6 +5,7 @@ const HomeController = require('../controllers/home.controller');
 const UserController = require('../controllers/user.controller');
 const SearchController = require('../controllers/search.controller')
 const EasterController = require('../controllers/easter.controller');
+const FormController = require('../controllers/form.controller');
 
 const router = express.Router();
 
