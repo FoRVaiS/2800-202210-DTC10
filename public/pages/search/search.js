@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   var markersLayer = new L.LayerGroup();	//layer contain searched elements
   map.addLayer(markersLayer);
 
-  L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}/?access_token=pk.eyJ1Ijoic2hleWJhcnBhZ2dhIiwiYSI6ImNsM2M4OXBhejAxenMza2ttMG9sY2hmZWUifQ.gROseElh69DhGrFREjMSPg', {
+  L.tileLayer('/proxy/api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}/?access_token=pk.eyJ1Ijoic2hleWJhcnBhZ2dhIiwiYSI6ImNsM2M4OXBhejAxenMza2ttMG9sY2hmZWUifQ.gROseElh69DhGrFREjMSPg', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'streets-v11',
