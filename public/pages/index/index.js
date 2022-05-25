@@ -47,6 +47,7 @@
   var id = localStorage.getItem("id");
   payRow(id);
   searchCompany();
+
 })();
 
 
@@ -72,18 +73,18 @@ function userInfo(data) {
     userBox.appendChild(payBox);
 }
 
-
 function payRow(id) {
 
     var main = document.getElementById("Pay-Table");
     var currentUserJob;
+
 
     fetch("/api/v1/salary", {
         method: "get",
         headers: { "Content-Type": "application/json" },
       }).then(data => data.json()).then(data => {
         var users = data.data;
-        users.forEach(element => {
+        users.forEach(element => {        
             if (element.userId === id) {
                 currentUserJob = element.position;
                 userInfo(element);
@@ -102,6 +103,8 @@ function payRow(id) {
                     var age = tr.insertCell();
                     var pay = tr.insertCell();
                     var report = tr.insertCell();
+
+
 
                     var reportButton = document.createElement("button");
                     reportButton.type = "button";
@@ -141,7 +144,9 @@ $( function() {
     var companies = [
         "McDonald's",
         "No Frills",
-        "Real Canadian Superstore"
+        "Real Canadian Superstore",
+        "Winners",
+        "Shopper's Drug Mart"
     ];
     $( "#tags" ).autocomplete({
       source: companies
