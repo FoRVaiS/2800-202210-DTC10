@@ -14,5 +14,6 @@ router.get('/register', UserController.renderRegistrationPage);
 router.get('/login', UserController.renderLoginPage);
 router.get('/admin', UserController.renderAdminPage);
 router.get('/search', SearchController.renderSearchPage);
+router.get('/form/submission', FormController.renderSalarySubmissionPage);
 
 module.exports = { router };
