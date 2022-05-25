@@ -47,7 +47,6 @@
   var id = localStorage.getItem("id");
   payRow(id);
   searchCompany();
-
 })();
 
 
@@ -85,6 +84,7 @@ function payRow(id) {
       }).then(data => data.json()).then(data => {
         var users = data.data;
         users.forEach(element => {        
+
             if (element.userId === id) {
                 currentUserJob = element.position;
                 userInfo(element);

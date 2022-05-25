@@ -3,7 +3,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
  var data =[
    {"loc": [49.250889, -123.004410], "title": "BCIT"},
-            
+   {"loc": [49.218260, -123.077500], "title": "McDonald's"},
+   {"loc": [49.206160, -123.125500], "title": "McDonald's"},
+   {"loc": [49.198810, -122.981630], "title": "McDonald's"},
+   {"loc": [49.227009, -123.000290], "title": "Winners"},
+   {"loc": [49.2344482,-123.195723], "title": "Winners"},
+   {"loc": [49.175152,-123.1322004], "title": "Winners"},
+   {"loc": [49.2810216,-123.07462], "title": "No Frills"},
+   {"loc": [49.2678023,-123.1428569], "title": "No Frills"},
+   {"loc": [49.1647273,-122.797229], "title": "No Frills"},
+   {"loc": [49.22694396972656,-123.09074401855469], "title": "Shoppers Drug Mart"},
+   {"loc": [49.229635,-122.964486], "title": "Shoppers Drug Mart"},
+   {"loc": [49.206356048583984,-123.0309829711914], "title": "Shoppers Drug Mart"},
+   {"loc": [49.2735057,-122.7939624], "title": "Real Canadian Superstore"},
+   {"loc": [49.2260065,-123.002356], "title": "Real Canadian Superstore"},
+   {"loc": [49.1797165,-123.1392749], "title": "Real Canadian Superstore"}
   ];
 
 
