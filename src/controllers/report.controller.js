@@ -29,4 +29,30 @@ const submitReport = async (req, res) => {
   res.status(200).json({ postId });
 };
 
-module.exports = { submitReport, fetchAllReports };
+const deleteReport = async (req, res) => {
+  const { reportId } = req.body;
+
+  if (!reportId) return res.status(400).json({
+    success: false,
+    msg: 'reportId must not be empty.',
+  });
+
+  try {
+    await ReportModel.deleteOne({ _id: reportId });
+    res.status(200).json({
+      success: true,
+      data: {
+        msg: 'Successfully deleted report ' + reportId,
+      },
+    });
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      data: {
+        msg: e.message
+      },
+    });
+  }
+};
+
+module.exports = { submitReport, fetchAllReports, deleteReport };
