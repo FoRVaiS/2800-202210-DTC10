@@ -1,4 +1,20 @@
 var userPay;
+
+const fetchJson = async (url, opts = {}) => {
+  const { body, headers, ...fetchOpts } = opts;
+
+  const response = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers
+    },
+    body: JSON.stringify(body),
+    ...fetchOpts,
+  });
+
+  return response.json();
+};
+
 (() => {
   const userData = [];
   // const userPay = 0;
