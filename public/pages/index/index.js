@@ -123,6 +123,8 @@ const fetchJson = async (url, opts = {}) => {
       console.warn('User is not logged in or could not be found');
     } else if (user && user.roles && user.roles.includes('admin')) {
       adminDashboardBtn.onclick = () => window.location.href = '/admin';
+    } else {
+      adminDashboardBtn.remove();
     }
   }
 })();
