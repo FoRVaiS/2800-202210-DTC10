@@ -1,4 +1,8 @@
+var userPay;
 (() => {
+
+  const userData = [];
+  // const userPay = 0;
   // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
   let activeTriggerState = null;
 
@@ -50,15 +54,58 @@
   if (addToSalaryBtn) {
     addToSalaryBtn.onclick = () => window.location.href = '/form/salary';
   }
-
+  var salary = []
+  var company = []
   var id = localStorage.getItem("id");
-  payRow(id);
+  payRow(id, userData);
+ 
+  setTimeout(function () {
+    console.log(userPay)
+    userData.sort((a, b) => a.salary - b.salary);
+    for(var x = 0; x < userData.length; x++) {
+      salary[x] = userData[x].salary;
+      company[x] = userData[x].companyName;
+    }
+
+    new Chart("info-chart", {
+      type: "line",
+      data: {
+        labels: company,
+        datasets: [{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: salary
+        }]
+      },
+      options: {
+        legend: {display: false},
+      },
+      elements: {
+        point: {
+          radius : highLight,
+          display: true
+        }
+      }
+    });
+  }, 300)
+
+
+  
   searchCompany();
+
+  
 
   document.getElementById("sort").addEventListener("click", () => {
     sortTable();
   })
+  
+
+
+
 })();
+
 
 
 function userInfo(data) {
@@ -98,7 +145,7 @@ function userInfo(data) {
     userBox.appendChild(payBox);
 }
 
-function payRow(id) {
+function payRow(id, userData) {
 
     var main = document.getElementById("Pay-Table");
     var currentUserJob;
@@ -113,6 +160,7 @@ function payRow(id) {
 
             if (element.userId === id) {
                 currentUserJob = element.position;
+                userPay = element.salary;
                 userInfo(element);
             }
         })
@@ -131,8 +179,7 @@ function payRow(id) {
                     var pay = tr.insertCell();
                     var report = tr.insertCell();
                     
-
-
+                    userData.push({salary: (element.salary), companyName: (element.company)});
 
                     var reportButton = document.createElement("button");
                     reportButton.type = "button";
@@ -157,7 +204,8 @@ function payRow(id) {
             }
         })
     });
-
+    userData.sort((a, b) => a.salary - b.salary);
+    return userPay;
 }
 
 function searchCompany() {    
@@ -202,8 +250,8 @@ function sortTable() {
   while(swap) {
     swap = false;
     for(var x = 1; x < (rows.length - 1); x++) {
-      curRow = rows[x].getElementsByTagName("td")[3];
-      nextRow = rows[(x + 1)].getElementsByTagName("td")[3];
+      curRow = rows[x].getElementsByTagName("td")[4];
+      nextRow = rows[(x + 1)].getElementsByTagName("td")[4];
       if(Number(curRow.innerHTML) > Number(nextRow.innerHTML)) {
         rows[x].parentNode.insertBefore(rows[x + 1], rows[x]);
         swap = true;
@@ -211,4 +259,11 @@ function sortTable() {
       }
     }
   }
+}
+
+
+function highLight(context) {
+  let index = context.dataIndex;
+  let value = context.dataset.data[ index ];
+  return value == userPay ? 10 : 2;
 }
