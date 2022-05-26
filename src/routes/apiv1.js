@@ -26,5 +26,6 @@ router.post('/user/register', UserController.register);
 router.get('/salary', SalaryController.fetchAllSalaries);
 router.put('/salary', SalaryController.fetchSalaryFromLocation);
 router.post('/salary/submit', SalaryController.submitSalary);
+router.post('/salary/delete', SalaryController.deleteSalary);
 
 module.exports = { router };
