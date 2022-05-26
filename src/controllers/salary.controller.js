@@ -86,21 +86,6 @@ const submitSalary = async (req, res) => {
         },
       });
     }
-  } else {
-    // The company does not exist
-    await CompanyModel.create({
-      name: company,
-      locations: [{
-        name: location,
-        salaries: [
-          {
-            userId: uid,
-            salary,
-            position,
-          },
-        ],
-      }],
-    });
   };
 
   res.status(200).json({
