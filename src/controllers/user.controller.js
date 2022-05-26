@@ -15,6 +15,27 @@ const fetchAllAccounts = async (req, res) => {
   });
 };
 
+const deleteUser = async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    await UserModel.deleteOne({ _id: userId });
+    res.status(200).json({
+      success: true,
+      data: {
+        msg: 'Successfully deleted user ' + userId,
+      },
+    });
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      data: {
+        msg: e.message
+      },
+    });
+  }
+};
+
 const fetchUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -106,4 +127,4 @@ const renderAdminPage = (req, res) => {
   res.render('pages/admin/admin.ejs');
 }
 
-module.exports = { fetchAllAccounts, fetchUserById, login, logout, register, renderLoginPage, renderRegistrationPage, renderAdminPage };
+module.exports = { fetchAllAccounts, fetchUserById, login, logout, register, renderLoginPage, renderRegistrationPage, renderAdminPage, deleteUser };

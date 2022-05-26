@@ -21,6 +21,7 @@ router.get('/user/id/:id', UserController.fetchUserById);
 router.get('/user/logout', UserController.logout);
 router.post('/user/login', UserController.login);
 router.post('/user/register', UserController.register);
+router.post('/user/delete', UserController.deleteUser);
 
 // Salary
 router.get('/salary', SalaryController.fetchAllSalaries);
