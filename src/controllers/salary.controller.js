@@ -1,16 +1,18 @@
 const { CompanyModel } = require('../models/company.model');
+const { UserModel } = require('../models/user.model');
 
 const doesCompanyExist = async name => (await CompanyModel.find({ name })).length;
-const doesLocationExist = async (company, location) => (await CompanyModel.find({
-  name: company,
+const doesLocationExist = async (location) => (await CompanyModel.find({
   locations: {
     $elemMatch: { name: location }
   }
 })).length;
 
 const submitSalary = async (req, res) => {
-  const { company = null, salary = null, position = null, location = null } = req.body || {};
+  const { age = null, gender = null, salary = null, position = null, location = null } = req.body || {};
   const { uid = null } = req.session || {};
+
+  console.log(req.session);
 
   if (!uid) return res.status(403).json({
     success: false,
@@ -19,12 +21,19 @@ const submitSalary = async (req, res) => {
     },
   });
 
-  if (!company) return res.status(400).json({
+  if (!age || Number(age) === NaN) return res.status(400).json({
     success: false,
     data: {
-      msg: 'The field \'company\' is required to be a string',
+      msg: 'The field \'age\' is required to be a number',
     },
   });
+
+  if (!gender) return res.status(400).json({
+    success: false,
+    data: {
+      msg: 'The field \'gender\' is required to be a string',
+    },
+  });  
 
   if (!salary || Number(salary) === NaN) return res.status(400).json({
     success: false,
@@ -47,14 +56,15 @@ const submitSalary = async (req, res) => {
     },
   });
 
-  const companyExists = await doesCompanyExist(company);
+  const company = await CompanyModel.findOne({
+    locations: {
+      $elemMatch: { name: location }
+    }
+  })
 
-  if (companyExists) {
-    const locationExists = await doesLocationExist(company, location);
-
-    if (locationExists) {
-      // The company and location already exist
-      await CompanyModel.updateOne({
+  if (company) {
+    await Promise.all([
+      CompanyModel.updateOne({
         locations: {
           $elemMatch: { name: location }
         },
@@ -66,40 +76,20 @@ const submitSalary = async (req, res) => {
             position,
           }
         },
-      });
-    } else {
-      // The company exists but the location is new
-      await CompanyModel.updateOne({
-        name: company,
-      }, {
-        $push: {
-          locations: {
-            name: location,
-            salaries: [
-              {
-                userId: uid,
-                salary,
-                position,
-              },
-            ],
-          },
-        },
-      });
-    }
+      }),
+      UserModel.findByIdAndUpdate(req.session.uid, {
+        $set: {
+          age,
+          gender
+        }
+      })
+    ]);
   } else {
-    // The company does not exist
-    await CompanyModel.create({
-      name: company,
-      locations: [{
-        name: location,
-        salaries: [
-          {
-            userId: uid,
-            salary,
-            position,
-          },
-        ],
-      }],
+    return res.status(500).json({
+      success: false,
+      data: {
+        msg: 'Could not find a company associated with the location.',
+      },
     });
   };
 
