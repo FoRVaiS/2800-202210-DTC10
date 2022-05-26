@@ -197,7 +197,7 @@ async function payRow(id, userData) {
       report.appendChild(reportButton);
     });
 
-  await Promise.all(salaryUsersPromises);
+  await Promise.all(salaryPostsPromises);
 
   userData.sort((a, b) => a.salary - b.salary);
   return userPay;
