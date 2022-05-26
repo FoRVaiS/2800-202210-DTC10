@@ -18,35 +18,7 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-info bg-info">
-  <a class="navbar-brand logo" href="#" style="color: white"><img src="/pages/images/logo.svg" alt="Payswap Logo" id="logo" width="100%"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#" style="color: white">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" style="color: white">About Us</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" style="color: white">Help</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <div class="ui-widget">
-        <input id="tags" class="form-control mr-sm-2" placeholder="Company" aria-label="Search">
-        <span>
-          <button id="search-input" class="btn btn-outline-dark my-2 my-sm-0" type="button" style="color: white" >Search</button>
-          <button id="admin-input" class="btn btn-outline-dark my-2 my-sm-0" type="button" style="color: white" >Admin</button>
-        </span>
-      </div>
-    </form>
-  </div>
-</nav>
+<%- include('../_partials/navbar') %>
 <br>
 <div class="d-flex flex-column align-items-center">
   <div class="d-flex justify-content-center w-100 align-items-center">
@@ -84,14 +56,7 @@
     </table>
   </div>
 </div>
-
-<footer class="text-center text-white fixed-bottom" style="background-color: #ddb892;">
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    <a class="text-white">@PaySwap.com</a>
-  </div>
-  <!-- Copyright -->
-</footer>
+<%- include('../_partials/footer') %>
 <div class="modal fade" id="report-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
