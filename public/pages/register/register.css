@@ -66,7 +66,7 @@ body {
   .box-two input:focus {
     border: 1px solid #00acee;
   }
-  .box-two .login {
+  .box-two .signup {
     background-color: #121212;
     color: #fff;
   }
