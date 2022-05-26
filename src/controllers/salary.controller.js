@@ -1,4 +1,5 @@
 const { CompanyModel } = require('../models/company.model');
+const { UserModel } = require('../models/user.model');
 
 const doesCompanyExist = async name => (await CompanyModel.find({ name })).length;
 const doesLocationExist = async (location) => (await CompanyModel.find({
@@ -60,20 +61,27 @@ const submitSalary = async (req, res) => {
   })
 
   if (company) {
-    // The company and location already exist
-    await CompanyModel.updateOne({
-      locations: {
-        $elemMatch: { name: location }
-      },
-    }, {
-      $push: {
-        'locations.$.salaries': {
-          userId: uid,
-          salary,
-          position,
+    await Promise.all([
+      CompanyModel.updateOne({
+        locations: {
+          $elemMatch: { name: location }
+        },
+      }, {
+        $push: {
+          'locations.$.salaries': {
+            userId: uid,
+            salary,
+            position,
+          }
+        },
+      }),
+      UserModel.findByIdAndUpdate(res.session.uid, {
+        $set: {
+          age,
+          gender
         }
-      },
-    });
+      })
+    ]);
   } else {
     return res.status(500).json({
       success: false,
