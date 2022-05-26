@@ -212,5 +212,4 @@ function postTable() {
         });
     });
 }
-
 postTable();
