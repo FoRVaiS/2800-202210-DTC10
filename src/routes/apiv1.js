@@ -14,6 +14,7 @@ const router = express.Router();
 // Report
 router.get('/report', ReportController.fetchAllReports);
 router.post('/report/post', ReportController.submitReport);
+router.post('/report/delete', ReportController.deleteReport);
 
 // User
 router.get('/user', UserController.fetchAllAccounts);
