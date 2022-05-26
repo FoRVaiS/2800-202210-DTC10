@@ -12,6 +12,8 @@ const submitSalary = async (req, res) => {
   const { age = null, gender = null, salary = null, position = null, location = null } = req.body || {};
   const { uid = null } = req.session || {};
 
+  console.log(req.session);
+
   if (!uid) return res.status(403).json({
     success: false,
     data: {
@@ -75,7 +77,7 @@ const submitSalary = async (req, res) => {
           }
         },
       }),
-      UserModel.findByIdAndUpdate(res.session.uid, {
+      UserModel.findByIdAndUpdate(req.session.uid, {
         $set: {
           age,
           gender
