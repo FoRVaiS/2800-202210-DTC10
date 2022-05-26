@@ -111,7 +111,6 @@ function userTable() {
   })
     .then((data) => data.json())
     .then((data) => {
-      console.log(data);
       var table = document.getElementById("all-users");
       var users = data.users;
       users.forEach((element) => {
@@ -128,25 +127,90 @@ function userTable() {
     });
 }
 userTable();
-fetchUsers();
 
-//fetch all posts from database with boolean reported = True and display them in the table
-function fetchReports() {
-  fetch("/api/v1/post", {
+//fetch all reported posts and console.log them
+function reportPosts() {
+  fetch(`/api/v1/report`, {
     method: "get",
     headers: { "Content-Type": "application/json" },
   })
     .then((data) => data.json())
     .then((data) => {
-      var posts = data.data;
-      var main = document.getElementById("reported-posts");
+      // for all reported posts append postid to an array
+      var posts = data.reports;
+      var reported_postID = [];
       posts.forEach((element) => {
-        if (element.reported == true) {
-          var tr = main.insertRow();
-          tr.setAttribute("id", `${element.id}`);
-          var company = tr.insertCell();
-        }
+        reported_postID.push(element.postId);
       });
+      console.log(reported_postID);
     });
 }
-fetchReports();
+reportPosts();
+
+// fetch all posts from database and if the postId matches reported_postID, show the post in the table
+function postTable() {
+  fetch(`/api/v1/report`, {
+    method: "get",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((data) => data.json())
+    .then((data) => {
+      // for all reported posts append postid to an array
+      var posts = data.reports;
+      var reported_postID = [];
+      posts.forEach((element) => {
+        reported_postID.push(element.postId);
+      });
+      fetch(`/api/v1/salary`, {
+        method: "get",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((data) => data.json())
+        .then((data) => {
+          var table = document.getElementById("reported-posts");
+          var posts = data.data;
+          posts.forEach((element) => {
+            if (reported_postID.includes(element.postId)) {
+              var tr = table.insertRow();
+              tr.setAttribute("id", `${element.postId}`);
+              var id = tr.insertCell();
+              var company = tr.insertCell();
+              var position = tr.insertCell();
+              var salary = tr.insertCell();
+              var deleteBut = tr.insertCell();
+              var deleteButton = document.createElement("button");
+              deleteButton.type = "button";
+              deleteButton.classList.add("btn");
+              deleteButton.classList.add("btn-danger");
+              deleteButton.classList.add("btn-sm");
+              deleteButton.addEventListener("click", () => {
+                createDelete(element.id);
+              });
+              deleteButton.innerHTML = "Delete";
+              var passBut = tr.insertCell();
+              var passButton = document.createElement("button");
+              passButton.type = "button";
+              passButton.classList.add("btn");
+              passButton.classList.add("btn-success");
+              passButton.classList.add("btn-sm");
+              passButton.addEventListener("click", () => {
+                createPass(element.id);
+              });
+              passButton.innerHTML = "Pass";
+              id.appendChild(document.createTextNode(`${element.postId}`));
+              company.appendChild(
+                document.createTextNode(`${element.company}`)
+              );
+              position.appendChild(
+                document.createTextNode(`${element.position}`)
+              );
+              salary.appendChild(document.createTextNode(`${element.salary}`));
+              deleteBut.appendChild(deleteButton);
+              passBut.appendChild(passButton);
+            }
+          });
+        });
+    });
+}
+
+postTable();

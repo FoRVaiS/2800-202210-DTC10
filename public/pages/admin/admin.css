@@ -120,3 +120,22 @@ body {
   #all-users tr {
       background-color: #82DBD8;
   }
+  #reported-posts {
+    width: 100%;
+}
+#reported-posts th, #reported-posts tr {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#reported-posts tr, #reported-posts th {
+    text-align: center;
+}
+
+#reported-posts th {
+    background-color: #3BACB6;
+}
+
+#reported-posts tr {
+    background-color: #82DBD8;
+}
