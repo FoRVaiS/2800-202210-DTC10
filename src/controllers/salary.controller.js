@@ -161,6 +161,40 @@ const fetchSalaryFromLocation = async (req, res) => {
   });
 };
 
+const deleteSalary = async (req, res) => {
+  const { postId } = req.body;
+  const { uid } = req.session;
+
+  const user = await UserModel.findById(uid);
+
+  if (user && user.roles.includes('admin')) {
+    await CompanyModel.findOneAndUpdate({
+      "locations.salaries._id": postId
+    },
+    {
+      $pull: {
+        "locations.$[].salaries": {
+          _id: postId
+        }
+      }
+    });
+  } else {
+    return res.status(500).json({
+      success: false,
+      data: {
+        msg: 'Failed to delete post ' + postId,
+      },
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: {
+      msg: 'Successfully deleted post ' + postId
+    },
+  });
+};
+
 const fetchAllSalaries = async (req, res) => {
   const allCompanies = await CompanyModel.find({}, { __v: 0 });
 
@@ -172,4 +206,4 @@ const fetchAllSalaries = async (req, res) => {
   });
 };
 
-module.exports = { submitSalary, fetchSalaryFromLocation, fetchAllSalaries, doesCompanyExist, doesLocationExist, convertToSalaryData };
+module.exports = { submitSalary, fetchSalaryFromLocation, fetchAllSalaries, doesCompanyExist, doesLocationExist, convertToSalaryData, deleteSalary };
