@@ -9,7 +9,7 @@ const doesLocationExist = async (company, location) => (await CompanyModel.find(
 })).length;
 
 const submitSalary = async (req, res) => {
-  const { company = null, salary = null, position = null, location = null } = req.body || {};
+  const { age = null, gender = null, salary = null, position = null, location = null } = req.body || {};
   const { uid = null } = req.session || {};
 
   if (!uid) return res.status(403).json({
@@ -19,12 +19,19 @@ const submitSalary = async (req, res) => {
     },
   });
 
-  if (!company) return res.status(400).json({
+  if (!age || Number(age) === NaN) return res.status(400).json({
     success: false,
     data: {
-      msg: 'The field \'company\' is required to be a string',
+      msg: 'The field \'age\' is required to be a number',
     },
   });
+
+  if (!gender) return res.status(400).json({
+    success: false,
+    data: {
+      msg: 'The field \'gender\' is required to be a string',
+    },
+  });  
 
   if (!salary || Number(salary) === NaN) return res.status(400).json({
     success: false,
