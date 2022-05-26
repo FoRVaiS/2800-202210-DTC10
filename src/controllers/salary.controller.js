@@ -1,8 +1,7 @@
 const { CompanyModel } = require('../models/company.model');
 
 const doesCompanyExist = async name => (await CompanyModel.find({ name })).length;
-const doesLocationExist = async (company, location) => (await CompanyModel.find({
-  name: company,
+const doesLocationExist = async (location) => (await CompanyModel.find({
   locations: {
     $elemMatch: { name: location }
   }
@@ -54,45 +53,34 @@ const submitSalary = async (req, res) => {
     },
   });
 
-  const companyExists = await doesCompanyExist(company);
-
-  if (companyExists) {
-    const locationExists = await doesLocationExist(company, location);
-
-    if (locationExists) {
-      // The company and location already exist
-      await CompanyModel.updateOne({
-        locations: {
-          $elemMatch: { name: location }
-        },
-      }, {
-        $push: {
-          'locations.$.salaries': {
-            userId: uid,
-            salary,
-            position,
-          }
-        },
-      });
-    } else {
-      // The company exists but the location is new
-      await CompanyModel.updateOne({
-        name: company,
-      }, {
-        $push: {
-          locations: {
-            name: location,
-            salaries: [
-              {
-                userId: uid,
-                salary,
-                position,
-              },
-            ],
-          },
-        },
-      });
+  const company = await CompanyModel.findOne({
+    locations: {
+      $elemMatch: { name: location }
     }
+  })
+
+  if (company) {
+    // The company and location already exist
+    await CompanyModel.updateOne({
+      locations: {
+        $elemMatch: { name: location }
+      },
+    }, {
+      $push: {
+        'locations.$.salaries': {
+          userId: uid,
+          salary,
+          position,
+        }
+      },
+    });
+  } else {
+    return res.status(500).json({
+      success: false,
+      data: {
+        msg: 'Could not find a company associated with the location.',
+      },
+    });
   };
 
   res.status(200).json({
