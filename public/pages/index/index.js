@@ -157,9 +157,19 @@ async function payRow(id, userData) {
   const { data: salaryPosts } = await fetchJson("/api/v1/salary");
   
   const currentUserSalaryPost = salaryPosts.filter(salary => salary.userId === id).pop();
-  const currentUserJob = currentUserSalaryPost.position;
-  userPay = currentUserSalaryPost.salary;
+  
+  let currentUserJob = null;
+  
+  if (currentUserSalaryPost) {
+    currentUserJob = currentUserSalaryPost.position;
+    userPay = currentUserSalaryPost.salary;
+  } else {
+    const jobPositions = Array.from(new Set(salaryPosts.map(salary => salary.position)));
 
+    // There might be a better way to pick a random element in an array?
+    currentUserJob = jobPositions[Math.floor(Math.random() * jobPositions.length)];
+  }
+  
   const salaryPostsPromises = salaryPosts
     .filter(salaryPost => salaryPost.position.toLowerCase() === currentUserJob.toLowerCase())
     .map(async salaryPost => {
