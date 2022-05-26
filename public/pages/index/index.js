@@ -73,10 +73,8 @@ const fetchJson = async (url, opts = {}) => {
   var salary = []
   var company = []
   var id = localStorage.getItem("id");
-  payRow(id, userData);
 
-  setTimeout(function() {
-    console.log(userPay)
+  payRow(id, userData).then(() => {
     userData.sort((a, b) => a.salary - b.salary);
 
     for (var x = 0; x < userData.length; x++) {
@@ -108,7 +106,7 @@ const fetchJson = async (url, opts = {}) => {
         }
       }
     });
-  }, 300)
+  });
 
   searchCompany();
 
@@ -153,62 +151,54 @@ function userInfo(data) {
   userBox.appendChild(payBox);
 }
 
-function payRow(id, userData) {
+async function payRow(id, userData) {
   var main = document.getElementById("Pay-Table");
-  var currentUserJob;
+  
+  const { data: salaryPosts } = await fetchJson("/api/v1/salary");
+  
+  const currentUserSalaryPost = salaryPosts.filter(salary => salary.userId === id).pop();
+  const currentUserJob = currentUserSalaryPost.position;
+  userPay = currentUserSalaryPost.salary;
 
-  fetch("/api/v1/salary")
-    .then(data => data.json())
-    .then(data => {
-      var users = data.data;
-      
-      users.forEach(element => {
-        if (element.userId === id) {
-          currentUserJob = element.position;
-          userPay = element.salary;
-          userInfo(element);
-        }
+  const salaryUsersPromises = salaryPosts
+    .filter(salaryPost => salaryPost.position.toLowerCase() === currentUserJob.toLowerCase())
+    .map(async salaryPost => {
+      const personalUser = await fetchJson(`/api/v1/user/id/${salaryPost.userId}`);
+
+      var tr = main.insertRow();
+      tr.setAttribute("id", `${salaryPost.postId}`);
+      var company = tr.insertCell();
+      var location = tr.insertCell();
+      var gender = tr.insertCell();
+      var age = tr.insertCell();
+      var pay = tr.insertCell();
+      var report = tr.insertCell();
+
+      userData.push({
+        salary: (salaryPost.salary),
+        companyName: (salaryPost.company)
       });
 
-      users.forEach(element => {
-        if (element.position == currentUserJob) {
-          fetch(`/api/v1/user/id/${element.userId}`)
-            .then(userPersonal => userPersonal.json())
-            .then(userPersonal => {
-                var tr = main.insertRow();
-                tr.setAttribute("id", `${element.postId}`);
-                var company = tr.insertCell();
-                var location = tr.insertCell();
-                var gender = tr.insertCell();
-                var age = tr.insertCell();
-                var pay = tr.insertCell();
-                var report = tr.insertCell();
+      var reportButton = document.createElement("button");
+      reportButton.type = "button";
+      reportButton.classList.add("btn");
+      reportButton.classList.add("btn-danger");
+      reportButton.classList.add("btn-sm");
 
-                userData.push({
-                  salary: (element.salary),
-                  companyName: (element.company)
-                });
-
-                var reportButton = document.createElement("button");
-                reportButton.type = "button";
-                reportButton.classList.add("btn");
-                reportButton.classList.add("btn-danger");
-                reportButton.classList.add("btn-sm");
-
-                reportButton.addEventListener("click", () => {
-                  createReport(element.postId);
-                })
-                reportButton.innerHTML = "Report";
-                company.appendChild(document.createTextNode(`${element.company}`));
-                location.appendChild(document.createTextNode(`${element.location}`));
-                gender.appendChild(document.createTextNode(`${userPersonal.data.gender}`));
-                age.appendChild(document.createTextNode(`${userPersonal.data.age}`));
-                pay.appendChild(document.createTextNode(`${element.salary}`));
-                report.appendChild(reportButton);
-              });
-        }
+      reportButton.addEventListener("click", () => {
+        createReport(salaryPost.postId);
       })
+      reportButton.innerHTML = "Report";
+      company.appendChild(document.createTextNode(`${salaryPost.company}`));
+      location.appendChild(document.createTextNode(`${salaryPost.location}`));
+      gender.appendChild(document.createTextNode(`${personalUser.data.gender}`));
+      age.appendChild(document.createTextNode(`${personalUser.data.age}`));
+      pay.appendChild(document.createTextNode(`${salaryPost.salary}`));
+      report.appendChild(reportButton);
     });
+
+  await Promise.all(salaryUsersPromises);
+
   userData.sort((a, b) => a.salary - b.salary);
   return userPay;
 }
@@ -272,3 +262,105 @@ function highLight(context) {
   let value = context.dataset.data[index];
   return value == userPay ? 10 : 2;
 }
+
+(() => {
+  const userData = [];
+  // const userPay = 0;
+  // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
+  let activeTriggerState = null;
+
+  // The amount of clicks to activate the easter egg
+  const EASTER_EGG_MAX_CLICKS = 7;
+
+  // The time in milliseconds the user has to spam the action element to activate the easter egg.
+  const EASTER_EGG_TIMEFRAME_MS = 3000;
+
+  function createTriggerState(timeout) {
+    const startTime = new Date().getTime();
+    let endTime = startTime + timeout;
+
+    return {
+      clicks: 0,
+      click() {
+        if (new Date().getTime() > endTime) activeTriggerState = null;
+
+        this.clicks++;
+      },
+    };
+  }
+
+  // easter egg action trigger event script below
+  const logoRef = document.querySelector("#logo");
+
+  if (logoRef) {
+    logoRef.onclick = () => {
+      if (!activeTriggerState) {
+        activeTriggerState = createTriggerState(EASTER_EGG_TIMEFRAME_MS);
+      }
+
+      activeTriggerState.click();
+
+      if (
+        activeTriggerState &&
+        activeTriggerState.clicks > EASTER_EGG_MAX_CLICKS
+      ) {
+        activeTriggerState = null;
+
+        window.location.href = "/easter-egg";
+      }
+    };
+  }
+
+  // Create listener to redirect to form submission
+  const addToSalaryBtn = document.querySelector('#in-add-to-salary');
+
+  if (addToSalaryBtn) {
+    addToSalaryBtn.onclick = () => window.location.href = '/form/salary';
+  }
+
+  var salary = []
+  var company = []
+  var id = localStorage.getItem("id");
+  payRow(id, userData);
+
+  setTimeout(function() {
+    console.log(userPay)
+    userData.sort((a, b) => a.salary - b.salary);
+
+    for (var x = 0; x < userData.length; x++) {
+      salary[x] = userData[x].salary;
+      company[x] = userData[x].companyName;
+    }
+
+    new Chart("info-chart", {
+      type: "line",
+      data: {
+        labels: company,
+        datasets: [{
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: salary
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+      },
+      elements: {
+        point: {
+          radius: highLight,
+          display: true
+        }
+      }
+    });
+  }, 300)
+
+  searchCompany();
+
+  document.getElementById("sort").addEventListener("click", () => {
+    sortTable();
+  });
+})();
