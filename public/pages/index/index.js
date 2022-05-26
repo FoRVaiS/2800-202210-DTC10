@@ -163,6 +163,8 @@ async function payRow(id, userData) {
   if (currentUserSalaryPost) {
     currentUserJob = currentUserSalaryPost.position;
     userPay = currentUserSalaryPost.salary;
+    
+    userInfo(currentUserSalaryPost);
   } else {
     const jobPositions = Array.from(new Set(salaryPosts.map(salary => salary.position)));
 
@@ -272,105 +274,3 @@ function highLight(context) {
   let value = context.dataset.data[index];
   return value == userPay ? 10 : 2;
 }
-
-(() => {
-  const userData = [];
-  // const userPay = 0;
-  // Stores a reference to a function that tracks of the number of clicks in a given timeframe.
-  let activeTriggerState = null;
-
-  // The amount of clicks to activate the easter egg
-  const EASTER_EGG_MAX_CLICKS = 7;
-
-  // The time in milliseconds the user has to spam the action element to activate the easter egg.
-  const EASTER_EGG_TIMEFRAME_MS = 3000;
-
-  function createTriggerState(timeout) {
-    const startTime = new Date().getTime();
-    let endTime = startTime + timeout;
-
-    return {
-      clicks: 0,
-      click() {
-        if (new Date().getTime() > endTime) activeTriggerState = null;
-
-        this.clicks++;
-      },
-    };
-  }
-
-  // easter egg action trigger event script below
-  const logoRef = document.querySelector("#logo");
-
-  if (logoRef) {
-    logoRef.onclick = () => {
-      if (!activeTriggerState) {
-        activeTriggerState = createTriggerState(EASTER_EGG_TIMEFRAME_MS);
-      }
-
-      activeTriggerState.click();
-
-      if (
-        activeTriggerState &&
-        activeTriggerState.clicks > EASTER_EGG_MAX_CLICKS
-      ) {
-        activeTriggerState = null;
-
-        window.location.href = "/easter-egg";
-      }
-    };
-  }
-
-  // Create listener to redirect to form submission
-  const addToSalaryBtn = document.querySelector('#in-add-to-salary');
-
-  if (addToSalaryBtn) {
-    addToSalaryBtn.onclick = () => window.location.href = '/form/salary';
-  }
-
-  var salary = []
-  var company = []
-  var id = localStorage.getItem("id");
-  payRow(id, userData);
-
-  setTimeout(function() {
-    console.log(userPay)
-    userData.sort((a, b) => a.salary - b.salary);
-
-    for (var x = 0; x < userData.length; x++) {
-      salary[x] = userData[x].salary;
-      company[x] = userData[x].companyName;
-    }
-
-    new Chart("info-chart", {
-      type: "line",
-      data: {
-        labels: company,
-        datasets: [{
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
-          borderColor: "rgba(0,0,255,0.1)",
-          data: salary
-        }]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-      },
-      elements: {
-        point: {
-          radius: highLight,
-          display: true
-        }
-      }
-    });
-  }, 300)
-
-  searchCompany();
-
-  document.getElementById("sort").addEventListener("click", () => {
-    sortTable();
-  });
-})();
