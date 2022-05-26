@@ -160,7 +160,7 @@ async function payRow(id, userData) {
   const currentUserJob = currentUserSalaryPost.position;
   userPay = currentUserSalaryPost.salary;
 
-  const salaryUsersPromises = salaryPosts
+  const salaryPostsPromises = salaryPosts
     .filter(salaryPost => salaryPost.position.toLowerCase() === currentUserJob.toLowerCase())
     .map(async salaryPost => {
       const personalUser = await fetchJson(`/api/v1/user/id/${salaryPost.userId}`);
