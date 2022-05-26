@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   // createMap();
+
+    var navSearch = document.getElementById("tags");
+    var searchButton = document.getElementById("search-input");
+    searchButton.remove();
+    navSearch.remove();
+
+
   var id = localStorage.getItem("id");
   payRow(id);
   searchCompany();
@@ -62,7 +69,7 @@ $( function() {
       "Winners",
       "Shopper's Drug Mart"
     ];
-    $( "#tags" ).autocomplete({
+    $( "#search" ).autocomplete({
       source: availableTags
     });
   } );
@@ -147,7 +154,7 @@ function payRow(id) {
 function searchCompany() {    
     var searchButton = document.getElementById("search-input");
     searchButton.addEventListener("click", () => {
-        var input = document.getElementById("tags").value;
+        var input = document.getElementById("search").value;
         localStorage.setItem("search", `${input}`);
         return window.location.href = "/search";
     });
