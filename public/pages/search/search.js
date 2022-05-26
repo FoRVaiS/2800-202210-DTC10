@@ -106,7 +106,7 @@ function payRow(id) {
             }
         })
             users.forEach(element => {
-            if(element.company === currentUserJob) {
+            if(element.company.toLowerCase() === currentUserJob.toLowerCase()) {
                 fetch(`/api/v1/user/id/${element.userId}`, {
                     method: "get",
                     headers: { "Content-Type": "application/json" },
