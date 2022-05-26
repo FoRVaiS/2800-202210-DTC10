@@ -21,87 +21,99 @@ $(window).on("resize", function () {
   $(".jumbotron").css({ height: $(window).height() + "px" });
 });
 
-function userInfo(data) {
-  var jobBox = document.createElement("div");
-  jobBox.classList.add("d-flex");
-  jobBox.classList.add("align-items-start");
-  jobBox.classList.add("flex-column");
-  var userBox = document.getElementById("userInfo");
-  var company = document.createElement("h3");
-  var position = document.createElement("h4");
-  var pay = document.createElement("h2");
-  var payBox = document.createElement("div");
-  payBox.classList.add("d-flex");
-  payBox.classList.add("justify-content-center");
-  payBox.appendChild(pay);
-  company.textContent = `Company: ${data.company}`;
-  position.textContent = `Position: ${data.position}`;
-  pay.textContent = `$${data.salary}/hr`;
-  jobBox.appendChild(company);
-  jobBox.appendChild(position);
-  userBox.appendChild(jobBox);
-  userBox.appendChild(payBox);
-}
+//fetch all posts from database and display id, company, position, salary in table
+var userPay;
+var salary = [];
+var company = [];
+const userData = [];
+var id = localStorage.getItem("id");
 
-function payRow(id) {
-  var main = document.getElementById("Pay-Table");
-  var currentUserJob;
+const fetchJson = async (url, opts = {}) => {
+  const { body, headers, ...fetchOpts } = opts;
 
-  fetch("/api/v1/salary", {
-    method: "get",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((data) => data.json())
-    .then((data) => {
-      var users = data.data;
-      users.forEach((element) => {
-        if (element.userId === id) {
-          currentUserJob = element.position;
-          userInfo(element);
-        }
-      });
-      users.forEach((element) => {
-        if (element.position == currentUserJob) {
-          fetch(`/api/v1/user/id/${element.userId}`, {
-            method: "get",
-            headers: { "Content-Type": "application/json" },
-          })
-            .then((userPersonal) => userPersonal.json())
-            .then((userPersonal) => {
-              var tr = main.insertRow();
-              tr.setAttribute("id", `${element.postId}`);
-              var company = tr.insertCell();
-              var gender = tr.insertCell();
-              var age = tr.insertCell();
-              var pay = tr.insertCell();
-              var report = tr.insertCell();
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    body: JSON.stringify(body),
+    ...fetchOpts,
+  });
 
-              var reportButton = document.createElement("button");
-              reportButton.type = "button";
-              reportButton.classList.add("btn");
-              reportButton.classList.add("btn-danger");
-              reportButton.classList.add("btn-sm");
+  return response.json();
+};
 
-              reportButton.addEventListener("click", () => {
-                createReport(element.postId);
-              });
-              reportButton.innerHTML = "Report";
-              company.appendChild(
-                document.createTextNode(`${element.company}`)
-              );
-              gender.appendChild(
-                document.createTextNode(`${userPersonal.data.gender}`)
-              );
-              age.appendChild(
-                document.createTextNode(`${userPersonal.data.age}`)
-              );
-              pay.appendChild(document.createTextNode(`${element.salary}`));
-              report.appendChild(reportButton);
-            });
-        }
-      });
+async function salaryTable() {
+  var main = document.getElementById("all-posts");
+
+  const { data: salaryPosts } = await fetchJson("/api/v1/salary");
+
+  const currentUserSalaryPost = salaryPosts
+    .filter((salary) => salary.userId === id)
+    .pop();
+
+  let currentUserJob = null;
+
+  if (currentUserSalaryPost) {
+    currentUserJob = currentUserSalaryPost.position;
+    userPay = currentUserSalaryPost.salary;
+
+    userInfo(currentUserSalaryPost);
+  } else {
+    const jobPositions = Array.from(
+      new Set(salaryPosts.map((salary) => salary.position))
+    );
+
+    // There might be a better way to pick a random element in an array?
+    currentUserJob =
+      jobPositions[Math.floor(Math.random() * jobPositions.length)];
+  }
+
+  const salaryPostsPromises = salaryPosts.map(async (salaryPost) => {
+    const personalUser = await fetchJson(
+      `/api/v1/user/id/${salaryPost.userId}`
+    );
+
+    var tr = main.insertRow();
+    tr.setAttribute("id", `${salaryPost.postId}`);
+    var id = tr.insertCell();
+    var company = tr.insertCell();
+    var location = tr.insertCell();
+    var job = tr.insertCell();
+    var gender = tr.insertCell();
+    var age = tr.insertCell();
+    var pay = tr.insertCell();
+    var deleteBut = tr.insertCell();
+
+    userData.push({
+      salary: salaryPost.salary,
+      companyName: salaryPost.company,
     });
+
+    var deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.classList.add("btn");
+    deleteButton.classList.add("btn-danger");
+    deleteButton.classList.add("btn-sm");
+
+    deleteButton.addEventListener("click", () => {
+      createDelete(salaryPost.postId);
+    });
+    deleteButton.innerHTML = "Delete";
+    id.appendChild(document.createTextNode(`${salaryPost.postId}`));
+    company.appendChild(document.createTextNode(`${salaryPost.company}`));
+    location.appendChild(document.createTextNode(`${salaryPost.location}`));
+    job.appendChild(document.createTextNode(`${salaryPost.position}`));
+    gender.appendChild(document.createTextNode(`${personalUser.data.gender}`));
+    age.appendChild(document.createTextNode(`${personalUser.data.age}`));
+    pay.appendChild(document.createTextNode(`${salaryPost.salary}`));
+    deleteBut.appendChild(deleteButton);
+  });
+
+  await Promise.all(salaryPostsPromises);
+  return userPay;
 }
+salaryTable();
 
 //fetch all users from database and display id, email, role in table
 function userTable() {
@@ -212,5 +224,4 @@ function postTable() {
         });
     });
 }
-
 postTable();

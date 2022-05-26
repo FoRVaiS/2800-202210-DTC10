@@ -139,3 +139,28 @@ body {
 #reported-posts tr {
     background-color: #82DBD8;
 }
+
+#section-1{
+    overflow: scroll;
+    height: 70vh;
+    background-color: #b3e8e5;;
+}
+#all-posts {
+    width: 100%;
+}
+#all-posts th, #all-posts tr {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#all-posts tr, #all-posts th {
+    text-align: center;
+}
+
+#all-posts th {
+    background-color: #3BACB6;
+}
+
+#all-posts tr {
+    background-color: #82DBD8;
+}
