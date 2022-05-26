@@ -29,7 +29,7 @@ function numbersCounting() {
 
 function explosion() {
   document.getElementById("outer-container").style.backgroundImage =
-    "url('/pages/images/afterExplosion.png')";
+    "url('/images/afterExplosion.png')";
 }
 
 function easterEgg() {
@@ -94,56 +94,56 @@ function init() {
   let boxP = Bodies.rectangle(100, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxP.png",
+        texture: "/images/boxP.png",
       },
     },
   });
   let boxY = Bodies.rectangle(150, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxY.png",
+        texture: "/images/boxY.png",
       },
     },
   });
   let boxT = Bodies.rectangle(200, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxT.png",
+        texture: "/images/boxT.png",
       },
     },
   });
   let boxH = Bodies.rectangle(250, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxH.png",
+        texture: "/images/boxH.png",
       },
     },
   });
   let boxO = Bodies.rectangle(300, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxO.png",
+        texture: "/images/boxO.png",
       },
     },
   });
   let boxN = Bodies.rectangle(350, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxN.png",
+        texture: "/images/boxN.png",
       },
     },
   });
   let boxI = Bodies.rectangle(400, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxI.png",
+        texture: "/images/boxI.png",
       },
     },
   });
   let boxC = Bodies.rectangle(450, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/pages/images/boxC.png",
+        texture: "/images/boxC.png",
       },
     },
   });
