@@ -196,7 +196,7 @@ function postTable() {
               deleteButton.classList.add("btn-danger");
               deleteButton.classList.add("btn-sm");
               deleteButton.addEventListener("click", () => {
-                createDelete(element.id);
+                createReportDelete(element.postId);
               });
               deleteButton.innerHTML = "Delete";
               var passBut = tr.insertCell();
@@ -225,3 +225,31 @@ function postTable() {
     });
 }
 postTable();
+
+//delete salary object from database
+function createDelete(id) {
+  fetch("/api/v1/report/delete", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      postId: id,
+    }),
+  });
+  var table = document.getElementById("all-posts");
+  var row = document.getElementById(id);
+  table.deleteRow(row.rowIndex);
+}
+
+//delete report object from database
+function createReportDelete(id) {
+  fetch("/api/v1/salary/delete", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      postId: id,
+    }),
+  });
+  var table = document.getElementById("reported-posts");
+  var row = document.getElementById(id);
+  table.deleteRow(row.rowIndex);
+}
