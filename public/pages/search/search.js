@@ -80,6 +80,7 @@ $( function() {
     jobBox.classList.add("d-flex");
     jobBox.classList.add("align-items-start");
     jobBox.classList.add("flex-column");
+    jobBox.setAttribute("id", "job-box")
     var userBox = document.getElementById("userInfo");
     var company = document.createElement("h3");
     var position = document.createElement("h4");
@@ -109,7 +110,10 @@ function payRow(id) {
         var users = data.data;
         users.forEach(element => {        
             if (element.userId === id) {
-                userInfo(element);
+                var isThere = document.getElementById("job-box");
+                if (!isThere) {
+                    userInfo(element);
+                }
             }
         })
             users.forEach(element => {
