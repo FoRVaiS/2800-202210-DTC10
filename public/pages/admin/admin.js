@@ -211,20 +211,6 @@ postTable();
 
 //delete salary object from database
 function createReportDelete(id) {
-  fetch("/api/v1/report/delete", {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      postId: id,
-    }),
-  });
-  var table = document.getElementById("all-posts");
-  var row = document.getElementById(id);
-  table.deleteRow(row.rowIndex);
-}
-
-//delete report object from database
-function createtDelete(id) {
   fetch("/api/v1/salary/delete", {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -233,6 +219,20 @@ function createtDelete(id) {
     }),
   });
   var table = document.getElementById("reported-posts");
+  var row = document.getElementById(id);
+  table.deleteRow(row.rowIndex);
+}
+
+//delete report object from database
+function createDelete(id) {
+  fetch("/api/v1/salary/delete", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      postId: id,
+    }),
+  });
+  var table = document.getElementById("all-posts");
   var row = document.getElementById(id);
   table.deleteRow(row.rowIndex);
 }
