@@ -8,15 +8,18 @@ const EasterController = require('../controllers/easter.controller');
 const FormController = require('../controllers/form.controller');
 const AboutUsController = require('../controllers/aboutus.controller');
 
+const { requireAuthentication } = require('../middleware/requireAuthentication');
+const { requireRole } = require('../middleware/requireRole');
+
 const router = express.Router();
 
-router.get('/', HomeController.renderHomePage);
-router.get('/easter-egg', EasterController.renderEasterEggPage);
+router.get('/', requireAuthentication, HomeController.renderHomePage);
+router.get('/easter-egg', requireAuthentication, EasterController.renderEasterEggPage);
 router.get('/register', UserController.renderRegistrationPage);
 router.get('/login', UserController.renderLoginPage);
-router.get('/admin', UserController.renderAdminPage);
-router.get('/search', SearchController.renderSearchPage);
-router.get('/about-us', AboutUsController.renderAboutUsPage);
-router.get('/form/salary', FormController.renderSalarySubmissionPage);
+router.get('/admin', requireAuthentication, requireRole('admin'), UserController.renderAdminPage);
+router.get('/search', requireAuthentication, SearchController.renderSearchPage);
+router.get('/about-us', requireAuthentication, AboutUsController.renderAboutUsPage);
+router.get('/form/salary', requireAuthentication, FormController.renderSalarySubmissionPage);
 
 module.exports = { router };
