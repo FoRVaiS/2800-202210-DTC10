@@ -2,9 +2,41 @@
 
 PaySwap is a web-based platform that allows people to anonymously compare their compensation to that of others in the same profession, in order to combat pay discrimination based on age or gender.
 
+[Check out our live demo!](https://payswap.herokuapp.com)
+
+- [Payswap](#payswap)
+  - [Features](#features)
+  - [Technology Used](#technology-used)
+    - [Front End](#front-end)
+    - [Back End](#back-end)
+    - [Extra Tooling](#extra-tooling)
+  - [Getting Started](#getting-started)
+    - [Prerequites](#prerequites)
+      - [Node](#node)
+      - [Mongodb](#mongodb)
+      - [Set up configuration](#set-up-configuration)
+      - [Populate your database](#populate-your-database)
+    - [Install the app](#install-the-app)
+    - [Starting your application](#starting-your-application)
+    - [Tests](#tests)
+      - [Integration Tests](#integration-tests)
+      - [Unit Tests](#unit-tests)
+  - [Project Structure](#project-structure)
+  - [Contact Us](#contact-us)
+
+## Features
+1. Account registration and login.
+2. Add your pay.
+3. Display a list of all salaries that relate to your job title.
+4. Search for pay rate by company and display locations on a map.
+5. Sort salary tables by pay.
+6. Salary reporting to flag a post for review.
+7. Admins can review reports and manage user posts.
+
 ## Technology Used
 
 ### Front End
+* Bootstrap
 * jQuery
 * Leaflet
 * matter.js
@@ -17,6 +49,7 @@ PaySwap is a web-based platform that allows people to anonymously compare their 
 * node-fetch
 * helmet
 * morgan
+* Heroku
 
 ### Extra Tooling
 * config.js
@@ -55,9 +88,6 @@ PaySwap is a web-based platform that allows people to anonymously compare their 
 1. Create a `local.json` file in the `config/` folder with the following contents.
 ```json
 {
-  "server": {
-    "address": "0.0.0.0"
-  },
   "secret": "RANDOM CHARACTERS",
   "mongo": {
     "connectionString": "YOUR MONGO CONNECTION STRING HERE"
@@ -101,6 +131,123 @@ $ npm run test:e2e
 #### Unit Tests
 ```shell
 $ npm run test:unit
+```
+
+## Project Structure
+```
+├── README.md
+├── __jest__
+│   └── controllers
+│       ├── home.controller.test.js
+│       ├── report.controller.test.js
+│       ├── salary.controller.test.js
+│       └── user.controller.test.js
+├── __playwright__
+│   └── views.test.js
+├── config
+│   ├── custom-environment-variables.json
+│   └── default.json
+├── jest.config.js
+├── package-lock.json
+├── package.json
+├── playwright.config.js
+├── public
+│   ├── images
+│   │   ├── afterExplosion.png
+│   │   ├── beforeExplosion.png
+│   │   ├── boxC.png
+│   │   ├── boxH.png
+│   │   ├── boxI.png
+│   │   ├── boxN.png
+│   │   ├── boxO.png
+│   │   ├── boxP.png
+│   │   ├── boxT.png
+│   │   ├── boxY.png
+│   │   ├── easterEggExplodey.png
+│   │   ├── error.jpg
+│   │   ├── logo.svg
+│   │   └── team-photo.jpg
+│   ├── pages
+│   │   ├── _partials
+│   │   │   ├── footer.ejs
+│   │   │   └── navbar.ejs
+│   │   ├── about-us
+│   │   │   ├── about-us.ejs
+│   │   │   └── about-us.js
+│   │   ├── admin
+│   │   │   ├── admin.css
+│   │   │   ├── admin.ejs
+│   │   │   └── admin.js
+│   │   ├── easter-egg
+│   │   │   ├── easter-egg.ejs
+│   │   │   └── easter-egg.js
+│   │   ├── error
+│   │   │   ├── error.ejs
+│   │   │   └── error.js
+│   │   ├── index
+│   │   │   ├── autocomplete.js
+│   │   │   ├── index.css
+│   │   │   ├── index.ejs
+│   │   │   ├── index.js
+│   │   │   └── temp.html
+│   │   ├── login
+│   │   │   ├── login.css
+│   │   │   ├── login.ejs
+│   │   │   └── login.js
+│   │   ├── register
+│   │   │   ├── register.css
+│   │   │   ├── register.ejs
+│   │   │   └── register.js
+│   │   ├── salary-form
+│   │   │   ├── autocomplete.js
+│   │   │   ├── salary-form.css
+│   │   │   ├── salary-form.ejs
+│   │   │   └── salary-form.js
+│   │   └── search
+│   │       ├── search.ejs
+│   │       └── search.js
+│   ├── scripts
+│   │   ├── global.js
+│   │   └── vendors
+│   │       ├── jquery-ui
+│   │       │   └── jquery-ui.js
+│   │       └── leaflet-1.8.0
+│   │           ├── images
+│   │           │   ├── layers-2x.png
+│   │           │   ├── layers.png
+│   │           │   ├── marker-icon-2x.png
+│   │           │   ├── marker-icon.png
+│   │           │   └── marker-shadow.png
+│   │           ├── leaflet.css
+│   │           ├── leaflet.js
+│   │           └── leaflet.js.map
+│   └── styles
+│       └── global.css
+├── scripts
+│   └── generate-fake-data.js
+└── src
+    ├── controllers
+    │   ├── aboutus.controller.js
+    │   ├── easter.controller.js
+    │   ├── form.controller.js
+    │   ├── home.controller.js
+    │   ├── report.controller.js
+    │   ├── salary.controller.js
+    │   ├── search.controller.js
+    │   └── user.controller.js
+    ├── index.js
+    ├── middleware
+    │   ├── requireAuthentication.js
+    │   └── requireRole.js
+    ├── models
+    │   ├── company.model.js
+    │   ├── report.model.js
+    │   └── user.model.js
+    ├── routes
+    │   ├── apiv1.js
+    │   ├── proxy.js
+    │   └── views.js
+    └── server.js
 ```
 
 ## Contact Us
