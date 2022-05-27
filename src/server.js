@@ -67,6 +67,10 @@ const createServer = () => {
   app.use('/proxy', proxyRouter.router);
   app.use('/api/v1', apiv1Router.router);
 
+  app.get('*', function(req, res){
+    res.render('pages/error/error.ejs');
+  });
+
   return app;
 };
 
