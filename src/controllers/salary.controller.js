@@ -33,7 +33,7 @@ const submitSalary = async (req, res) => {
     data: {
       msg: 'The field \'gender\' is required to be a string',
     },
-  });  
+  });
 
   if (!salary || Number(salary) === NaN) return res.status(400).json({
     success: false,
@@ -56,19 +56,19 @@ const submitSalary = async (req, res) => {
     },
   });
 
-  const company = await CompanyModel.findOne({
+  const searchQuery = {
     locations: {
-      $elemMatch: { name: location }
-    }
-  })
+      $elemMatch: {
+        name: { $regex: `^${location}$`, $options : 'i'}
+      },
+    },
+  };
+
+  const company = await CompanyModel.findOne(searchQuery);
 
   if (company) {
     await Promise.all([
-      CompanyModel.updateOne({
-        locations: {
-          $elemMatch: { name: location }
-        },
-      }, {
+      CompanyModel.updateOne(searchQuery, {
         $push: {
           'locations.$.salaries': {
             userId: uid,
@@ -152,9 +152,9 @@ const fetchSalaryFromLocation = async (req, res) => {
   });
 
   const salaryData = convertToSalaryData(company)
-    .filter((data) => data.location.toLowerCase() === location.toLowerCase() 
+    .filter((data) => data.location.toLowerCase() === location.toLowerCase()
                    && data.position.toLowerCase() === position.toLowerCase());
-  
+
   res.status(200).json({
     success: true,
     data: salaryData,
