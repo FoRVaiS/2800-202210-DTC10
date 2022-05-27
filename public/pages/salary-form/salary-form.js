@@ -1,4 +1,4 @@
-(() => {
+(async () => {
   const fetchJson = async (url, opts) => {
     const { body, headers, ...fetchOpts } = opts;
 
@@ -63,6 +63,16 @@
 
     redirectToPathFromRoot(redirectUrl || '/');
   }
+
+  const { data: salaries } = await fetchJson('/api/v1/salary', {});
+
+  const locations = Array.from(new Set(
+    salaries.map(salary => salary.location)
+  ));
+
+  $('#inputAddress').autocomplete({
+    source: locations
+  });
 
   const submitBtn = document.querySelector('button[type="submit"]');
 
