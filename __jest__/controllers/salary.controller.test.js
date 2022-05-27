@@ -7,7 +7,7 @@ const { CompanyModel } = require('../../src/models/company.model');
 jest.mock('../../src/models/company.model');
 
 const statusMock = jest.fn();
-const jsonMock = jest.fn()
+const jsonMock = jest.fn();
 
 const fakeRes = {
   status: statusMock.mockReturnValue({
@@ -32,7 +32,7 @@ const fakeData = [{
           salary: 18.12,
         },
       ],
-    }
+    },
   ],
 }];
 
@@ -101,11 +101,11 @@ describe('SalaryController', () => {
               {
                 userId: '123',
                 position: 'Sales Associate',
-                salary: 16.14
-              }
-            ]
-          }
-        ]
+                salary: 16.14,
+              },
+            ],
+          },
+        ],
       });
       expect(CompanyModel.create).toHaveBeenCalledTimes(1);
     });

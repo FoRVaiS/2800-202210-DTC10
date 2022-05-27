@@ -14,6 +14,7 @@ const router = express.Router();
 // Report
 router.get('/report', ReportController.fetchAllReports);
 router.post('/report/post', ReportController.submitReport);
+router.post('/report/delete', ReportController.deleteReport);
 
 // User
 router.get('/user', UserController.fetchAllAccounts);
@@ -21,10 +22,12 @@ router.get('/user/id/:id', UserController.fetchUserById);
 router.get('/user/logout', UserController.logout);
 router.post('/user/login', UserController.login);
 router.post('/user/register', UserController.register);
+router.post('/user/delete', UserController.deleteUser);
 
 // Salary
 router.get('/salary', SalaryController.fetchAllSalaries);
 router.put('/salary', SalaryController.fetchSalaryFromLocation);
 router.post('/salary/submit', SalaryController.submitSalary);
+router.post('/salary/delete', SalaryController.deleteSalary);
 
 module.exports = { router };

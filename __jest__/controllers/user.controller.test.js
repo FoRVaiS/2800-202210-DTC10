@@ -10,7 +10,7 @@ const baseReq = {
 };
 
 const statusMock = jest.fn();
-const jsonMock = jest.fn()
+const jsonMock = jest.fn();
 
 const fakeRes = {
   status: statusMock.mockReturnValue({
@@ -25,7 +25,7 @@ describe('UserController', () => {
 
   describe('fetchAllAccounts', () => {
     it('should return a warning when a non-admin user attempts to access the endpoint', async () => {
-      UserModel.findById.mockReturnValue({ roles: [ 'member' ] });
+      UserModel.findById.mockReturnValue({ roles: ['member'] });
 
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
@@ -43,11 +43,11 @@ describe('UserController', () => {
       };
 
       UserModel.findById.mockReturnValue({ roles: fakeUser.roles });
-      UserModel.find.mockReturnValue([ fakeUser ]);
+      UserModel.find.mockReturnValue([fakeUser]);
 
       await UserController.fetchAllAccounts(baseReq, fakeRes);
 
-      expect(jsonMock).toHaveBeenCalledWith({ success: true, users: [ fakeUser ] });
+      expect(jsonMock).toHaveBeenCalledWith({ success: true, users: [fakeUser] });
       expect(jsonMock).toHaveBeenCalledTimes(1);
       expect(statusMock).toHaveBeenCalledWith(200);
       expect(statusMock).toHaveBeenCalledTimes(1);
@@ -109,7 +109,7 @@ describe('UserController', () => {
       const fakeUser = {
         email: 'user@example.com',
         password: '123',
-      }
+      };
 
       UserModel.find.mockResolvedValue([fakeUser]);
 

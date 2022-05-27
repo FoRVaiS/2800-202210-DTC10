@@ -1,28 +1,37 @@
 const { CompanyModel } = require('../models/company.model');
+const { UserModel } = require('../models/user.model');
 
 const doesCompanyExist = async name => (await CompanyModel.find({ name })).length;
-const doesLocationExist = async (company, location) => (await CompanyModel.find({
-  name: company,
+const doesLocationExist = async location => (await CompanyModel.find({
   locations: {
-    $elemMatch: { name: location }
-  }
+    $elemMatch: { name: location },
+  },
 })).length;
 
 const submitSalary = async (req, res) => {
-  const { company = null, salary = null, position = null, location = null } = req.body || {};
+  const { age = null, gender = null, salary = null, position = null, location = null } = req.body || {};
   const { uid = null } = req.session || {};
+
+  console.log(req.session);
 
   if (!uid) return res.status(403).json({
     success: false,
     data: {
-      msg: 'You need to be logged in to use this resource'
+      msg: 'You need to be logged in to use this resource',
     },
   });
 
-  if (!company) return res.status(400).json({
+  if (!age || Number(age) === NaN) return res.status(400).json({
     success: false,
     data: {
-      msg: 'The field \'company\' is required to be a string',
+      msg: 'The field \'age\' is required to be a number',
+    },
+  });
+
+  if (!gender) return res.status(400).json({
+    success: false,
+    data: {
+      msg: 'The field \'gender\' is required to be a string',
     },
   });
 
@@ -47,61 +56,42 @@ const submitSalary = async (req, res) => {
     },
   });
 
-  const companyExists = await doesCompanyExist(company);
+  const searchQuery = {
+    locations: {
+      $elemMatch: {
+        name: { $regex: `^${location}$`, $options: 'i' },
+      },
+    },
+  };
 
-  if (companyExists) {
-    const locationExists = await doesLocationExist(company, location);
+  const company = await CompanyModel.findOne(searchQuery);
 
-    if (locationExists) {
-      // The company and location already exist
-      await CompanyModel.updateOne({
-        locations: {
-          $elemMatch: { name: location }
-        },
-      }, {
+  if (company) {
+    await Promise.all([
+      CompanyModel.updateOne(searchQuery, {
         $push: {
           'locations.$.salaries': {
             userId: uid,
             salary,
             position,
-          }
-        },
-      });
-    } else {
-      // The company exists but the location is new
-      await CompanyModel.updateOne({
-        name: company,
-      }, {
-        $push: {
-          locations: {
-            name: location,
-            salaries: [
-              {
-                userId: uid,
-                salary,
-                position,
-              },
-            ],
           },
         },
-      });
-    }
+      }),
+      UserModel.findByIdAndUpdate(req.session.uid, {
+        $set: {
+          age,
+          gender,
+        },
+      }),
+    ]);
   } else {
-    // The company does not exist
-    await CompanyModel.create({
-      name: company,
-      locations: [{
-        name: location,
-        salaries: [
-          {
-            userId: uid,
-            salary,
-            position,
-          },
-        ],
-      }],
+    return res.status(500).json({
+      success: false,
+      data: {
+        msg: 'Could not find a company associated with the location.',
+      },
     });
-  };
+  }
 
   res.status(200).json({
     success: true,
@@ -109,23 +99,25 @@ const submitSalary = async (req, res) => {
   });
 };
 
-const convertToSalaryData = (company) => {
+const convertToSalaryData = company => {
   const salaryData = [];
 
   for (const location of company.locations) {
     for (const salary of location.salaries) {
       salaryData.push({
+        postId: salary._id,
         company: company.name,
         location: location.name,
         position: salary.position,
         userId: salary.userId,
-        salary: salary.salary
+        salary: salary.salary,
+        reported: salary.reported,
       });
-    };
+    }
   }
 
   return salaryData;
-}
+};
 
 const fetchSalaryFromLocation = async (req, res) => {
   const { location = null, position = null } = req.body || {};
@@ -148,8 +140,8 @@ const fetchSalaryFromLocation = async (req, res) => {
     locations: {
       $elemMatch: {
         name: location,
-      }
-    }
+      },
+    },
   }, { __v: 0 });
 
   if (!company) return res.status(500).json({
@@ -160,12 +152,48 @@ const fetchSalaryFromLocation = async (req, res) => {
   });
 
   const salaryData = convertToSalaryData(company)
-    .filter((data) => data.location.toLowerCase() === location.toLowerCase() 
-                   && data.position.toLowerCase() === position.toLowerCase());
-  
+    .filter(data => data.location.toLowerCase() === location.toLowerCase() &&
+                   data.position.toLowerCase() === position.toLowerCase());
+
   res.status(200).json({
     success: true,
     data: salaryData,
+  });
+};
+
+const deleteSalary = async (req, res) => {
+  const { postId } = req.body;
+  const { uid } = req.session;
+
+  const user = await UserModel.findById(uid);
+
+  if (user && user.roles.includes('admin')) {
+    await CompanyModel.findOneAndUpdate(
+      {
+        'locations.salaries._id': postId,
+      },
+      {
+        $pull: {
+          'locations.$[].salaries': {
+            _id: postId,
+          },
+        },
+      },
+    );
+  } else {
+    return res.status(500).json({
+      success: false,
+      data: {
+        msg: `Failed to delete post ${postId}`,
+      },
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: {
+      msg: `Successfully deleted post ${postId}`,
+    },
   });
 };
 
@@ -180,4 +208,4 @@ const fetchAllSalaries = async (req, res) => {
   });
 };
 
-module.exports = { submitSalary, fetchSalaryFromLocation, fetchAllSalaries, doesCompanyExist, doesLocationExist, convertToSalaryData };
+module.exports = { submitSalary, fetchSalaryFromLocation, fetchAllSalaries, doesCompanyExist, doesLocationExist, convertToSalaryData, deleteSalary };

@@ -15,6 +15,27 @@ const fetchAllAccounts = async (req, res) => {
   });
 };
 
+const deleteUser = async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    await UserModel.deleteOne({ _id: userId });
+    res.status(200).json({
+      success: true,
+      data: {
+        msg: 'Successfully deleted user ' + userId,
+      },
+    });
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      data: {
+        msg: e.message
+      },
+    });
+  }
+};
+
 const fetchUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -41,13 +62,11 @@ const fetchUserById = async (req, res) => {
 
 const register = async (req, res) => {
   // TODO: Administrators need a special sign-up process, perhaps an admin token could be supplied with the request?
-  const { email, password, age, gender } = req.body;
+  const { email, password } = req.body;
 
   const user = new UserModel({ 
     email: email.trim(),
     password: password.trim(),
-    age: Number(age),
-    gender: gender.trim(),
     roles: ['member']
   });
 
@@ -102,4 +121,8 @@ const renderRegistrationPage = (req, res) => {
   res.render('pages/register/register.ejs');
 };
 
-module.exports = { fetchAllAccounts, fetchUserById, login, logout, register, renderLoginPage, renderRegistrationPage };
+const renderAdminPage = (req, res) => {
+  res.render('pages/admin/admin.ejs');
+}
+
+module.exports = { fetchAllAccounts, fetchUserById, login, logout, register, renderLoginPage, renderRegistrationPage, renderAdminPage, deleteUser };
