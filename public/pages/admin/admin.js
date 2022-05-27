@@ -189,7 +189,7 @@ function postTable() {
               passButton.classList.add("btn-success");
               passButton.classList.add("btn-sm");
               passButton.addEventListener("click", () => {
-                createPass(element.id);
+                createPass(element.postId);
               });
               passButton.innerHTML = "Pass";
               id.appendChild(document.createTextNode(`${element.postId}`));
@@ -216,6 +216,20 @@ function createReportDelete(id) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       postId: id,
+    }),
+  });
+  var table = document.getElementById("reported-posts");
+  var row = document.getElementById(id);
+  table.deleteRow(row.rowIndex);
+}
+
+//delete salary object from database
+function createPass(id) {
+  fetch("/api/v1/report/delete", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      reportId: id,
     }),
   });
   var table = document.getElementById("reported-posts");
