@@ -161,11 +161,11 @@ function postTable() {
         headers: { "Content-Type": "application/json" },
       })
         .then((data) => data.json())
-        .then((data) => {
+        .then(({ data: salaryPosts }) => {
           var table = document.getElementById("reported-posts");
-          var posts = data.data;
-          posts.forEach((element) => {
+          salaryPosts.forEach((element) => {
             if (reported_postID.includes(element.postId)) {
+              const reportId = posts.filter(({ postId }) => postId === element.postId).pop()._id;
               var tr = table.insertRow();
               tr.setAttribute("id", `${element.postId}`);
               var id = tr.insertCell();
@@ -179,7 +179,7 @@ function postTable() {
               deleteButton.classList.add("btn-danger");
               deleteButton.classList.add("btn-sm");
               deleteButton.addEventListener("click", () => {
-                createReportDelete(element.postId);
+                createReportDelete(element.postId, reportId);
               });
               deleteButton.innerHTML = "Delete";
               var passBut = tr.insertCell();
@@ -189,7 +189,7 @@ function postTable() {
               passButton.classList.add("btn-success");
               passButton.classList.add("btn-sm");
               passButton.addEventListener("click", () => {
-                createPass(element.postId);
+                createPass(element.postId, reportId);
               });
               passButton.innerHTML = "Pass";
               id.appendChild(document.createTextNode(`${element.postId}`));
@@ -210,30 +210,39 @@ function postTable() {
 postTable();
 
 //delete salary object from database
-function createReportDelete(id) {
+function createReportDelete(postId, reportId) {
   fetch("/api/v1/salary/delete", {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      postId: id,
+      postId,
     }),
   });
-  var table = document.getElementById("reported-posts");
-  var row = document.getElementById(id);
-  table.deleteRow(row.rowIndex);
-}
 
-//delete salary object from database
-function createPass(id) {
   fetch("/api/v1/report/delete", {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      reportId: id,
+      reportId,
+    }),
+  });
+
+  var table = document.getElementById("reported-posts");
+  var row = document.getElementById(postId);
+  table.deleteRow(row.rowIndex);
+}
+
+//delete salary object from database
+function createPass(postId, reportId) {
+  fetch("/api/v1/report/delete", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      reportId,
     }),
   });
   var table = document.getElementById("reported-posts");
-  var row = document.getElementById(id);
+  var row = document.getElementById(postId);
   table.deleteRow(row.rowIndex);
 }
 
