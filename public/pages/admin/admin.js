@@ -210,7 +210,7 @@ function postTable() {
 postTable();
 
 //delete salary object from database
-function createDelete(id) {
+function createReportDelete(id) {
   fetch("/api/v1/report/delete", {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -224,7 +224,7 @@ function createDelete(id) {
 }
 
 //delete report object from database
-function createReportDelete(id) {
+function createtDelete(id) {
   fetch("/api/v1/salary/delete", {
     method: "post",
     headers: { "Content-Type": "application/json" },
