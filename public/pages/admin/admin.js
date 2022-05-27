@@ -57,8 +57,6 @@ async function salaryTable() {
   if (currentUserSalaryPost) {
     currentUserJob = currentUserSalaryPost.position;
     userPay = currentUserSalaryPost.salary;
-
-    // userInfo(currentUserSalaryPost);
   } else {
     const jobPositions = Array.from(
       new Set(salaryPosts.map((salary) => salary.position))
