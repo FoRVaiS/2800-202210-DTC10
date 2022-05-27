@@ -1,4 +1,4 @@
-const { UserModel } = require("../models/user.model");
+const { UserModel } = require('../models/user.model');
 
 const requireRole = (...roles) => async (req, res, next) => {
   const { uid, isAuthenticated } = req.session;
@@ -18,6 +18,6 @@ const requireRole = (...roles) => async (req, res, next) => {
   }
 
   res.redirect('/');
-}
+};
 
 module.exports = { requireRole };

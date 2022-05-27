@@ -4,6 +4,6 @@ const requireAuthentication = (req, res, next) => {
   } else {
     res.redirect('/login');
   }
-}
+};
 
 module.exports = { requireAuthentication };

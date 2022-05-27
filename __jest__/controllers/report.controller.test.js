@@ -1,4 +1,4 @@
-const ReportController = require("../../src/controllers/report.controller");
+const ReportController = require('../../src/controllers/report.controller');
 const { ReportModel } = require('../../src/models/report.model');
 jest.mock('../../src/models/report.model');
 
@@ -8,7 +8,7 @@ const baseReq = {
 };
 
 const statusMock = jest.fn();
-const jsonMock = jest.fn()
+const jsonMock = jest.fn();
 
 const fakeRes = {
   status: statusMock.mockReturnValue({

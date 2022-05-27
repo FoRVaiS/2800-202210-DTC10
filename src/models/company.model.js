@@ -10,7 +10,7 @@ const CompanySchema = new Schema({
           userId: Types.ObjectId,
           position: String,
           salary: Number,
-          reported: { type: Boolean, default: false }
+          reported: { type: Boolean, default: false },
         },
       ],
     },
@@ -19,4 +19,4 @@ const CompanySchema = new Schema({
 
 const CompanyModel = model('company', CompanySchema);
 
-module.exports = { CompanyModel }; 
+module.exports = { CompanyModel };

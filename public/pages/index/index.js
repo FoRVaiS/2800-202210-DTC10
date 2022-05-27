@@ -1,4 +1,4 @@
-var userPay;
+let userPay;
 
 (async () => {
   const userData = [];
@@ -14,7 +14,7 @@ var userPay;
 
   function createTriggerState(timeout) {
     const startTime = new Date().getTime();
-    let endTime = startTime + timeout;
+    const endTime = startTime + timeout;
 
     return {
       clicks: 0,
@@ -27,7 +27,7 @@ var userPay;
   }
 
   // easter egg action trigger event script below
-  const logoRef = document.querySelector("#logo");
+  const logoRef = document.querySelector('#logo');
 
   if (logoRef) {
     logoRef.onclick = () => {
@@ -43,7 +43,7 @@ var userPay;
       ) {
         activeTriggerState = null;
 
-        window.location.href = "/easter-egg";
+        window.location.href = '/easter-egg';
       }
     };
   }
@@ -55,78 +55,78 @@ var userPay;
     addToSalaryBtn.onclick = () => window.location.href = '/form/salary';
   }
 
-  var salary = []
-  var company = []
-  var id = localStorage.getItem("id");
+  const salary = [];
+  const company = [];
+  const id = localStorage.getItem('id');
 
   payRow(id, userData).then(() => {
     userData.sort((a, b) => a.salary - b.salary);
 
-    for (var x = 0; x < userData.length; x++) {
+    for (let x = 0; x < userData.length; x++) {
       salary[x] = userData[x].salary;
       company[x] = userData[x].companyName;
     }
 
-    new Chart("info-chart", {
-      type: "line",
+    new Chart('info-chart', {
+      type: 'line',
       data: {
         labels: company,
         datasets: [{
           fill: false,
           lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
-          borderColor: "rgba(0,0,255,0.1)",
-          data: salary
-        }]
+          backgroundColor: 'rgba(0,0,255,1.0)',
+          borderColor: 'rgba(0,0,255,0.1)',
+          data: salary,
+        }],
       },
       options: {
         legend: {
-          display: false
+          display: false,
         },
       },
       elements: {
         point: {
           radius: highLight,
-          display: true
-        }
-      }
+          display: true,
+        },
+      },
     });
   });
 
   searchCompany();
 
-  document.getElementById("sort").addEventListener("click", () => {
+  document.getElementById('sort').addEventListener('click', () => {
     sortTable();
   });
 })();
 
 function userInfo(data) {
-  var jobBox = document.createElement("div");
-  jobBox.classList.add("d-flex");
-  jobBox.classList.add("align-items-start");
-  jobBox.classList.add("flex-column");
+  const jobBox = document.createElement('div');
+  jobBox.classList.add('d-flex');
+  jobBox.classList.add('align-items-start');
+  jobBox.classList.add('flex-column');
 
-  var userBox = document.getElementById("userInfo");
-  var company = document.createElement("h3");
-  var companyName = document.createElement("small");
-  var positionName = document.createElement("small");
+  const userBox = document.getElementById('userInfo');
+  const company = document.createElement('h3');
+  const companyName = document.createElement('small');
+  const positionName = document.createElement('small');
 
   companyName.textContent = `${data.company}`;
-  companyName.classList.add("text-muted");
+  companyName.classList.add('text-muted');
   positionName.textContent = `${data.position}`;
-  positionName.classList.add("text-muted");
+  positionName.classList.add('text-muted');
 
-  var position = document.createElement("h4");
-  var pay = document.createElement("h2");
-  var payBox = document.createElement("div");
+  const position = document.createElement('h4');
+  const pay = document.createElement('h2');
+  const payBox = document.createElement('div');
 
-  payBox.classList.add("d-flex");
-  payBox.classList.add("justify-content-center");
+  payBox.classList.add('d-flex');
+  payBox.classList.add('justify-content-center');
   payBox.appendChild(pay);
 
-  company.textContent = `Company: `;
+  company.textContent = 'Company: ';
   company.appendChild(companyName);
-  position.textContent = `Position: `;
+  position.textContent = 'Position: ';
   position.appendChild(positionName);
   pay.textContent = `$${data.salary}/hr`;
 
@@ -137,9 +137,9 @@ function userInfo(data) {
 }
 
 async function payRow(id, userData) {
-  var main = document.getElementById("Pay-Table");
+  const main = document.getElementById('Pay-Table');
   
-  const { data: salaryPosts } = await fetchJson("/api/v1/salary");
+  const { data: salaryPosts } = await fetchJson('/api/v1/salary');
   
   const currentUserSalaryPost = salaryPosts.filter(salary => salary.userId === id).pop();
   
@@ -162,30 +162,30 @@ async function payRow(id, userData) {
     .map(async salaryPost => {
       const personalUser = await fetchJson(`/api/v1/user/id/${salaryPost.userId}`);
 
-      var tr = main.insertRow();
-      tr.setAttribute("id", `${salaryPost.postId}`);
-      var company = tr.insertCell();
-      var location = tr.insertCell();
-      var gender = tr.insertCell();
-      var age = tr.insertCell();
-      var pay = tr.insertCell();
-      var report = tr.insertCell();
+      const tr = main.insertRow();
+      tr.setAttribute('id', `${salaryPost.postId}`);
+      const company = tr.insertCell();
+      const location = tr.insertCell();
+      const gender = tr.insertCell();
+      const age = tr.insertCell();
+      const pay = tr.insertCell();
+      const report = tr.insertCell();
 
       userData.push({
         salary: (salaryPost.salary),
-        companyName: (salaryPost.company)
+        companyName: (salaryPost.company),
       });
 
-      var reportButton = document.createElement("button");
-      reportButton.type = "button";
-      reportButton.classList.add("btn");
-      reportButton.classList.add("btn-danger");
-      reportButton.classList.add("btn-sm");
+      const reportButton = document.createElement('button');
+      reportButton.type = 'button';
+      reportButton.classList.add('btn');
+      reportButton.classList.add('btn-danger');
+      reportButton.classList.add('btn-sm');
 
-      reportButton.addEventListener("click", () => {
+      reportButton.addEventListener('click', () => {
         createReport(salaryPost.postId);
-      })
-      reportButton.innerHTML = "Report";
+      });
+      reportButton.innerHTML = 'Report';
       company.appendChild(document.createTextNode(`${salaryPost.company}`));
       location.appendChild(document.createTextNode(`${salaryPost.location}`));
       gender.appendChild(document.createTextNode(`${personalUser.data.gender}`));
@@ -201,50 +201,50 @@ async function payRow(id, userData) {
 }
 
 function searchCompany() {
-  var searchButton = document.getElementById("search-input");
-  searchButton.addEventListener("click", () => {
-    var input = document.getElementById("tags").value;
-    localStorage.setItem("search", `${input}`);
-    return window.location.href = "/search";
+  const searchButton = document.getElementById('search-input');
+  searchButton.addEventListener('click', () => {
+    const input = document.getElementById('tags').value;
+    localStorage.setItem('search', `${input}`);
+    return window.location.href = '/search';
   });
 }
 
-$(function() {
-  var companies = [
+$(() => {
+  const companies = [
     "McDonald's",
-    "No Frills",
-    "Real Canadian Superstore",
-    "Winners",
-    "Shopper's Drug Mart"
+    'No Frills',
+    'Real Canadian Superstore',
+    'Winners',
+    "Shopper's Drug Mart",
   ];
-  $("#tags").autocomplete({
-    source: companies
+  $('#tags').autocomplete({
+    source: companies,
   });
 });
 
 function createReport(postId) {
   document.getElementById(postId).remove();
-  $('#report-modal').modal('show')
-  fetch("/api/v1/report/post", {
-    method: "post",
+  $('#report-modal').modal('show');
+  fetch('/api/v1/report/post', {
+    method: 'post',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      postId
+      postId,
     }),
   });
 }
 
 function sortTable() {
-  myTable = document.getElementById("Pay-Table");
+  myTable = document.getElementById('Pay-Table');
   swap = true;
   rows = myTable.rows;
   while (swap) {
     swap = false;
-    for (var x = 1; x < (rows.length - 1); x++) {
-      curRow = rows[x].getElementsByTagName("td")[4];
-      nextRow = rows[(x + 1)].getElementsByTagName("td")[4];
+    for (let x = 1; x < (rows.length - 1); x++) {
+      curRow = rows[x].getElementsByTagName('td')[4];
+      nextRow = rows[(x + 1)].getElementsByTagName('td')[4];
       if (Number(curRow.innerHTML) > Number(nextRow.innerHTML)) {
         rows[x].parentNode.insertBefore(rows[x + 1], rows[x]);
         swap = true;
@@ -255,7 +255,7 @@ function sortTable() {
 }
 
 function highLight(context) {
-  let index = context.dataIndex;
-  let value = context.dataset.data[index];
+  const index = context.dataIndex;
+  const value = context.dataset.data[index];
   return value == userPay ? 10 : 2;
 }

@@ -10,49 +10,15 @@ const doesCompanyExist = async name => (await CompanyModel.find({ name })).lengt
 const doesLocationExist = async (company, location) => (await CompanyModel.find({
   name: company,
   locations: {
-    $elemMatch: { name: location }
-  }
+    $elemMatch: { name: location },
+  },
 })).length;
 
-const insertLocationAtCompany = (company, location, position, userId, salary) => {
-  return CompanyModel.updateOne({
-    name: company,
-  }, {
-    $push: {
-      locations: {
-        name: location,
-        salaries: [
-          {
-            userId,
-            salary,
-            position,
-          },
-        ],
-      },
-    },
-  });
-}
-
-const insertSalaryAtLocation = (location, position, userId, salary) => {
-  return CompanyModel.updateOne({
+const insertLocationAtCompany = (company, location, position, userId, salary) => CompanyModel.updateOne({
+  name: company,
+}, {
+  $push: {
     locations: {
-      $elemMatch: { name: location }
-    },
-  }, {
-    $push: {
-      'locations.$.salaries': {
-        userId,
-        salary,
-        position,
-      }
-    },
-  });
-}
-
-const createNewCompany = (company, location, position, userId, salary) => {
-  return CompanyModel.create({
-    name: company,
-    locations: [{
       name: location,
       salaries: [
         {
@@ -61,9 +27,37 @@ const createNewCompany = (company, location, position, userId, salary) => {
           position,
         },
       ],
-    }],
-  });
-}
+    },
+  },
+});
+
+const insertSalaryAtLocation = (location, position, userId, salary) => CompanyModel.updateOne({
+  locations: {
+    $elemMatch: { name: location },
+  },
+}, {
+  $push: {
+    'locations.$.salaries': {
+      userId,
+      salary,
+      position,
+    },
+  },
+});
+
+const createNewCompany = (company, location, position, userId, salary) => CompanyModel.create({
+  name: company,
+  locations: [{
+    name: location,
+    salaries: [
+      {
+        userId,
+        salary,
+        position,
+      },
+    ],
+  }],
+});
 
 const nameDictionary = {
   first: [['Joseph', 'male'], ['Darryl', 'male'], ['Angela', 'female'], ['Ashley', 'female'], ['Herbert', 'male']],
@@ -86,8 +80,8 @@ const companies = [
     locations: [
       '4700 Kingsway',
       '448 SW Marine Dr',
-      '5300 No. 3 Rd'
-    ]
+      '5300 No. 3 Rd',
+    ],
   },
   {
     name: 'No Frills',
@@ -95,8 +89,8 @@ const companies = [
     locations: [
       '1460 E Hastings St',
       '1688 W 4th Ave',
-      '15355 Fraser Hwy'
-    ]
+      '15355 Fraser Hwy',
+    ],
   },
   {
     name: 'Shoppers Drug Mart',
@@ -104,8 +98,8 @@ const companies = [
     locations: [
       '6305 Fraser St',
       '2607 E 49th Ave Unit 102',
-      '8525 River District Crossing'
-    ]
+      '8525 River District Crossing',
+    ],
   },
   {
     name: 'Real Canadian Superstore',
@@ -114,8 +108,8 @@ const companies = [
       '3000 Lougheed Hwy.',
       '4700 Kingsway #1105',
       '4651 No. 3 Rd',
-    ]
-  }
+    ],
+  },
 ];
 
 const SALERIES_PER_LOCATION = 3;
@@ -141,15 +135,13 @@ const SALERIES_PER_LOCATION = 3;
   });
 
   console.log('Generating a flat array of jobs...');
-  const jobs = Array.from(Array(SALERIES_PER_LOCATION)).flatMap(_ => companies.flatMap(company => 
-    company.locations
-      .flatMap((location) => ({ 
-        company: company.name, 
-        location, 
-        position: company.jobs[Math.round(randBetweenRange(0, company.jobs.length))],
-        salary: Number(randBetweenRange(15.20, 19.25).toFixed(2)),
-      }))
-  ));
+  const jobs = Array.from(Array(SALERIES_PER_LOCATION)).flatMap(() => companies.flatMap(company => company.locations
+    .flatMap(location => ({
+      company: company.name,
+      location,
+      position: company.jobs[Math.round(randBetweenRange(0, company.jobs.length))],
+      salary: Number(randBetweenRange(15.20, 19.25).toFixed(2)),
+    }))));
 
   for (const { company, salary, position, location } of jobs) {
     const firstName = nameDictionary.first[Math.round(randBetweenRange(0, nameDictionary.first.length))][0].toLowerCase();
@@ -181,8 +173,8 @@ const SALERIES_PER_LOCATION = 3;
     } else {
       // The company does not exist
       await createNewCompany(company, location, position, uid, salary);
-    };
-  };
+    }
+  }
 
   console.log('Data generation complete!');
   mongoose.connection.close();

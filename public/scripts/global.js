@@ -4,7 +4,7 @@ const fetchJson = async (url, opts = {}) => {
   const response = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
-      ...headers
+      ...headers,
     },
     body: JSON.stringify(body),
     ...fetchOpts,

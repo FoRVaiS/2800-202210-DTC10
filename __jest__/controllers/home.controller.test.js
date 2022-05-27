@@ -1,4 +1,4 @@
-const HomeController = require("../../src/controllers/home.controller");
+const HomeController = require('../../src/controllers/home.controller');
 
 const baseReq = {
   session: {},

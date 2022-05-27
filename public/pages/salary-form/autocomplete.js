@@ -1,26 +1,24 @@
-$(function () {
-  $.widget("custom.combobox", {
-    _create: function () {
-      this.wrapper = $("<span>")
-        .addClass("custom-combobox")
+$(() => {
+  $.widget('custom.combobox', {
+    _create () {
+      this.wrapper = $('<span>')
+        .addClass('custom-combobox')
         .insertAfter(this.element);
 
       this.element.hide();
       this._createAutocomplete();
     },
 
-    _createAutocomplete: function () {
-      var selected = this.element.children(":selected"),
-        value = selected.val() ? selected.text() : "";
+    _createAutocomplete () {
+      const selected = this.element.children(':selected'),
+        value = selected.val() ? selected.text() : '';
 
-      this.input = $("<input>")
+      this.input = $('<input>')
         .appendTo(this.wrapper)
         .val(value)
-        .attr("title", "")
+        .attr('title', '')
         .attr('id', 'inputTitle')
-        .addClass(
-          "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left"
-        )
+        .addClass('custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left')
         .autocomplete({
           delay: 0,
           minLength: 0,
@@ -28,44 +26,44 @@ $(function () {
         })
         .tooltip({
           classes: {
-            "ui-tooltip": "ui-state-highlight",
+            'ui-tooltip': 'ui-state-highlight',
           },
         });
 
       this._on(this.input, {
-        autocompleteselect: function (event, ui) {
+        autocompleteselect (event, ui) {
           ui.item.option.selected = true;
-          this._trigger("select", event, {
+          this._trigger('select', event, {
             item: ui.item.option,
           });
         },
 
-        autocompletechange: "_removeIfInvalid",
+        autocompletechange: '_removeIfInvalid',
       });
     },
 
-    _createShowAllButton: function () {
-      var input = this.input,
+    _createShowAllButton () {
+      let { input } = this,
         wasOpen = false;
 
-      $("<a>")
-        .attr("tabIndex", -1)
-        .attr("title", "Show All Items")
+      $('<a>')
+        .attr('tabIndex', -1)
+        .attr('title', 'Show All Items')
         .tooltip()
         .appendTo(this.wrapper)
         .button({
           icons: {
-            primary: "ui-icon-triangle-1-s",
+            primary: 'ui-icon-triangle-1-s',
           },
           text: false,
         })
-        .removeClass("ui-corner-all")
-        .addClass("custom-combobox-toggle ui-corner-right")
-        .on("mousedown", function () {
-          wasOpen = input.autocomplete("widget").is(":visible");
+        .removeClass('ui-corner-all')
+        .addClass('custom-combobox-toggle ui-corner-right')
+        .on('mousedown', () => {
+          wasOpen = input.autocomplete('widget').is(':visible');
         })
-        .on("click", function () {
-          input.trigger("focus");
+        .on('click', () => {
+          input.trigger('focus');
 
           // Close if already visible
           if (wasOpen) {
@@ -73,39 +71,36 @@ $(function () {
           }
 
           // Pass empty string as value to search for, displaying all results
-          input.autocomplete("search", "");
+          input.autocomplete('search', '');
         });
     },
 
-    _source: function (request, response) {
-      var matcher = new RegExp(
+    _source (request, response) {
+      const matcher = new RegExp(
         $.ui.autocomplete.escapeRegex(request.term),
-        "i"
+        'i',
       );
-      response(
-        this.element.children("option").map(function () {
-          var text = $(this).text();
-          if (this.value && (!request.term || matcher.test(text)))
-            return {
-              label: text,
-              value: text,
-              option: this,
-            };
-        })
-      );
+      response(this.element.children('option').map(function () {
+        const text = $(this).text();
+        if (this.value && (!request.term || matcher.test(text))) return {
+          label: text,
+          value: text,
+          option: this,
+        };
+      }));
     },
 
-    _removeIfInvalid: function (event, ui) {
+    _removeIfInvalid (event, ui) {
       // Selected an item, nothing to do
       if (ui.item) {
         return;
       }
 
       // Search for a match (case-insensitive)
-      var value = this.input.val(),
+      let value = this.input.val(),
         valueLowerCase = value.toLowerCase(),
         valid = false;
-      this.element.children("option").each(function () {
+      this.element.children('option').each(function () {
         if ($(this).text().toLowerCase() === valueLowerCase) {
           this.selected = valid = true;
           return false;
@@ -119,50 +114,50 @@ $(function () {
 
       // Remove invalid value
       this.input
-        .val("")
-        .attr("title", value + " didn't match any item")
-        .tooltip("open");
-      this.element.val("");
+        .val('')
+        .attr('title', `${value} didn't match any item`)
+        .tooltip('open');
+      this.element.val('');
       this._delay(function () {
-        this.input.tooltip("close").attr("title", "");
+        this.input.tooltip('close').attr('title', '');
       }, 2500);
-      this.input.autocomplete("instance").term = "";
+      this.input.autocomplete('instance').term = '';
     },
 
-    _destroy: function () {
+    _destroy () {
       this.wrapper.remove();
       this.element.show();
     },
   });
 
-  $("#combobox").combobox();
-  $("#toggle").on("click", function () {
-    $("#combobox").toggle();
+  $('#combobox').combobox();
+  $('#toggle').on('click', () => {
+    $('#combobox').toggle();
   });
 });
 
 (function () {
-  "use strict";
+  'use strict';
   window.addEventListener(
-    "load",
-    function () {
+    'load',
+    () => {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName("needs-validation");
+      const forms = document.getElementsByClassName('needs-validation');
       // Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, function (form) {
+      const validation = Array.prototype.filter.call(forms, form => {
         form.addEventListener(
-          "submit",
-          function (event) {
+          'submit',
+          event => {
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
             }
-            form.classList.add("was-validated");
+            form.classList.add('was-validated');
           },
-          false
+          false,
         );
       });
     },
-    false
+    false,
   );
 })();

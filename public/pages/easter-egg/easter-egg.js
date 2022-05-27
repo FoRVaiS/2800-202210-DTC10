@@ -1,15 +1,13 @@
-var numbers = ["10", "9", "8", "7", "6", "5", "4", "3", "2", "1", ""];
+const numbers = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1', ''];
 i = -1;
 
 function countDown() {
-  console.log("Counting down!");
-  const secretFound = document.createElement("div");
-  secretFound.classList.add("secretFound");
-  $("#inner-container").html("<div id='secret-found'></div>") +
-    $("#inner-container").append(
-      "<div id='secretCodeInput'><input type='tel' id='secretCode'></input></div>"
-    );
-  //countdown from 10 to 1
+  console.log('Counting down!');
+  const secretFound = document.createElement('div');
+  secretFound.classList.add('secretFound');
+  $('#inner-container').html("<div id='secret-found'></div>") +
+    $('#inner-container').append("<div id='secretCodeInput'><input type='tel' id='secretCode'></input></div>");
+  // countdown from 10 to 1
   numbersCounting();
 }
 
@@ -18,45 +16,43 @@ function numbersCounting() {
     2000;
     i++;
     if (i < numbers.length) {
-      $("#secret-found").text(numbers[i]);
+      $('#secret-found').text(numbers[i]);
       setTimeout(numbersCounting, 1000);
     } else {
       explosion();
-      $("#secretCodeInput").html("");
+      $('#secretCodeInput').html('');
     }
   }, 1000);
 }
 
 function explosion() {
-  document.getElementById("outer-container").style.backgroundImage =
+  document.getElementById('outer-container').style.backgroundImage =
     "url('/images/afterExplosion.png')";
 }
 
 function easterEgg() {
-  console.log("Easter egg is working!");
-  //script showing the easter egg
-  $("#inner-container").html(
-    `<a onclick="buttonPressed()">` +
-      `<div class="easterEggButton">` +
-      `</div>` +
-      `</a>`
-  );
+  console.log('Easter egg is working!');
+  // script showing the easter egg
+  $('#inner-container').html('<a onclick="buttonPressed()">' +
+      '<div class="easterEggButton">' +
+      '</div>' +
+      '</a>');
 }
 easterEgg();
 
 function buttonPressed() {
-  console.log("Button pressed!");
-  //script showing the easter egg
+  console.log('Button pressed!');
+  // script showing the easter egg
   countDown();
   defusal();
 }
 function defusal() {
-  let password = "7355608";
-  $("#secretCode").keyup(function (event) {
+  const password = '7355608';
+  $('#secretCode').keyup(event => {
     if (event.keyCode === 13) {
       event.preventDefault();
-      if ($("#secretCode").val() === password) {
-        console.log("Password is correct!");
+      if ($('#secretCode').val() === password) {
+        console.log('Password is correct!');
         init();
       }
     }
@@ -64,25 +60,25 @@ function defusal() {
 }
 
 function init() {
-  $("body").html("");
-  var Engine = Matter.Engine,
-    Render = Matter.Render,
-    World = Matter.World,
-    Bodies = Matter.Bodies;
+  $('body').html('');
+  let { Engine } = Matter,
+    { Render } = Matter,
+    { World } = Matter,
+    { Bodies } = Matter;
   Composite = Matter.Composite;
-  var engine = Engine.create();
+  const engine = Engine.create();
   World.add(engine.world, [
     Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
     Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
     Bodies.rectangle(0, 300, 50, 600, { isStatic: true }),
     Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
   ]);
-  var render = Render.create({
+  const render = Render.create({
     element: document.body,
-    engine: engine,
+    engine,
     options: { wireframes: false },
   });
-  let mouseconstraint = Matter.MouseConstraint.create(engine, {
+  const mouseconstraint = Matter.MouseConstraint.create(engine, {
     element: render.canvas,
     constraint: {
       render: {
@@ -91,59 +87,59 @@ function init() {
     },
   });
 
-  let boxP = Bodies.rectangle(100, 100, 100, 150, {
+  const boxP = Bodies.rectangle(100, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxP.png",
+        texture: '/images/boxP.png',
       },
     },
   });
-  let boxY = Bodies.rectangle(150, 100, 100, 150, {
+  const boxY = Bodies.rectangle(150, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxY.png",
+        texture: '/images/boxY.png',
       },
     },
   });
-  let boxT = Bodies.rectangle(200, 100, 100, 150, {
+  const boxT = Bodies.rectangle(200, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxT.png",
+        texture: '/images/boxT.png',
       },
     },
   });
-  let boxH = Bodies.rectangle(250, 100, 100, 150, {
+  const boxH = Bodies.rectangle(250, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxH.png",
+        texture: '/images/boxH.png',
       },
     },
   });
-  let boxO = Bodies.rectangle(300, 100, 100, 150, {
+  const boxO = Bodies.rectangle(300, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxO.png",
+        texture: '/images/boxO.png',
       },
     },
   });
-  let boxN = Bodies.rectangle(350, 100, 100, 150, {
+  const boxN = Bodies.rectangle(350, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxN.png",
+        texture: '/images/boxN.png',
       },
     },
   });
-  let boxI = Bodies.rectangle(400, 100, 100, 150, {
+  const boxI = Bodies.rectangle(400, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxI.png",
+        texture: '/images/boxI.png',
       },
     },
   });
-  let boxC = Bodies.rectangle(450, 100, 100, 150, {
+  const boxC = Bodies.rectangle(450, 100, 100, 150, {
     render: {
       sprite: {
-        texture: "/images/boxC.png",
+        texture: '/images/boxC.png',
       },
     },
   });
